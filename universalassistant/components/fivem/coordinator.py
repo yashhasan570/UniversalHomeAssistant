@@ -9,7 +9,10 @@ from fivem import FiveM, FiveMServerOfflineError
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
 from universalassistant.core import UniversalAssistant
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailedUnreachable,
+)
 
 from .const import (
     ATTR_PLAYERS_LIST,
@@ -64,7 +67,7 @@ class FiveMDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         try:
             server = await self._fivem.get_server()
         except FiveMServerOfflineError as err:
-            raise UpdateFailed from err
+            raise UpdateFailedUnreachable from err
 
         players_list: list[str] = [player.name for player in server.players]
         players_list.sort()

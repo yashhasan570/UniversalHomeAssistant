@@ -17,5 +17,6 @@
   "documentation": "https://www.universalassistant.io/integrations/palazzetti",
   "integration_type": "device",
   "iot_class": "local_polling",
+  "quality_scale": "silver",
   "requirements": ["pypalazzetti==0.1.22"]
 }

@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.components.openrgb.const import DOMAIN
-from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
+from universalassistant.const import CONF_HOST, CONF_PORT
 from universalassistant.core import UniversalAssistant
 
 
@@ -36,7 +36,6 @@ def mock_config_entry() -> MockConfigEntry:
         domain=DOMAIN,
         title="Test Computer",
         data={
-            CONF_NAME: "Test Computer",
             CONF_HOST: "127.0.0.1",
             CONF_PORT: 6742,
         },

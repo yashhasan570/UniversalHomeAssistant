@@ -5,7 +5,7 @@ import logging
 
 from aiohttp import ClientConnectionError
 from pydaikin.daikin_base import Appliance
-from pydaikin.exceptions import DaikinException
+from pydaikin.exceptions import DaikinException, DaikinUnsupportedError
 from pydaikin.factory import DaikinFactory
 
 from universalassistant.const import (
@@ -16,7 +16,7 @@ from universalassistant.const import (
     Platform,
 )
 from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import ConfigEntryNotReady
+from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -70,11 +70,16 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DaikinConfigEntry) 
     except ClientConnectionError as err:
         _LOGGER.debug("ClientConnectionError to %s", host)
         raise ConfigEntryNotReady from err
+    except DaikinUnsupportedError as err:
+        _LOGGER.debug("Unsupported Daikin device at %s: %s", host, err)
+        raise ConfigEntryError(
+            translation_domain=DOMAIN,
+            translation_key="unsupported_device",
+        ) from err
     except DaikinException as err:
-        # pydaikin has no subclass hierarchy for transient vs permanent errors.
         # DaikinException during factory/init almost always means the device is not
         # yet ready (e.g. "Empty values." when the unit hasn't finished booting),
-        # so treat all factory-time DaikinExceptions as transient.
+        # so treat remaining factory-time DaikinExceptions as transient.
         _LOGGER.debug("DaikinException from %s: %s", host, err)
         raise ConfigEntryNotReady from err
 

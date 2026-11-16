@@ -11,6 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.camera import Image, async_get_image
 from universalassistant.components.proxy.camera import ProxyCamera
 from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 CROP_CONFIG = {
@@ -81,3 +82,25 @@ async def test_crop_stream_after_small_frame(
         if b"\r\n\r\n" in part
     ]
     assert _size(frames[-1]) == (400, 225)
+
+
+async def test_image_return_cached_image_on_error(
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Test the last cached image is returned when the source camera fails."""
+    assert await async_setup_component(
+        hass, "camera", {"camera": {**CROP_CONFIG, "cache_images": True}}
+    )
+    await hass.async_block_till_done()
+
+    with patch(
+        "universalassistant.components.proxy.camera.async_get_image",
+        AsyncMock(
+            side_effect=[_jpeg(1536, 576), UniversalAssistantError("Unable to get image")]
+        ),
+    ):
+        first = await async_get_image(hass, "camera.cropped")
+        second = await async_get_image(hass, "camera.cropped")
+
+    assert second.content == first.content
+    assert "Error getting original camera image" in caplog.text
