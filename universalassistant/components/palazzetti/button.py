@@ -5,6 +5,7 @@ from typing import override
 from pypalazzetti.exceptions import CommunicationError
 
 from universalassistant.components.button import ButtonEntity
+from universalassistant.const import EntityCategory
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -31,6 +32,7 @@ async def async_setup_entry(
 class PalazzettiSilentButtonEntity(PalazzettiEntity, ButtonEntity):
     """Representation of a Palazzetti Silent button."""
 
+    _attr_entity_category = EntityCategory.CONFIG
     _attr_translation_key = "silent"
 
     def __init__(

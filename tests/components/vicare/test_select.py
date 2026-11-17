@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -131,7 +131,7 @@ async def test_circuit_operating_mode(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.model0_operating_mode",
+            TargetKey.ENTITY_ID: "select.model0_operating_mode",
             SelectServiceArgument.OPTION: "dhw_and_heating",
         },
         blocking=True,

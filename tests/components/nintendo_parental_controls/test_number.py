@@ -10,7 +10,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -51,7 +51,7 @@ async def test_set_number(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         service_data={NumberServiceArgument.VALUE: "120"},
-        target={ATTR_ENTITY_ID: "number.universal_assistant_test_max_screentime_today"},
+        target={TargetKey.ENTITY_ID: "number.universal_assistant_test_max_screentime_today"},
         blocking=True,
     )
     assert len(mock_nintendo_device.update_max_daily_playtime.mock_calls) == 1

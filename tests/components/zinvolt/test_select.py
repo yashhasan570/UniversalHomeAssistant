@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -48,7 +48,7 @@ async def test_set_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.zinvolt_batterij_mode",
+            TargetKey.ENTITY_ID: "select.zinvolt_batterij_mode",
             SelectServiceArgument.OPTION: "fast_discharge",
         },
         blocking=True,

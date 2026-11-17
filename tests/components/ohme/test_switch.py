@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -40,7 +40,7 @@ async def test_cap_switch_on(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.ohme_home_pro_price_cap",
+            TargetKey.ENTITY_ID: "switch.ohme_home_pro_price_cap",
         },
         blocking=True,
     )
@@ -61,7 +61,7 @@ async def test_cap_switch_off(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.ohme_home_pro_price_cap",
+            TargetKey.ENTITY_ID: "switch.ohme_home_pro_price_cap",
         },
         blocking=True,
     )
@@ -81,7 +81,7 @@ async def test_config_switch_on(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.ohme_home_pro_lock_buttons",
+            TargetKey.ENTITY_ID: "switch.ohme_home_pro_lock_buttons",
         },
         blocking=True,
     )
@@ -101,7 +101,7 @@ async def test_config_switch_off(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.ohme_home_pro_lock_buttons",
+            TargetKey.ENTITY_ID: "switch.ohme_home_pro_lock_buttons",
         },
         blocking=True,
     )

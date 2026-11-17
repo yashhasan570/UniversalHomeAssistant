@@ -6,7 +6,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.components.velux import DOMAIN
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -59,7 +59,7 @@ async def test_scene_activation(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "scene.klf_200_gateway_test_scene"},
+        {TargetKey.ENTITY_ID: "scene.klf_200_gateway_test_scene"},
         blocking=True,
     )
 

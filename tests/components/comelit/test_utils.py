@@ -18,12 +18,7 @@ from universalassistant.components.comelit.const import DOMAIN
 from universalassistant.components.humidifier import ATTR_HUMIDITY
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import (
-    ATTR_TEMPERATURE,
-    STATE_OFF,
-    STATE_ON,
-    CommonServiceArgument,
-)
+from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -113,7 +108,7 @@ async def test_bridge_api_call_exceptions(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID_0},
+            {TargetKey.ENTITY_ID: ENTITY_ID_0},
             blocking=True,
         )
 
@@ -140,7 +135,7 @@ async def test_bridge_api_call_reauth(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID_0},
+        {TargetKey.ENTITY_ID: ENTITY_ID_0},
         blocking=True,
     )
 

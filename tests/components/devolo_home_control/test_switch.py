@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import ATTR_ENTITY_ID, STATE_ON, STATE_UNAVAILABLE
+from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -51,7 +51,7 @@ async def test_switch(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {ATTR_ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
+            {TargetKey.ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
             blocking=True,
         )  # In reality, this leads to a websocket message like already tested above
         set_value.assert_called_once_with(state=True)
@@ -60,7 +60,7 @@ async def test_switch(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {ATTR_ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
+            {TargetKey.ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
             blocking=True,
         )  # In reality, this leads to a websocket message like already tested above
         set_value.assert_called_once_with(state=False)
@@ -75,7 +75,7 @@ async def test_switch(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {ATTR_ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
+            {TargetKey.ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
             blocking=True,
         )
     assert error.value.translation_key == "set_failed"
@@ -91,7 +91,7 @@ async def test_switch(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {ATTR_ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
+            {TargetKey.ENTITY_ID: f"{SWITCH_DOMAIN}.test_test"},
             blocking=True,
         )
     assert error.value.translation_key == "switch_protected"

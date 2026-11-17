@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 
@@ -27,7 +27,7 @@ async def test_forecast_service(
     response = await hass.services.async_call(
         WEATHER_DOMAIN,
         WeatherService.GET_FORECASTS,
-        {CommonServiceArgument.ENTITY_ID: "weather.home", "type": "daily"},
+        {TargetKey.ENTITY_ID: "weather.home", "type": "daily"},
         blocking=True,
         return_response=True,
     )
@@ -36,7 +36,7 @@ async def test_forecast_service(
     response = await hass.services.async_call(
         WEATHER_DOMAIN,
         WeatherService.GET_FORECASTS,
-        {CommonServiceArgument.ENTITY_ID: "weather.home", "type": "hourly"},
+        {TargetKey.ENTITY_ID: "weather.home", "type": "hourly"},
         blocking=True,
         return_response=True,
     )
@@ -97,7 +97,7 @@ async def test_weather_without_data(
         response = await hass.services.async_call(
             WEATHER_DOMAIN,
             WeatherService.GET_FORECASTS,
-            {CommonServiceArgument.ENTITY_ID: "weather.home", "type": forecast_type},
+            {TargetKey.ENTITY_ID: "weather.home", "type": forecast_type},
             blocking=True,
             return_response=True,
         )

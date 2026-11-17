@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.nina.const import DOMAIN
 from universalassistant.components.nina.services import NinaService
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import setup_platform, setup_single_platform
@@ -41,7 +41,7 @@ async def test_service_get_details(
     result = await hass.services.async_call(
         DOMAIN,
         NinaService.GET_DETAILS,
-        {ATTR_ENTITY_ID: target_entity_id},
+        {TargetKey.ENTITY_ID: target_entity_id},
         blocking=True,
         return_response=True,
     )
@@ -59,7 +59,7 @@ async def test_service_get_details_no_warning(
     result = await hass.services.async_call(
         DOMAIN,
         NinaService.GET_DETAILS,
-        {ATTR_ENTITY_ID: target_entity_id},
+        {TargetKey.ENTITY_ID: target_entity_id},
         blocking=True,
         return_response=True,
     )

@@ -22,7 +22,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.home_connect.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -263,7 +263,7 @@ async def test_button_functionality(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     getattr(client, method_call).assert_called_with(appliance.ha_id, **expected_kwargs)
@@ -299,7 +299,7 @@ async def test_command_button_exception(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 
@@ -324,7 +324,7 @@ async def test_stop_program_button_exception(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 

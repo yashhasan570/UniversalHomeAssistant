@@ -13,7 +13,7 @@ from universalassistant.components.select import (
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.components.tplink.select import SELECT_DESCRIPTIONS
-from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
+from universalassistant.const import CONF_HOST, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -149,7 +149,7 @@ async def test_select_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             SelectServiceArgument.OPTION: "Second choice",
         },
         blocking=True,

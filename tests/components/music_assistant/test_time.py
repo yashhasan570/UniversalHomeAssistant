@@ -13,7 +13,7 @@ from universalassistant.components.time import (
     TimeService,
     TimeServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -84,7 +84,7 @@ async def test_set_value_action(
         TIME_DOMAIN,
         TimeService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
             TimeServiceArgument.TIME: value,
         },
         blocking=True,

@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
+from universalassistant.const import STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -81,7 +81,7 @@ async def test_set_breeze_intensity(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.modernformsfan_breeze_intensity",
+                TargetKey.ENTITY_ID: "number.modernformsfan_breeze_intensity",
                 NumberServiceArgument.VALUE: 3,
             },
             blocking=True,
@@ -113,7 +113,7 @@ async def test_set_breeze_intensity_connection_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.modernformsfan_breeze_intensity",
+                TargetKey.ENTITY_ID: "number.modernformsfan_breeze_intensity",
                 NumberServiceArgument.VALUE: 3,
             },
             blocking=True,

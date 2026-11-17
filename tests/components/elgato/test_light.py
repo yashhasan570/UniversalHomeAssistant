@@ -20,7 +20,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_ON,
     STATE_UNAVAILABLE,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -152,7 +152,7 @@ async def test_light_identify(hass: UniversalAssistant, mock_elgato: MagicMock) 
         DOMAIN,
         ElgatoService.IDENTIFY,
         {
-            CommonServiceArgument.ENTITY_ID: "light.frenck",
+            TargetKey.ENTITY_ID: "light.frenck",
         },
         blocking=True,
     )
@@ -169,7 +169,7 @@ async def test_light_identify(hass: UniversalAssistant, mock_elgato: MagicMock) 
             DOMAIN,
             ElgatoService.IDENTIFY,
             {
-                CommonServiceArgument.ENTITY_ID: "light.frenck",
+                TargetKey.ENTITY_ID: "light.frenck",
             },
             blocking=True,
         )

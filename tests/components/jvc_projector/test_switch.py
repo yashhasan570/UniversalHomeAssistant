@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -49,7 +49,7 @@ async def test_switch_entities(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: ESHIFT_ENTITY_ID},
+        {TargetKey.ENTITY_ID: ESHIFT_ENTITY_ID},
         blocking=True,
     )
 
@@ -58,7 +58,7 @@ async def test_switch_entities(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: ESHIFT_ENTITY_ID},
+        {TargetKey.ENTITY_ID: ESHIFT_ENTITY_ID},
         blocking=True,
     )
 

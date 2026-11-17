@@ -20,7 +20,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -66,7 +66,7 @@ async def test_number_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: 10,
         },
         blocking=True,
@@ -100,7 +100,7 @@ async def test_number_set_value_when_charging_is_suspended(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: 10,
         },
         blocking=True,
@@ -158,7 +158,7 @@ async def test_number_set_value_communication_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 NumberServiceArgument.VALUE: 10,
             },
             blocking=True,
@@ -193,7 +193,7 @@ async def test_number_set_value_authentication_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 NumberServiceArgument.VALUE: 10,
             },
             blocking=True,
@@ -314,7 +314,7 @@ async def test_charge_limit_can_be_raised_again(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.peblar_ev_charger_charge_limit",
+            TargetKey.ENTITY_ID: "number.peblar_ev_charger_charge_limit",
             NumberServiceArgument.VALUE: 16,
         },
         blocking=True,
@@ -357,7 +357,7 @@ async def test_custom_solar_settings(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: value,
         },
         blocking=True,

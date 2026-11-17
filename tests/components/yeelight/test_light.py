@@ -95,6 +95,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
     CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -473,7 +474,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
             DOMAIN,
             YeelightService.SET_MUSIC_MODE,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_LIGHT,
+                TargetKey.ENTITY_ID: ENTITY_LIGHT,
                 YeelightServiceArgument.MUSIC_MODE: "true",
             },
             blocking=True,

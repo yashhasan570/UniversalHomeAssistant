@@ -6,7 +6,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -51,7 +51,7 @@ async def test_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: select.entity_id,
+            TargetKey.ENTITY_ID: select.entity_id,
             SelectServiceArgument.OPTION: "tuesday",
         },
         blocking=True,

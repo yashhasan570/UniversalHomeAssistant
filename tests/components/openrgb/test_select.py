@@ -21,7 +21,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -136,7 +136,7 @@ async def test_select_option_success(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+            TargetKey.ENTITY_ID: "select.test_computer_profile",
             SelectServiceArgument.OPTION: "Gaming",
         },
         blocking=True,
@@ -177,7 +177,7 @@ async def test_select_option_not_found(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+                TargetKey.ENTITY_ID: "select.test_computer_profile",
                 SelectServiceArgument.OPTION: "NonExistent",
             },
             blocking=True,
@@ -209,7 +209,7 @@ async def test_select_option_connection_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+                TargetKey.ENTITY_ID: "select.test_computer_profile",
                 SelectServiceArgument.OPTION: "Gaming",
             },
             blocking=True,
@@ -239,7 +239,7 @@ async def test_select_option_value_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+                TargetKey.ENTITY_ID: "select.test_computer_profile",
                 SelectServiceArgument.OPTION: "Gaming",
             },
             blocking=True,
@@ -343,7 +343,7 @@ async def test_current_option_cleared_when_device_state_changes(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+            TargetKey.ENTITY_ID: "select.test_computer_profile",
             SelectServiceArgument.OPTION: "Gaming",
         },
         blocking=True,
@@ -390,7 +390,7 @@ async def test_current_option_cleared_when_colors_change(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.test_computer_profile",
+            TargetKey.ENTITY_ID: "select.test_computer_profile",
             SelectServiceArgument.OPTION: "Work",
         },
         blocking=True,

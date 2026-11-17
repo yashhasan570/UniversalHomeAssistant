@@ -2,7 +2,7 @@
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 
@@ -19,7 +19,7 @@ async def test_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: button.entity_id,
+            TargetKey.ENTITY_ID: button.entity_id,
         },
         blocking=True,
     )

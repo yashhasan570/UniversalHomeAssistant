@@ -17,7 +17,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.components.zinvolt.const import DOMAIN
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -74,7 +74,7 @@ async def test_set_max_charge_power(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.zinvolt_batterij_maximum_charge_power",
+            TargetKey.ENTITY_ID: "number.zinvolt_batterij_maximum_charge_power",
             NumberServiceArgument.VALUE: 1500,
         },
         blocking=True,

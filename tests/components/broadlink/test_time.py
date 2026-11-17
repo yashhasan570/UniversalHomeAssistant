@@ -6,7 +6,7 @@ from universalassistant.components.time import (
     TimeService,
     TimeServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -51,7 +51,7 @@ async def test_time(
         TIME_DOMAIN,
         TimeService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: time.entity_id,
+            TargetKey.ENTITY_ID: time.entity_id,
             TimeServiceArgument.TIME: "03:04:05",
         },
         blocking=True,

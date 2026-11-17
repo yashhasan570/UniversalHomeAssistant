@@ -37,7 +37,7 @@ from universalassistant.components.zonneplan.coordinator import (
     BATTERY_CONTROL_UPDATE_INTERVAL,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -92,7 +92,7 @@ async def _set_value(hass: UniversalAssistant, entity_id: str, value: float) -> 
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: value,
         },
         blocking=True,

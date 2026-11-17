@@ -12,7 +12,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.opentherm_gw import DOMAIN
 from universalassistant.components.opentherm_gw.const import OpenThermDeviceIdentifier
-from universalassistant.const import CONF_ID, STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import CONF_ID, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -53,7 +53,7 @@ async def test_control_setpoint_number_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: number_entity_id,
+            TargetKey.ENTITY_ID: number_entity_id,
             NumberServiceArgument.VALUE: 10.5,
         },
         blocking=True,
@@ -65,7 +65,7 @@ async def test_control_setpoint_number_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: number_entity_id,
+            TargetKey.ENTITY_ID: number_entity_id,
             NumberServiceArgument.VALUE: 0,
         },
         blocking=True,

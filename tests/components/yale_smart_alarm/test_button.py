@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from yalesmartalarmclient.exceptions import UnknownError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -33,7 +33,7 @@ async def test_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: "button.test_username_panic_button",
+            TargetKey.ENTITY_ID: "button.test_username_panic_button",
         },
         blocking=True,
     )
@@ -46,7 +46,7 @@ async def test_button(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: "button.test_username_panic_button",
+                TargetKey.ENTITY_ID: "button.test_username_panic_button",
             },
             blocking=True,
         )

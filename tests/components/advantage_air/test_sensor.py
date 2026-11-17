@@ -10,7 +10,7 @@ from universalassistant.components.advantage_air.const import (
     AdvantageAirService,
     AdvantageAirServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -43,7 +43,7 @@ async def test_sensor_platform(
     await hass.services.async_call(
         DOMAIN,
         AdvantageAirService.SET_TIME_TO,
-        {ATTR_ENTITY_ID: [entity_id], AdvantageAirServiceArgument.MINUTES: value},
+        {TargetKey.ENTITY_ID: [entity_id], AdvantageAirServiceArgument.MINUTES: value},
         blocking=True,
     )
     mock_update.assert_called_once()
@@ -63,7 +63,7 @@ async def test_sensor_platform(
     await hass.services.async_call(
         DOMAIN,
         AdvantageAirService.SET_TIME_TO,
-        {ATTR_ENTITY_ID: [entity_id], AdvantageAirServiceArgument.MINUTES: value},
+        {TargetKey.ENTITY_ID: [entity_id], AdvantageAirServiceArgument.MINUTES: value},
         blocking=True,
     )
     mock_update.assert_called_once()

@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.kitchen_sink import DOMAIN
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ async def test_press(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_RESTART},
+        {TargetKey.ENTITY_ID: ENTITY_RESTART},
         blocking=True,
     )
 

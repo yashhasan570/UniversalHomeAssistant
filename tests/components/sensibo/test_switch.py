@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
+from universalassistant.const import STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +53,7 @@ async def test_switch_timer(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -84,7 +84,7 @@ async def test_switch_timer(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -116,7 +116,7 @@ async def test_switch_pure_boost(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -139,7 +139,7 @@ async def test_switch_pure_boost(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -172,7 +172,7 @@ async def test_switch_command_failure(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
             {
-                CommonServiceArgument.ENTITY_ID: state.entity_id,
+                TargetKey.ENTITY_ID: state.entity_id,
             },
             blocking=True,
         )
@@ -186,7 +186,7 @@ async def test_switch_command_failure(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
             {
-                CommonServiceArgument.ENTITY_ID: state.entity_id,
+                TargetKey.ENTITY_ID: state.entity_id,
             },
             blocking=True,
         )
@@ -209,7 +209,7 @@ async def test_switch_climate_react(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -227,7 +227,7 @@ async def test_switch_climate_react(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: state.entity_id,
+            TargetKey.ENTITY_ID: state.entity_id,
         },
         blocking=True,
     )
@@ -266,7 +266,7 @@ async def test_switch_climate_react_no_data(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
             {
-                CommonServiceArgument.ENTITY_ID: state.entity_id,
+                TargetKey.ENTITY_ID: state.entity_id,
             },
             blocking=True,
         )

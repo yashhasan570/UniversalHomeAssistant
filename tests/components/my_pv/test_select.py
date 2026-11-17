@@ -16,7 +16,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -85,7 +85,7 @@ async def test_select_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
+            TargetKey.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
             SelectServiceArgument.OPTION: "1",
         },
         blocking=True,
@@ -111,7 +111,7 @@ async def test_select_select_option_returns_false(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
+                TargetKey.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
                 SelectServiceArgument.OPTION: "1",
             },
             blocking=True,
@@ -147,7 +147,7 @@ async def test_select_select_option_raises_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
+                TargetKey.ENTITY_ID: "select.my_pv_ac_elwa_2_boost_mode",
                 SelectServiceArgument.OPTION: "1",
             },
             blocking=True,

@@ -13,7 +13,7 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
     SwitchService,
 )
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -60,7 +60,7 @@ async def test_switch_toggles(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     mock_method.assert_awaited_once_with(True)
@@ -69,7 +69,7 @@ async def test_switch_toggles(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     mock_method.assert_awaited_once_with(False)

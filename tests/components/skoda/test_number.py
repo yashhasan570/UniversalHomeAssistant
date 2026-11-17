@@ -22,7 +22,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.skoda.const import DOMAIN
 from universalassistant.components.skoda.coordinator import UPDATE_INTERVAL
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -116,7 +116,7 @@ async def test_set_charge_limit(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
+            TargetKey.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
             NumberServiceArgument.VALUE: 60,
         },
         blocking=True,
@@ -140,7 +140,7 @@ async def test_set_charge_limit_off_step(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
+                TargetKey.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
                 NumberServiceArgument.VALUE: 55,
             },
             blocking=True,
@@ -164,7 +164,7 @@ async def test_set_charge_limit_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
+                TargetKey.ENTITY_ID: CHARGE_LIMIT_ENTITY_ID,
                 NumberServiceArgument.VALUE: 60,
             },
             blocking=True,

@@ -10,7 +10,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.components.switchbot_cloud import SwitchBotAPI
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import configure_integration
@@ -57,7 +57,7 @@ async def test_pressmode_bot(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         mock_send_command.assert_called_once_with(
@@ -178,7 +178,7 @@ async def test_loaded_buttons(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         mock_send_command.assert_called()

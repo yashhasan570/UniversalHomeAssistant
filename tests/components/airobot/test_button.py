@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -44,7 +44,7 @@ async def test_restart_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.test_thermostat_restart"},
+        {TargetKey.ENTITY_ID: "button.test_thermostat_restart"},
         blocking=True,
     )
 
@@ -63,7 +63,7 @@ async def test_restart_button_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.test_thermostat_restart"},
+            {TargetKey.ENTITY_ID: "button.test_thermostat_restart"},
             blocking=True,
         )
 
@@ -79,9 +79,7 @@ async def test_recalibrate_co2_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {
-            CommonServiceArgument.ENTITY_ID: "button.test_thermostat_recalibrate_co2_sensor"
-        },
+        {TargetKey.ENTITY_ID: "button.test_thermostat_recalibrate_co2_sensor"},
         blocking=True,
     )
 
@@ -109,9 +107,7 @@ async def test_recalibrate_co2_button_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {
-                CommonServiceArgument.ENTITY_ID: "button.test_thermostat_recalibrate_co2_sensor"
-            },
+            {TargetKey.ENTITY_ID: "button.test_thermostat_recalibrate_co2_sensor"},
             blocking=True,
         )
 

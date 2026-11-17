@@ -34,7 +34,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CONF_ID, STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import CONF_ID, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -143,7 +143,7 @@ async def test_select_change_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: select_entity_id,
+            TargetKey.ENTITY_ID: select_entity_id,
             SelectServiceArgument.OPTION: resulting_state,
         },
         blocking=True,
@@ -194,7 +194,7 @@ async def test_select_dhw_ovrd_change_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: select_entity_id,
+            TargetKey.ENTITY_ID: select_entity_id,
             SelectServiceArgument.OPTION: selected_option,
         },
         blocking=True,

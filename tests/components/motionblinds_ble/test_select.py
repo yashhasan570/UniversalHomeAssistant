@@ -16,7 +16,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
@@ -39,7 +39,7 @@ async def test_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: f"select.{name}_{select}",
+            TargetKey.ENTITY_ID: f"select.{name}_{select}",
             SelectServiceArgument.OPTION: MotionSpeedLevel.HIGH.value,
         },
         blocking=True,

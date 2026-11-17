@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.wallbox.coordinator import InsufficientRights
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -25,7 +25,7 @@ async def test_wallbox_button_resume_schedule(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
+        {TargetKey.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
         blocking=True,
     )
 
@@ -46,7 +46,7 @@ async def test_wallbox_button_resume_schedule_error_handling(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
+            {TargetKey.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
             blocking=True,
         )
 
@@ -57,7 +57,7 @@ async def test_wallbox_button_resume_schedule_error_handling(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
+            {TargetKey.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
             blocking=True,
         )
 
@@ -68,6 +68,6 @@ async def test_wallbox_button_resume_schedule_error_handling(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
+            {TargetKey.ENTITY_ID: MOCK_BUTTON_RESUME_SCHEDULE_ID},
             blocking=True,
         )

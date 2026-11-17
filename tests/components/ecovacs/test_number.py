@@ -23,7 +23,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -177,7 +177,7 @@ async def test_number_entities(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 NumberServiceArgument.VALUE: test_case.set_value,
             },
             blocking=True,

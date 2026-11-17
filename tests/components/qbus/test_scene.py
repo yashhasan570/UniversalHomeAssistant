@@ -4,7 +4,7 @@ from pytest_universalassistant.common import async_fire_mqtt_message
 from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 _PAYLOAD_SCENE_STATE = '{"id":"UL25","properties":{"value":true},"type":"state"}'
@@ -30,7 +30,7 @@ async def test_scene(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: _SCENE_ENTITY_ID},
+        {TargetKey.ENTITY_ID: _SCENE_ENTITY_ID},
         blocking=True,
     )
 

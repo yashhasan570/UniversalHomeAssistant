@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_EXCLUDE,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -198,7 +198,7 @@ async def test_service_calls_openable(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.OPEN,
-        {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+        {TargetKey.ENTITY_ID: "lock.lock_group"},
         blocking=True,
     )
     assert hass.states.get("lock.openable_lock").state == LockState.OPEN
@@ -207,7 +207,7 @@ async def test_service_calls_openable(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+        {TargetKey.ENTITY_ID: "lock.lock_group"},
         blocking=True,
     )
     assert hass.states.get("lock.openable_lock").state == LockState.LOCKED
@@ -216,7 +216,7 @@ async def test_service_calls_openable(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.UNLOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+        {TargetKey.ENTITY_ID: "lock.lock_group"},
         blocking=True,
     )
     assert hass.states.get("lock.openable_lock").state == LockState.UNLOCKED
@@ -251,7 +251,7 @@ async def test_service_calls_basic(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+        {TargetKey.ENTITY_ID: "lock.lock_group"},
         blocking=True,
     )
     assert hass.states.get("lock.basic_lock").state == LockState.LOCKED
@@ -260,7 +260,7 @@ async def test_service_calls_basic(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.UNLOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+        {TargetKey.ENTITY_ID: "lock.lock_group"},
         blocking=True,
     )
     assert hass.states.get("lock.basic_lock").state == LockState.UNLOCKED
@@ -270,7 +270,7 @@ async def test_service_calls_basic(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.OPEN,
-            {CommonServiceArgument.ENTITY_ID: "lock.lock_group"},
+            {TargetKey.ENTITY_ID: "lock.lock_group"},
             blocking=True,
         )
 
@@ -437,7 +437,7 @@ async def test_nested_group(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.nested_group"},
+        {TargetKey.ENTITY_ID: "lock.nested_group"},
         blocking=True,
     )
     assert hass.states.get("lock.front_door").state == LockState.LOCKED
@@ -476,8 +476,8 @@ async def test_service_call_all_exclude_nested_group(hass: UniversalAssistant) -
         LOCK_DOMAIN,
         LockService.LOCK,
         {
-            CommonServiceArgument.ENTITY_ID: "all",
-            CONF_EXCLUDE: {ATTR_ENTITY_ID: "lock.nested_group"},
+            TargetKey.ENTITY_ID: "all",
+            CONF_EXCLUDE: {TargetKey.ENTITY_ID: "lock.nested_group"},
         },
         blocking=True,
     )

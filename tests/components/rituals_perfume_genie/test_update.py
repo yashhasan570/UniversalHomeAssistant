@@ -20,8 +20,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     EntityCategory,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -104,7 +104,7 @@ async def test_update_same_version_other_build(hass: UniversalAssistant) -> None
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -176,7 +176,7 @@ async def test_install(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -190,7 +190,7 @@ async def test_install(
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
     client.update_firmware.assert_called_once()
@@ -236,7 +236,7 @@ async def test_install_timeout(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -268,7 +268,7 @@ async def test_install_incomparable_versions(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -300,7 +300,7 @@ async def test_install_failed(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
 

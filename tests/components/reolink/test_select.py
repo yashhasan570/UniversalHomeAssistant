@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.reolink.coordinator import DEVICE_UPDATE_INTERVAL_MIN
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -60,7 +60,7 @@ async def test_floodlight_mode_select(
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
-        {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+        {TargetKey.ENTITY_ID: entity_id, "option": "off"},
         blocking=True,
     )
     reolink_host.set_whiteled.assert_called_once()
@@ -70,7 +70,7 @@ async def test_floodlight_mode_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "off"},
             blocking=True,
         )
 
@@ -79,7 +79,7 @@ async def test_floodlight_mode_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "off"},
             blocking=True,
         )
 
@@ -110,7 +110,7 @@ async def test_play_quick_reply_message(
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
-        {CommonServiceArgument.ENTITY_ID: entity_id, "option": "test message"},
+        {TargetKey.ENTITY_ID: entity_id, "option": "test message"},
         blocking=True,
     )
     reolink_host.play_quick_reply.assert_called_once()
@@ -134,7 +134,7 @@ async def test_host_scene_select(
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
-        {CommonServiceArgument.ENTITY_ID: entity_id, "option": "home"},
+        {TargetKey.ENTITY_ID: entity_id, "option": "home"},
         blocking=True,
     )
     reolink_host.baichuan.set_scene.assert_called_once()
@@ -144,7 +144,7 @@ async def test_host_scene_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "home"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "home"},
             blocking=True,
         )
 
@@ -153,7 +153,7 @@ async def test_host_scene_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "home"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "home"},
             blocking=True,
         )
 
@@ -192,7 +192,7 @@ async def test_chime_select(
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
-        {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+        {TargetKey.ENTITY_ID: entity_id, "option": "off"},
         blocking=True,
     )
     reolink_chime.set_tone.assert_called_once()
@@ -202,7 +202,7 @@ async def test_chime_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "off"},
             blocking=True,
         )
 
@@ -211,7 +211,7 @@ async def test_chime_select(
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
-            {CommonServiceArgument.ENTITY_ID: entity_id, "option": "off"},
+            {TargetKey.ENTITY_ID: entity_id, "option": "off"},
             blocking=True,
         )
 

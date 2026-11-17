@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -49,7 +49,7 @@ async def test_pressing_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: (
+            TargetKey.ENTITY_ID: (
                 "button.cookidoo_clear_shopping_list_and_additional_purchases"
             ),
         },
@@ -79,7 +79,7 @@ async def test_pressing_button_exception(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: (
+                TargetKey.ENTITY_ID: (
                     "button.cookidoo_clear_shopping_list_and_additional_purchases"
                 ),
             },

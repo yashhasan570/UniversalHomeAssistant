@@ -11,7 +11,7 @@ from universalassistant.components.motionblinds_ble.const import (
     ATTR_DISCONNECT,
     ATTR_FAVORITE,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
@@ -40,7 +40,7 @@ async def test_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: f"button.{name}_{button}"},
+        {TargetKey.ENTITY_ID: f"button.{name}_{button}"},
         blocking=True,
     )
     getattr(mock_motion_device, button).assert_called_once()

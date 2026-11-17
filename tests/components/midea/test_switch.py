@@ -35,9 +35,9 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     EntityCategory,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import UniversalAssistantError
@@ -884,7 +884,7 @@ async def test_switch_turn_on_raises_on_device_communication_error(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: entity_entry.entity_id},
+            {TargetKey.ENTITY_ID: entity_entry.entity_id},
             blocking=True,
         )
 

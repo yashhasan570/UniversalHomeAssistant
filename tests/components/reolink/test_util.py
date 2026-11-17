@@ -27,7 +27,7 @@ from universalassistant.components.number import (
 from universalassistant.components.reolink.const import DOMAIN
 from universalassistant.components.reolink.util import get_device_uid_and_ch
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
@@ -122,7 +122,7 @@ async def test_try_function(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 NumberServiceArgument.VALUE: 50,
             },
             blocking=True,

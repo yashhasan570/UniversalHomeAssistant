@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     SERVICE_PLAY_MEDIA,
 )
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
+from universalassistant.const import ATTR_ENTITY_ID, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
@@ -50,7 +50,7 @@ async def test_cancel_announcement_no_prior(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
+            {TargetKey.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
             blocking=True,
         )
 
@@ -72,7 +72,7 @@ async def test_cancel_announcement(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
+        {TargetKey.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
         blocking=True,
     )
     sonos_websocket.cancel_clip.assert_called_once_with("clip-123")
@@ -94,7 +94,7 @@ async def test_cancel_announcement_no_clip_id_from_announce_response(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
+            {TargetKey.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
             blocking=True,
         )
 
@@ -140,6 +140,6 @@ async def test_cancel_announcement_errors(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
+            {TargetKey.ENTITY_ID: CANCEL_ANNOUNCEMENT_BUTTON},
             blocking=True,
         )

@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -40,7 +40,7 @@ async def test_switch(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.device1_volume",
+            TargetKey.ENTITY_ID: "select.device1_volume",
             SelectServiceArgument.OPTION: "high",
         },
         blocking=True,
@@ -57,7 +57,7 @@ async def test_switch(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.device1_volume",
+                TargetKey.ENTITY_ID: "select.device1_volume",
                 SelectServiceArgument.OPTION: "not_exist",
             },
             blocking=True,

@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from watergate_local_api import WatergateApiException, WatergateIndeterminateError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -48,7 +48,7 @@ async def test_reboot_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -69,7 +69,7 @@ async def test_reboot_outcome_unknown_is_not_an_error(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -89,7 +89,7 @@ async def test_reboot_failure(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
 

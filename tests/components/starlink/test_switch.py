@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
     STATE_UNKNOWN,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -127,6 +127,6 @@ async def test_starlink_positioning_exclusive_error(hass: UniversalAssistant) ->
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )

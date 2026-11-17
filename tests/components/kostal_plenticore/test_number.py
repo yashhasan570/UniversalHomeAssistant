@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
+from universalassistant.const import STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -149,7 +149,7 @@ async def test_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.scb_battery_min_soc",
+            TargetKey.ENTITY_ID: "number.scb_battery_min_soc",
             NumberServiceArgument.VALUE: 80,
         },
         blocking=True,

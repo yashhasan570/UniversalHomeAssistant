@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lg_infrared.const import LGDeviceType
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
+from universalassistant.const import STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
@@ -84,7 +84,7 @@ async def test_switch_sends_correct_code(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 
@@ -99,7 +99,7 @@ async def test_switch_sends_correct_code(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 

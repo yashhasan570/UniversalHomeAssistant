@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.components.smartthings import MAIN
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -52,7 +52,7 @@ async def test_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.theater_washer_rinse_cycles",
+            TargetKey.ENTITY_ID: "number.theater_washer_rinse_cycles",
             NumberServiceArgument.VALUE: 3,
         },
         blocking=True,

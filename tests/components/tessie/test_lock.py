@@ -6,7 +6,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -29,7 +29,7 @@ async def test_locks(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
         mock_run.assert_called_once()
@@ -39,7 +39,7 @@ async def test_locks(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
         mock_run.assert_called_once()
@@ -51,7 +51,7 @@ async def test_locks(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
 
@@ -61,7 +61,7 @@ async def test_locks(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
         assert hass.states.get(entity_id).state == LockState.UNLOCKED

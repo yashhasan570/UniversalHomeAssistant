@@ -18,7 +18,7 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -158,7 +158,7 @@ async def test_switch_invalid_auth_starts_reauth(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.practical_morse_container"},
+            {TargetKey.ENTITY_ID: "switch.practical_morse_container"},
             blocking=True,
         )
     await hass.async_block_till_done()

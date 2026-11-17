@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fluss.const import UPDATE_INTERVAL
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
+from universalassistant.const import STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -46,7 +46,7 @@ async def test_button_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.device_1"},
+        {TargetKey.ENTITY_ID: "button.device_1"},
         blocking=True,
     )
 
@@ -132,6 +132,6 @@ async def test_button_press_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.device_1"},
+            {TargetKey.ENTITY_ID: "button.device_1"},
             blocking=True,
         )

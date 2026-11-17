@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.components.wmspro.number import SCAN_INTERVAL
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import setup_config_entry, unload_config_entry
@@ -109,7 +109,7 @@ async def test_number_set_value(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: entity.entity_id,
+                TargetKey.ENTITY_ID: entity.entity_id,
                 NumberServiceArgument.VALUE: float(target_value),
             },
             blocking=True,
@@ -163,7 +163,7 @@ async def test_number_set_and_restore_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity.entity_id,
+            TargetKey.ENTITY_ID: entity.entity_id,
             NumberServiceArgument.VALUE: float(target_value),
         },
         blocking=True,
@@ -209,7 +209,7 @@ async def test_number_update_handles_zero_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity.entity_id,
+            TargetKey.ENTITY_ID: entity.entity_id,
             NumberServiceArgument.VALUE: 0.0,
         },
         blocking=True,

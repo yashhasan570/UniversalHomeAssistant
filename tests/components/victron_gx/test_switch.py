@@ -15,7 +15,7 @@ from universalassistant.components.victron_gx.const import (
     BINARY_SENSOR_ON_ID,
     DOMAIN,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -178,7 +178,7 @@ async def test_switch_action_transport_failure(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: entity.entity_id},
+            {TargetKey.ENTITY_ID: entity.entity_id},
             blocking=True,
         )
 

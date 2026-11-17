@@ -10,7 +10,7 @@ from universalassistant.components.time import (
     TimeService,
     TimeServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -46,7 +46,7 @@ async def test_set_time(
             TimeServiceArgument.TIME: "00:00:00",
         },
         target={
-            ATTR_ENTITY_ID: "time.ohme_home_pro_target_time",
+            TargetKey.ENTITY_ID: "time.ohme_home_pro_target_time",
         },
         blocking=True,
     )

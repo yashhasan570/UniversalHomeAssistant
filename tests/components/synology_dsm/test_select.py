@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_SSL,
     CONF_USERNAME,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -124,7 +124,7 @@ async def test_fan_speed_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.nas_meontheinternet_com_fan_speed_mode",
+            TargetKey.ENTITY_ID: "select.nas_meontheinternet_com_fan_speed_mode",
             SelectServiceArgument.OPTION: fan_speed,
         },
         blocking=True,

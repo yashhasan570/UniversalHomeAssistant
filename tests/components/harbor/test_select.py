@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -69,7 +69,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: NIGHT_MODE_ENTITY,
+            TargetKey.ENTITY_ID: NIGHT_MODE_ENTITY,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,
@@ -104,7 +104,7 @@ async def test_select_option_failure_raises(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: NIGHT_MODE_ENTITY,
+                TargetKey.ENTITY_ID: NIGHT_MODE_ENTITY,
                 SelectServiceArgument.OPTION: "off",
             },
             blocking=True,

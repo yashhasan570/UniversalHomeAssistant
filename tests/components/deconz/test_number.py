@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -103,7 +103,7 @@ async def test_number_entities(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: expected["entity_id"],
+            TargetKey.ENTITY_ID: expected["entity_id"],
             NumberServiceArgument.VALUE: expected["supported_service_value"],
         },
         blocking=True,
@@ -116,7 +116,7 @@ async def test_number_entities(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: expected["entity_id"],
+            TargetKey.ENTITY_ID: expected["entity_id"],
             NumberServiceArgument.VALUE: expected["unsupported_service_value"],
         },
         blocking=True,
@@ -130,7 +130,7 @@ async def test_number_entities(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: expected["entity_id"],
+                TargetKey.ENTITY_ID: expected["entity_id"],
                 NumberServiceArgument.VALUE: expected["out_of_range_service_value"],
             },
             blocking=True,

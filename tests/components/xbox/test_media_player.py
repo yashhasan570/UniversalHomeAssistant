@@ -37,7 +37,6 @@ from universalassistant.components.media_player import (
 from universalassistant.components.xbox import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import (
-    ATTR_ENTITY_ID,
     SERVICE_MEDIA_NEXT_TRACK,
     SERVICE_MEDIA_PAUSE,
     SERVICE_MEDIA_PLAY,
@@ -49,6 +48,7 @@ from universalassistant.const import (
     SERVICE_VOLUME_UP,
     STATE_UNAVAILABLE,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -312,7 +312,7 @@ async def test_media_player_actions(
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
         service,
-        target={ATTR_ENTITY_ID: "media_player.xone", **service_args},
+        target={TargetKey.ENTITY_ID: "media_player.xone", **service_args},
         blocking=True,
     )
 
@@ -389,7 +389,7 @@ async def test_media_player_action_exceptions(
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             service,
-            target={ATTR_ENTITY_ID: "media_player.xone", **service_args},
+            target={TargetKey.ENTITY_ID: "media_player.xone", **service_args},
             blocking=True,
         )
     assert e.value.translation_key == translation_key
@@ -418,7 +418,7 @@ async def test_media_player_turn_on_failed(
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_TURN_ON,
-            target={ATTR_ENTITY_ID: "media_player.xone"},
+            target={TargetKey.ENTITY_ID: "media_player.xone"},
             blocking=True,
         )
     assert e.value.translation_key == "turn_on_failed"

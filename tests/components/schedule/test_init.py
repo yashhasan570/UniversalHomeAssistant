@@ -32,13 +32,13 @@ from universalassistant.components.schedule.const import (
 )
 from universalassistant.components.schedule.services import ScheduleService
 from universalassistant.const import (
-    CONF_ENTITY_ID,
     CONF_ICON,
     CONF_NAME,
     EVENT_STATE_CHANGED,
     STATE_OFF,
     STATE_ON,
     EntityStateAttribute,
+    TargetKey,
 )
 from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -837,7 +837,7 @@ async def test_service_get(
         DOMAIN,
         ScheduleService.GET,
         {
-            CONF_ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
         },
         blocking=True,
         return_response=True,
@@ -873,7 +873,7 @@ async def test_service_get(
         DOMAIN,
         ScheduleService.GET,
         {
-            CONF_ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
         },
         blocking=True,
         return_response=True,

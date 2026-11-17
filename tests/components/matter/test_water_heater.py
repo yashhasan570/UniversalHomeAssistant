@@ -16,7 +16,7 @@ from universalassistant.components.water_heater import (
     STATE_OFF,
     WaterHeaterEntityFeature,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -310,7 +310,7 @@ async def test_async_boost_actions(
         DOMAIN,
         MatterService.WATER_HEATER_BOOST,
         {
-            CommonServiceArgument.ENTITY_ID: "water_heater.water_heater",
+            TargetKey.ENTITY_ID: "water_heater.water_heater",
             MatterServiceArgument.DURATION: 60,
             MatterServiceArgument.EMERGENCY_BOOST: True,
             MatterServiceArgument.TEMPORARY_SETPOINT: 55,

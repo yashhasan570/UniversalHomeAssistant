@@ -6,7 +6,7 @@ from unittest.mock import ANY, patch
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -99,7 +99,7 @@ async def test_lock_set_unlock(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
     mock_put_state.assert_called_once_with(ANY, ANY, ANY, '{"lock": 0}')
@@ -138,7 +138,7 @@ async def test_lock_set_lock(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
     mock_put_state.assert_called_once_with(ANY, ANY, ANY, '{"lock": 1}')

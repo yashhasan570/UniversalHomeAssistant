@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -58,7 +58,7 @@ async def test_scenes(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: expected["entity_id"]},
+        {TargetKey.ENTITY_ID: expected["entity_id"]},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[1][2] == {}

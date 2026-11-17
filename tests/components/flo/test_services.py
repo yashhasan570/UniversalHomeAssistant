@@ -8,7 +8,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.flo.const import DOMAIN
 from universalassistant.components.flo.services import FloService, FloServiceArgument
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 SWITCH_ENTITY_ID = "switch.smart_water_shutoff_shutoff_valve"
@@ -30,7 +30,7 @@ async def test_services(
     await hass.services.async_call(
         DOMAIN,
         FloService.RUN_HEALTH_TEST,
-        {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -39,7 +39,7 @@ async def test_services(
     await hass.services.async_call(
         DOMAIN,
         FloService.SET_AWAY_MODE,
-        {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -48,7 +48,7 @@ async def test_services(
     await hass.services.async_call(
         DOMAIN,
         FloService.SET_HOME_MODE,
-        {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -58,7 +58,7 @@ async def test_services(
         DOMAIN,
         FloService.SET_SLEEP_MODE,
         {
-            CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID,
+            TargetKey.ENTITY_ID: SWITCH_ENTITY_ID,
             FloServiceArgument.REVERT_TO_MODE: SYSTEM_MODE_HOME,
             FloServiceArgument.SLEEP_MINUTES: 120,
         },
@@ -72,7 +72,7 @@ async def test_services(
         DOMAIN,
         FloService.SET_SLEEP_MODE,
         {
-            CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID,
+            TargetKey.ENTITY_ID: SWITCH_ENTITY_ID,
             FloServiceArgument.REVERT_TO_MODE: SYSTEM_MODE_HOME,
             FloServiceArgument.SLEEP_MINUTES: "120",
         },
@@ -87,7 +87,7 @@ async def test_services(
             DOMAIN,
             FloService.SET_SLEEP_MODE,
             {
-                CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID,
+                TargetKey.ENTITY_ID: SWITCH_ENTITY_ID,
                 FloServiceArgument.REVERT_TO_MODE: SYSTEM_MODE_HOME,
                 FloServiceArgument.SLEEP_MINUTES: "test",
             },

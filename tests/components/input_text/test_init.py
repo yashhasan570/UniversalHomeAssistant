@@ -22,12 +22,7 @@ from universalassistant.components.input_text.const import (
     InputTextServiceArgument,
 )
 from universalassistant.components.text import TextEntityCapabilityAttribute
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    CONF_MODE,
-    CONF_NAME,
-    EntityStateAttribute,
-)
+from universalassistant.const import CONF_MODE, CONF_NAME, EntityStateAttribute, TargetKey
 from universalassistant.core import Context, CoreState, UniversalAssistant, State
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import entity_registry as er
@@ -77,7 +72,7 @@ async def async_set_value(hass: UniversalAssistant, entity_id: str, value: str) 
     await hass.services.async_call(
         DOMAIN,
         InputTextService.SET_VALUE,
-        {ATTR_ENTITY_ID: entity_id, InputTextServiceArgument.VALUE: value},
+        {TargetKey.ENTITY_ID: entity_id, InputTextServiceArgument.VALUE: value},
         blocking=True,
     )
 

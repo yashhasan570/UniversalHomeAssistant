@@ -8,12 +8,7 @@ from tesla_powerwall import GridStatus, PowerwallError
 
 from universalassistant.components.powerwall.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import (
-    CONF_IP_ADDRESS,
-    STATE_OFF,
-    STATE_ON,
-    CommonServiceArgument,
-)
+from universalassistant.const import CONF_IP_ADDRESS, STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -66,7 +61,7 @@ async def test_on(hass: UniversalAssistant, mock_powerwall) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -82,7 +77,7 @@ async def test_off(hass: UniversalAssistant, mock_powerwall) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -100,7 +95,7 @@ async def test_exception_on_powerwall_error(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
 

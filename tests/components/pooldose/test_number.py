@@ -15,7 +15,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -106,7 +106,7 @@ async def test_set_number_value(
     await hass.services.async_call(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
-        {CommonServiceArgument.ENTITY_ID: "number.pool_device_ph_target", "value": 7.0},
+        {TargetKey.ENTITY_ID: "number.pool_device_ph_target", "value": 7.0},
         blocking=True,
     )
 

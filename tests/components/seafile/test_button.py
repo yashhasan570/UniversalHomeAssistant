@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -48,7 +48,7 @@ async def test_empty_trash(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: EMPTY_TRASH},
+        {TargetKey.ENTITY_ID: EMPTY_TRASH},
         blocking=True,
     )
 
@@ -78,7 +78,7 @@ async def test_empty_trash_errors(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: EMPTY_TRASH},
+            {TargetKey.ENTITY_ID: EMPTY_TRASH},
             blocking=True,
         )
     assert exc_info.value.translation_key == translation_key

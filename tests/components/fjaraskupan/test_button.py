@@ -19,7 +19,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fjaraskupan.const import DOMAIN
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -88,7 +88,7 @@ async def test_reset_grease_filter(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY_ID},
+        {TargetKey.ENTITY_ID: BUTTON_ENTITY_ID},
         blocking=True,
     )
 
@@ -109,7 +109,7 @@ async def test_reset_grease_filter_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY_ID},
+            {TargetKey.ENTITY_ID: BUTTON_ENTITY_ID},
             blocking=True,
         )
     assert exc_info.value.translation_key == "write_error"

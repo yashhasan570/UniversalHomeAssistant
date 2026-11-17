@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.abode.const import DOMAIN
 from universalassistant.components.abode.services import AbodeService
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
+from universalassistant.const import ATTR_ENTITY_ID, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -38,7 +38,7 @@ async def test_switch_on(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -54,7 +54,7 @@ async def test_switch_off(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -70,7 +70,7 @@ async def test_turn_automation_off(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: AUTOMATION_ID},
+            {TargetKey.ENTITY_ID: AUTOMATION_ID},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -86,7 +86,7 @@ async def test_turn_automation_on(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: AUTOMATION_ID},
+            {TargetKey.ENTITY_ID: AUTOMATION_ID},
             blocking=True,
         )
         await hass.async_block_till_done()

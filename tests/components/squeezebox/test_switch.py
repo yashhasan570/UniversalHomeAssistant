@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.squeezebox.const import DOMAIN, PLAYER_UPDATE_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -116,7 +116,7 @@ async def test_turn_on(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     mock_alarms_player.async_update_alarm.assert_called_once_with(
@@ -136,7 +136,7 @@ async def test_turn_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     mock_alarms_player.async_update_alarm.assert_called_once_with(
@@ -177,7 +177,7 @@ async def test_alarms_enabled_turn_on(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     mock_alarms_player.async_set_alarms_enabled.assert_called_once_with(True)
@@ -195,7 +195,7 @@ async def test_alarms_enabled_turn_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     mock_alarms_player.async_set_alarms_enabled.assert_called_once_with(False)

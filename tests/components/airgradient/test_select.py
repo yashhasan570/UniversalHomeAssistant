@@ -27,7 +27,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -62,7 +62,7 @@ async def test_setting_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.airgradient_configuration_source",
+            TargetKey.ENTITY_ID: "select.airgradient_configuration_source",
             SelectServiceArgument.OPTION: "local",
         },
         blocking=True,
@@ -230,7 +230,7 @@ async def test_v1_select_writes(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,
@@ -283,7 +283,7 @@ async def test_exception_handling(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.airgradient_configuration_source",
+                TargetKey.ENTITY_ID: "select.airgradient_configuration_source",
                 SelectServiceArgument.OPTION: "local",
             },
             blocking=True,

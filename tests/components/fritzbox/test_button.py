@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CONF_DEVICES, CommonServiceArgument, Platform
+from universalassistant.const import CONF_DEVICES, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ async def test_apply_template(hass: UniversalAssistant, fritz: Mock) -> None:
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         True,
     )
     assert fritz().apply_template.call_count == 1

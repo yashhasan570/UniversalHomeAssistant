@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fumis.const import DOMAIN
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -39,7 +39,7 @@ async def test_sync_clock(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.clou_duo_sync_clock"},
+        {TargetKey.ENTITY_ID: "button.clou_duo_sync_clock"},
         blocking=True,
     )
 
@@ -58,7 +58,7 @@ async def test_sync_clock_error_handling(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.clou_duo_sync_clock"},
+            {TargetKey.ENTITY_ID: "button.clou_duo_sync_clock"},
             blocking=True,
         )
 

@@ -15,7 +15,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -42,7 +42,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
             SelectServiceArgument.OPTION: OPTION,
         },
         blocking=True,
@@ -77,7 +77,7 @@ async def test_select_option_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+                TargetKey.ENTITY_ID: ENTITY_ID,
                 SelectServiceArgument.OPTION: OPTION,
             },
             blocking=True,
@@ -102,7 +102,7 @@ async def test_select_option_auth_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+                TargetKey.ENTITY_ID: ENTITY_ID,
                 SelectServiceArgument.OPTION: OPTION,
             },
             blocking=True,

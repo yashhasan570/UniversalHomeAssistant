@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.plex.const import DEBOUNCE_TIMEOUT
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ async def test_scan_clients_button_schedule(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: "button.plex_server_1_scan_clients",
+                TargetKey.ENTITY_ID: "button.plex_server_1_scan_clients",
             },
             True,
         )

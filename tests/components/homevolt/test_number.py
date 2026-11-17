@@ -25,12 +25,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import (
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
@@ -98,7 +93,7 @@ async def test_set_number_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: value,
         },
         blocking=True,
@@ -161,7 +156,7 @@ async def test_invalid_number_value(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: SETPOINT_ENTITY_ID,
+                TargetKey.ENTITY_ID: SETPOINT_ENTITY_ID,
                 NumberServiceArgument.VALUE: value,
             },
             blocking=True,
@@ -248,7 +243,7 @@ async def test_set_number_value_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: SETPOINT_ENTITY_ID,
+                TargetKey.ENTITY_ID: SETPOINT_ENTITY_ID,
                 NumberServiceArgument.VALUE: 1000,
             },
             blocking=True,
@@ -286,7 +281,7 @@ async def test_commands_preserve_telemetry_polling(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: SETPOINT_ENTITY_ID,
+                TargetKey.ENTITY_ID: SETPOINT_ENTITY_ID,
                 NumberServiceArgument.VALUE: 1000,
             },
             blocking=True,

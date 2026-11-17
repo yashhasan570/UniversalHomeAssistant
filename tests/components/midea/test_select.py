@@ -23,7 +23,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -46,7 +46,7 @@ async def _assert_service_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,
@@ -396,7 +396,7 @@ async def test_select_option_raises_on_device_communication_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_entry.entity_id,
+                TargetKey.ENTITY_ID: entity_entry.entity_id,
                 SelectServiceArgument.OPTION: "60",
             },
             blocking=True,

@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -56,7 +56,7 @@ async def test_room_perfect_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: ROOM_PERFECT_ENTITY_ID,
+            TargetKey.ENTITY_ID: ROOM_PERFECT_ENTITY_ID,
             SelectServiceArgument.OPTION: "global",
         },
         blocking=True,
@@ -81,7 +81,7 @@ async def test_select_option_awaits_an_awaitable_setter(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: VOICING_ENTITY_ID,
+            TargetKey.ENTITY_ID: VOICING_ENTITY_ID,
             SelectServiceArgument.OPTION: "Music",
         },
         blocking=True,
@@ -106,7 +106,7 @@ async def test_voicing_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: VOICING_ENTITY_ID,
+            TargetKey.ENTITY_ID: VOICING_ENTITY_ID,
             SelectServiceArgument.OPTION: "Movie",
         },
         blocking=True,
@@ -128,7 +128,7 @@ async def test_select_invalid_option(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: VOICING_ENTITY_ID,
+                TargetKey.ENTITY_ID: VOICING_ENTITY_ID,
                 SelectServiceArgument.OPTION: "Movie",
             },
             blocking=True,

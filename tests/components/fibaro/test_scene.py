@@ -5,7 +5,7 @@ from unittest.mock import Mock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -73,9 +73,7 @@ async def test_activate_scene(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {
-            CommonServiceArgument.ENTITY_ID: "scene.my_fibaro_home_center_room_1_test_scene"
-        },
+        {TargetKey.ENTITY_ID: "scene.my_fibaro_home_center_room_1_test_scene"},
         blocking=True,
     )
     # Assert

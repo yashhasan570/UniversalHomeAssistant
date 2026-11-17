@@ -9,7 +9,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .common import (
@@ -58,7 +58,7 @@ async def test_selects_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
         SelectService.SELECT_OPTION,
         {
             SelectServiceArgument.OPTION: "away",
-            CommonServiceArgument.ENTITY_ID: protect_mode_select_name,
+            TargetKey.ENTITY_ID: protect_mode_select_name,
         },
         blocking=True,
     )

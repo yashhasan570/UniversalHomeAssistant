@@ -18,7 +18,7 @@ from universalassistant.components.tts import (
     TextToSpeechServiceArgument,
     async_get_media_source_audio,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
@@ -55,7 +55,7 @@ async def test_speak(hass: UniversalAssistant) -> None:
         TTS_DOMAIN,
         TextToSpeechService.SPEAK,
         {
-            ATTR_ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
             TextToSpeechServiceArgument.MEDIA_PLAYER_ENTITY_ID: "media_player.something",
             TextToSpeechServiceArgument.MESSAGE: "There is someone at the door.",
         },

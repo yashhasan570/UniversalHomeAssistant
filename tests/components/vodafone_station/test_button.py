@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.vodafone_station.const import DOMAIN
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -51,9 +51,7 @@ async def test_pressing_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {
-            CommonServiceArgument.ENTITY_ID: f"button.vodafone_station_{TEST_SERIAL_NUMBER}_restart"
-        },
+        {TargetKey.ENTITY_ID: f"button.vodafone_station_{TEST_SERIAL_NUMBER}_restart"},
         blocking=True,
     )
     mock_vodafone_station_router.restart_router.assert_called_once()
@@ -87,7 +85,7 @@ async def test_button_fails(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: f"button.vodafone_station_{TEST_SERIAL_NUMBER}_restart"
+                TargetKey.ENTITY_ID: f"button.vodafone_station_{TEST_SERIAL_NUMBER}_restart"
             },
             blocking=True,
         )

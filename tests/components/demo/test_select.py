@@ -10,7 +10,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
@@ -61,7 +61,7 @@ async def test_select_option_bad_attr(hass: UniversalAssistant) -> None:
             SelectService.SELECT_OPTION,
             {
                 SelectServiceArgument.OPTION: "slow_speed",
-                CommonServiceArgument.ENTITY_ID: ENTITY_SPEED,
+                TargetKey.ENTITY_ID: ENTITY_SPEED,
             },
             blocking=True,
         )
@@ -83,7 +83,7 @@ async def test_select_option(hass: UniversalAssistant) -> None:
         SelectService.SELECT_OPTION,
         {
             SelectServiceArgument.OPTION: "light_speed",
-            CommonServiceArgument.ENTITY_ID: ENTITY_SPEED,
+            TargetKey.ENTITY_ID: ENTITY_SPEED,
         },
         blocking=True,
     )

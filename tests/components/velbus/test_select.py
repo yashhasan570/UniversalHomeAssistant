@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -46,7 +46,7 @@ async def test_select_program(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.kitchen_program",
+            TargetKey.ENTITY_ID: "select.kitchen_program",
             SelectServiceArgument.OPTION: set_program,
         },
         blocking=True,

@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -54,7 +54,7 @@ async def test_switch_turn_on(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test_switch_room_1_test_switch"},
+            {TargetKey.ENTITY_ID: "switch.test_switch_room_1_test_switch"},
             blocking=True,
         )
         # Assert
@@ -79,7 +79,7 @@ async def test_switch_turn_off(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.test_switch_room_1_test_switch"},
+            {TargetKey.ENTITY_ID: "switch.test_switch_room_1_test_switch"},
             blocking=True,
         )
         # Assert

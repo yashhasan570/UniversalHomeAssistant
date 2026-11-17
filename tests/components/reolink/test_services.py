@@ -15,7 +15,7 @@ from universalassistant.components.reolink.services import (
     ReolinkServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import CommonServiceArgument, Platform, TargetKey
 from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -178,7 +178,7 @@ async def test_snapshot_past_service(
             DOMAIN,
             ReolinkService.SNAPSHOT_PAST,
             {
-                CommonServiceArgument.ENTITY_ID: TEST_CAMERA_ID,
+                TargetKey.ENTITY_ID: TEST_CAMERA_ID,
                 ReolinkServiceArgument.TIMESTAMP: "2025-09-29 14:30:00",
                 ReolinkServiceArgument.FILENAME: TEST_FILE,
             },
@@ -210,7 +210,7 @@ async def test_snapshot_past_service_not_allowed_path(
             DOMAIN,
             ReolinkService.SNAPSHOT_PAST,
             {
-                CommonServiceArgument.ENTITY_ID: TEST_CAMERA_ID,
+                TargetKey.ENTITY_ID: TEST_CAMERA_ID,
                 ReolinkServiceArgument.TIMESTAMP: "2025-09-29 14:30:00",
                 ReolinkServiceArgument.FILENAME: TEST_FILE,
             },
@@ -246,7 +246,7 @@ async def test_snapshot_past_service_errors(
             DOMAIN,
             ReolinkService.SNAPSHOT_PAST,
             {
-                CommonServiceArgument.ENTITY_ID: TEST_CAMERA_ID,
+                TargetKey.ENTITY_ID: TEST_CAMERA_ID,
                 ReolinkServiceArgument.TIMESTAMP: "2025-09-29 14:30:00",
                 ReolinkServiceArgument.FILENAME: TEST_FILE,
             },
@@ -290,7 +290,7 @@ async def test_snapshot_past_service_write_error(
             DOMAIN,
             ReolinkService.SNAPSHOT_PAST,
             {
-                CommonServiceArgument.ENTITY_ID: TEST_CAMERA_ID,
+                TargetKey.ENTITY_ID: TEST_CAMERA_ID,
                 ReolinkServiceArgument.TIMESTAMP: "2025-09-29 14:30:00",
                 ReolinkServiceArgument.FILENAME: TEST_FILE,
             },

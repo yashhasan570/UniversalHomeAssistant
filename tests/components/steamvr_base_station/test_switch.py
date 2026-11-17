@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -104,7 +104,7 @@ async def test_command_updates_state(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: SWITCH},
+        {TargetKey.ENTITY_ID: SWITCH},
         blocking=True,
     )
     assert hass.states.get(SWITCH).state == STATE_OFF
@@ -118,7 +118,7 @@ async def test_command_error(hass: UniversalAssistant, mock_set_power: AsyncMock
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: SWITCH},
+            {TargetKey.ENTITY_ID: SWITCH},
             blocking=True,
         )
     assert raised.value.translation_key == "cannot_connect"

@@ -16,12 +16,7 @@ from wled import WLEDConnectionError, WLEDError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.wled.const import DOMAIN, SCAN_INTERVAL
-from universalassistant.const import (
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -78,7 +73,7 @@ async def test_button_restart(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.wled_rgb_light_restart"},
+        {TargetKey.ENTITY_ID: "button.wled_rgb_light_restart"},
         blocking=True,
     )
     assert mock_wled.reset.call_count == 1
@@ -111,7 +106,7 @@ async def test_button_restart_errors(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.wled_rgb_light_restart"},
+            {TargetKey.ENTITY_ID: "button.wled_rgb_light_restart"},
             blocking=True,
         )
 
@@ -134,7 +129,7 @@ async def test_button_next_playlist_entry(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.wled_websocket_next_playlist_entry"},
+        {TargetKey.ENTITY_ID: "button.wled_websocket_next_playlist_entry"},
         blocking=True,
     )
 
@@ -151,9 +146,7 @@ async def test_button_next_playlist_entry_without_playlist(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {
-                CommonServiceArgument.ENTITY_ID: "button.wled_websocket_next_playlist_entry"
-            },
+            {TargetKey.ENTITY_ID: "button.wled_websocket_next_playlist_entry"},
             blocking=True,
         )
 
@@ -183,9 +176,7 @@ async def test_button_next_playlist_entry_errors(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {
-                CommonServiceArgument.ENTITY_ID: "button.wled_websocket_next_playlist_entry"
-            },
+            {TargetKey.ENTITY_ID: "button.wled_websocket_next_playlist_entry"},
             blocking=True,
         )
 

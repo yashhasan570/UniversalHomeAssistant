@@ -11,7 +11,7 @@ from universalassistant.components.marketplace.const import DOMAIN
 from universalassistant.components.marketplace.enums import RepositoryCategory
 from universalassistant.components.marketplace.exceptions import MarketplaceError
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
+from universalassistant.const import STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
@@ -133,7 +133,7 @@ async def test_switch_turn_on_and_off(hass: UniversalAssistant, switch_entity: s
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: switch_entity},
+        {TargetKey.ENTITY_ID: switch_entity},
         blocking=True,
     )
 
@@ -143,7 +143,7 @@ async def test_switch_turn_on_and_off(hass: UniversalAssistant, switch_entity: s
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: switch_entity},
+        {TargetKey.ENTITY_ID: switch_entity},
         blocking=True,
     )
 
@@ -161,7 +161,7 @@ async def test_switch_keeps_the_last_fetched_time(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: switch_entity},
+        {TargetKey.ENTITY_ID: switch_entity},
         blocking=True,
     )
 

@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -46,7 +46,7 @@ async def test_set_flow_temperature(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: FLOW_TEMPERATURE_ENTITY,
+            TargetKey.ENTITY_ID: FLOW_TEMPERATURE_ENTITY,
             NumberServiceArgument.VALUE: 45,
         },
         blocking=True,
@@ -68,7 +68,7 @@ async def test_set_flow_temperature_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: FLOW_TEMPERATURE_ENTITY,
+                TargetKey.ENTITY_ID: FLOW_TEMPERATURE_ENTITY,
                 NumberServiceArgument.VALUE: 45,
             },
             blocking=True,

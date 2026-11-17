@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from unifi_access_api import ApiError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +53,7 @@ async def test_unlock_door(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.front_door_unlock"},
+        {TargetKey.ENTITY_ID: "button.front_door_unlock"},
         blocking=True,
     )
 
@@ -72,7 +72,7 @@ async def test_unlock_door_api_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.front_door_unlock"},
+            {TargetKey.ENTITY_ID: "button.front_door_unlock"},
             blocking=True,
         )
 

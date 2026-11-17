@@ -13,12 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-    EntityCategory,
-)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, EntityCategory, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -132,7 +127,7 @@ async def test_select_command_exception(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: SELECT_ENTITY_ID,
+                TargetKey.ENTITY_ID: SELECT_ENTITY_ID,
                 SelectServiceArgument.OPTION: "7",
             },
             blocking=True,

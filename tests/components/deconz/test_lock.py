@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import WebsocketDataType
@@ -52,7 +52,7 @@ async def test_lock_from_light(
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.door_lock"},
+        {TargetKey.ENTITY_ID: "lock.door_lock"},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[1][2] == {"on": True}
@@ -62,7 +62,7 @@ async def test_lock_from_light(
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.UNLOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.door_lock"},
+        {TargetKey.ENTITY_ID: "lock.door_lock"},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[2][2] == {"on": False}
@@ -116,7 +116,7 @@ async def test_lock_from_sensor(
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.door_lock"},
+        {TargetKey.ENTITY_ID: "lock.door_lock"},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[1][2] == {"lock": True}
@@ -126,7 +126,7 @@ async def test_lock_from_sensor(
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.UNLOCK,
-        {CommonServiceArgument.ENTITY_ID: "lock.door_lock"},
+        {TargetKey.ENTITY_ID: "lock.door_lock"},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[2][2] == {"lock": False}

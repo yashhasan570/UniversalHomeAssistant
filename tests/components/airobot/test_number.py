@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 import universalassistant.helpers.entity_registry as er
@@ -45,7 +45,7 @@ async def test_number_set_hysteresis_band(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.test_thermostat_hysteresis_band",
+            TargetKey.ENTITY_ID: "number.test_thermostat_hysteresis_band",
             NumberServiceArgument.VALUE: 0.3,
         },
         blocking=True,
@@ -67,7 +67,7 @@ async def test_number_set_value_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.test_thermostat_hysteresis_band",
+                TargetKey.ENTITY_ID: "number.test_thermostat_hysteresis_band",
                 NumberServiceArgument.VALUE: 0.3,
             },
             blocking=True,

@@ -19,7 +19,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.components.vitesy.coordinator import UPDATE_INTERVAL
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -89,7 +89,7 @@ async def test_select_option(
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
-        {CommonServiceArgument.ENTITY_ID: MODE, SelectServiceArgument.OPTION: "boost"},
+        {TargetKey.ENTITY_ID: MODE, SelectServiceArgument.OPTION: "boost"},
         blocking=True,
     )
 
@@ -111,7 +111,7 @@ async def test_select_option_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: MODE,
+                TargetKey.ENTITY_ID: MODE,
                 SelectServiceArgument.OPTION: "boost",
             },
             blocking=True,

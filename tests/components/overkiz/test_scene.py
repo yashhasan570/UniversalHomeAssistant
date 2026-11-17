@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.overkiz.const import DOMAIN
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -69,7 +69,7 @@ async def test_scene_activate(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "scene.i_m_arriving"},
+        {TargetKey.ENTITY_ID: "scene.i_m_arriving"},
         blocking=True,
     )
 
@@ -93,7 +93,7 @@ async def test_scene_activate_multiple(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "scene.label_1"},
+        {TargetKey.ENTITY_ID: "scene.label_1"},
         blocking=True,
     )
 
@@ -106,7 +106,7 @@ async def test_scene_activate_multiple(
     await hass.services.async_call(
         SCENE_DOMAIN,
         SceneService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "scene.label_2"},
+        {TargetKey.ENTITY_ID: "scene.label_2"},
         blocking=True,
     )
 

@@ -12,7 +12,8 @@ from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.start import async_at_started
 
-from .const import DOMAIN, LOGGER, format_dispatch_call
+from .const import DOMAIN, LOGGER
+from .util import format_dispatch_call
 
 PLATFORMS = [
     Platform.EVENT,

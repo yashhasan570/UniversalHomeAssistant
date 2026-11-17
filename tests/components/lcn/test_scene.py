@@ -7,7 +7,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -37,7 +37,7 @@ async def test_scene_activate(
         await hass.services.async_call(
             SCENE_DOMAIN,
             SceneService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "scene.testmodule_romantic"},
+            {TargetKey.ENTITY_ID: "scene.testmodule_romantic"},
             blocking=True,
         )
 

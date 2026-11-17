@@ -33,7 +33,7 @@ from universalassistant.components.zonneplan.coordinator import (
     BATTERY_CONTROL_UPDATE_INTERVAL,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -119,7 +119,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
+            TargetKey.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
             SelectServiceArgument.OPTION: "home_optimization",
         },
         blocking=True,
@@ -144,7 +144,7 @@ async def test_select_unavailable_option(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
+                TargetKey.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
                 SelectServiceArgument.OPTION: "day_ahead_arbitrage",
             },
             blocking=True,
@@ -204,7 +204,7 @@ async def test_select_option_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
+                TargetKey.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
                 SelectServiceArgument.OPTION: "home_optimization",
             },
             blocking=True,
@@ -231,7 +231,7 @@ async def test_select_option_authentication_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
+                TargetKey.ENTITY_ID: CONTROL_MODE_ENTITY_ID,
                 SelectServiceArgument.OPTION: "home_optimization",
             },
             blocking=True,

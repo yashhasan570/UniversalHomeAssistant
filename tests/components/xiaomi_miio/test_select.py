@@ -28,8 +28,8 @@ from universalassistant.const import (
     CONF_MAC,
     CONF_MODEL,
     CONF_TOKEN,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
@@ -88,7 +88,7 @@ async def test_select_bad_attr(hass: UniversalAssistant) -> None:
             SelectService.SELECT_OPTION,
             {
                 SelectServiceArgument.OPTION: "up",
-                CommonServiceArgument.ENTITY_ID: entity_id + "_display_orientation",
+                TargetKey.ENTITY_ID: entity_id + "_display_orientation",
             },
             blocking=True,
         )
@@ -114,7 +114,7 @@ async def test_select_option(hass: UniversalAssistant) -> None:
         SelectService.SELECT_OPTION,
         {
             SelectServiceArgument.OPTION: "left",
-            CommonServiceArgument.ENTITY_ID: entity_id + "_display_orientation",
+            TargetKey.ENTITY_ID: entity_id + "_display_orientation",
         },
         blocking=True,
     )

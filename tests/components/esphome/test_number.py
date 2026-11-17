@@ -17,11 +17,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_UNIT_OF_MEASUREMENT,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-)
+from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -61,7 +57,7 @@ async def test_generic_number_entity(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.test_my_number",
+            TargetKey.ENTITY_ID: "number.test_my_number",
             NumberServiceArgument.VALUE: 50,
         },
         blocking=True,
@@ -166,7 +162,7 @@ async def test_generic_number_entity_set_when_disconnected(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.test_my_number",
+                TargetKey.ENTITY_ID: "number.test_my_number",
                 NumberServiceArgument.VALUE: 20,
             },
             blocking=True,

@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -54,7 +54,7 @@ async def test_switch_on_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.living_room_relayname"},
+        {TargetKey.ENTITY_ID: "switch.living_room_relayname"},
         blocking=True,
     )
     mock_relay.turn_off.assert_called_once_with()
@@ -62,7 +62,7 @@ async def test_switch_on_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "switch.living_room_relayname"},
+        {TargetKey.ENTITY_ID: "switch.living_room_relayname"},
         blocking=True,
     )
     mock_relay.turn_on.assert_called_once_with()

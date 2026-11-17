@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -154,7 +154,7 @@ async def test_missing_emtpy_press_action_config(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: TEST_BUTTON.entity_id},
+        {TargetKey.ENTITY_ID: TEST_BUTTON.entity_id},
         blocking=True,
     )
 
@@ -205,7 +205,7 @@ async def test_device_class_option(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: TEST_BUTTON.entity_id},
+        {TargetKey.ENTITY_ID: TEST_BUTTON.entity_id},
         blocking=True,
     )
 
@@ -261,7 +261,7 @@ async def test_options_that_are_templates(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: TEST_BUTTON.entity_id},
+        {TargetKey.ENTITY_ID: TEST_BUTTON.entity_id},
         blocking=True,
     )
 

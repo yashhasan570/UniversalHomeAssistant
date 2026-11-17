@@ -25,7 +25,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -149,7 +149,7 @@ async def test_select_relay_actions(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: test_entity,
+            TargetKey.ENTITY_ID: test_entity,
             SelectServiceArgument.OPTION: action,
         },
         blocking=True,
@@ -187,7 +187,7 @@ async def test_select_relay_modes(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: test_entity,
+            TargetKey.ENTITY_ID: test_entity,
             SelectServiceArgument.OPTION: relay_mode,
         },
         blocking=True,
@@ -230,7 +230,7 @@ async def test_update_dry_contact_actions_with_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: test_entity,
+                TargetKey.ENTITY_ID: test_entity,
                 SelectServiceArgument.OPTION: action,
             },
             blocking=True,
@@ -269,7 +269,7 @@ async def test_select_storage_modes(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: test_entity,
+            TargetKey.ENTITY_ID: test_entity,
             SelectServiceArgument.OPTION: mode,
         },
         blocking=True,
@@ -308,7 +308,7 @@ async def test_set_storage_modes_with_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: test_entity,
+                TargetKey.ENTITY_ID: test_entity,
                 SelectServiceArgument.OPTION: mode,
             },
             blocking=True,

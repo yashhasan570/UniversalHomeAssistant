@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -38,7 +38,7 @@ async def test_selecting(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
             SelectServiceArgument.OPTION: "Economy",
         },
         blocking=True,
@@ -54,7 +54,7 @@ async def test_selecting(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+                TargetKey.ENTITY_ID: ENTITY_ID,
                 SelectServiceArgument.OPTION: "Economy",
             },
             blocking=True,
@@ -107,7 +107,7 @@ async def test_decimal_enum_values(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: upper_heater,
+            TargetKey.ENTITY_ID: upper_heater,
             SelectServiceArgument.OPTION: "0.3",
         },
         blocking=True,

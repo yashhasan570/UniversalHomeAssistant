@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.gree.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -61,7 +61,7 @@ async def test_send_switch_on(hass: UniversalAssistant, entity: str) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 
@@ -92,7 +92,7 @@ async def test_send_switch_on_device_timeout(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 
@@ -119,7 +119,7 @@ async def test_send_switch_off(hass: UniversalAssistant, entity: str) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 
@@ -147,7 +147,7 @@ async def test_send_switch_toggle(hass: UniversalAssistant, entity: str) -> None
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 
@@ -159,7 +159,7 @@ async def test_send_switch_toggle(hass: UniversalAssistant, entity: str) -> None
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TOGGLE,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 
@@ -171,7 +171,7 @@ async def test_send_switch_toggle(hass: UniversalAssistant, entity: str) -> None
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TOGGLE,
-        {CommonServiceArgument.ENTITY_ID: entity},
+        {TargetKey.ENTITY_ID: entity},
         blocking=True,
     )
 

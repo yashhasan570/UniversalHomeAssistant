@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.components.wmspro.const import DOMAIN
 from universalassistant.components.wmspro.switch import SCAN_INTERVAL
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
@@ -111,7 +111,7 @@ async def test_switch_turn_on_and_off(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: entity.entity_id},
+            {TargetKey.ENTITY_ID: entity.entity_id},
             blocking=True,
         )
 
@@ -131,7 +131,7 @@ async def test_switch_turn_on_and_off(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: entity.entity_id},
+            {TargetKey.ENTITY_ID: entity.entity_id},
             blocking=True,
         )
 

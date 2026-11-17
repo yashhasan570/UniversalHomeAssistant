@@ -5,14 +5,24 @@ import logging
 from universalassistant.const import Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
-from universalassistant.helpers import entity_registry as er
+from universalassistant.helpers import config_validation as cv, entity_registry as er
+from universalassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN
 from .coordinator import GeoSphereConfigEntry, GeoSphereUpdateCoordinator
+from .services import async_setup_services
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 _LOGGER = logging.getLogger(__name__)
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up GeoSphere Austria Warnings."""
+    async_setup_services(hass)
+    return True
 
 
 async def async_setup_entry(hass: UniversalAssistant, entry: GeoSphereConfigEntry) -> None:

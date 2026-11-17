@@ -33,12 +33,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.lyric.const import DOMAIN
 from universalassistant.components.lyric.services import LyricService
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    ATTR_TEMPERATURE,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -312,7 +307,7 @@ async def test_set_hold_time(hass: UniversalAssistant, mock_lyric: MagicMock) ->
     await hass.services.async_call(
         DOMAIN,
         LyricService.SET_HOLD_TIME,
-        {CommonServiceArgument.ENTITY_ID: LCC_ENTITY_ID, "time_period": "01:00:00"},
+        {TargetKey.ENTITY_ID: LCC_ENTITY_ID, "time_period": "01:00:00"},
         blocking=True,
     )
 

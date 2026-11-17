@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -45,7 +45,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.evse_1_1_1_1_charge_mode",
+            TargetKey.ENTITY_ID: "select.evse_1_1_1_1_charge_mode",
             SelectServiceArgument.OPTION: "mixed",
         },
         blocking=True,

@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -48,7 +48,7 @@ async def test_pressing_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: "button.airgradient_calibrate_co2_sensor",
+            TargetKey.ENTITY_ID: "button.airgradient_calibrate_co2_sensor",
         },
         blocking=True,
     )
@@ -58,7 +58,7 @@ async def test_pressing_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: "button.airgradient_test_led_bar",
+            TargetKey.ENTITY_ID: "button.airgradient_test_led_bar",
         },
         blocking=True,
     )
@@ -154,7 +154,7 @@ async def test_exception_handling(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: "button.airgradient_calibrate_co2_sensor",
+                TargetKey.ENTITY_ID: "button.airgradient_calibrate_co2_sensor",
             },
             blocking=True,
         )

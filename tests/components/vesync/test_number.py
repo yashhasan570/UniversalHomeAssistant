@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -44,7 +44,7 @@ async def test_set_mist_level_bad_range(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
+                TargetKey.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
                 NumberServiceArgument.VALUE: "10",
             },
             blocking=True,
@@ -66,7 +66,7 @@ async def test_set_mist_level(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
+                TargetKey.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
                 NumberServiceArgument.VALUE: "3",
             },
             blocking=True,
@@ -111,7 +111,7 @@ async def test_set_mist_level_failure(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
+                TargetKey.ENTITY_ID: ENTITY_HUMIDIFIER_MIST_LEVEL,
                 NumberServiceArgument.VALUE: "3",
             },
             blocking=True,

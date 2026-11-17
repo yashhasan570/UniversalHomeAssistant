@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -41,7 +41,7 @@ async def test_setting_value(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.backyard_backyard_loudness",
+            TargetKey.ENTITY_ID: "switch.backyard_backyard_loudness",
         },
         blocking=True,
     )
@@ -54,7 +54,7 @@ async def test_setting_value(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: "switch.backyard_backyard_loudness",
+            TargetKey.ENTITY_ID: "switch.backyard_backyard_loudness",
         },
         blocking=True,
     )

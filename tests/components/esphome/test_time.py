@@ -9,7 +9,7 @@ from universalassistant.components.time import (
     TimeService,
     TimeServiceArgument,
 )
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
@@ -44,7 +44,7 @@ async def test_generic_time_entity(
         TIME_DOMAIN,
         TimeService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "time.test_my_time",
+            TargetKey.ENTITY_ID: "time.test_my_time",
             TimeServiceArgument.TIME: "01:23:45",
         },
         blocking=True,

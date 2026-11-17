@@ -14,13 +14,7 @@ from universalassistant.components.update import (
     DOMAIN as UPDATE_DOMAIN,
     UpdateService,
 )
-from universalassistant.const import (
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -84,7 +78,7 @@ async def test_update_install(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: UPDATE_ENTITY_ID},
+        {TargetKey.ENTITY_ID: UPDATE_ENTITY_ID},
         blocking=True,
     )
 

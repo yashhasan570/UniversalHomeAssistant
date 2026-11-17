@@ -13,12 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    CommonServiceArgument,
-    EntityCategory,
-    UnitOfArea,
-)
+from universalassistant.const import ATTR_ENTITY_ID, EntityCategory, TargetKey, UnitOfArea
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -62,7 +57,7 @@ async def test_select_option(hass: UniversalAssistant) -> None:
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.genie_room_size",
+            TargetKey.ENTITY_ID: "select.genie_room_size",
             SelectServiceArgument.OPTION: "30",
         },
         blocking=True,
@@ -101,7 +96,7 @@ async def test_select_invalid_option(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.genie_room_size",
+                TargetKey.ENTITY_ID: "select.genie_room_size",
                 SelectServiceArgument.OPTION: "120",
             },
             blocking=True,
@@ -129,7 +124,7 @@ async def test_select_next_twice(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_NEXT,
-            {CommonServiceArgument.ENTITY_ID: "select.genie_room_size"},
+            {TargetKey.ENTITY_ID: "select.genie_room_size"},
             blocking=True,
         )
 
@@ -153,7 +148,7 @@ async def test_select_option_category_only(hass: UniversalAssistant) -> None:
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.genie_room_size",
+            TargetKey.ENTITY_ID: "select.genie_room_size",
             SelectServiceArgument.OPTION: "30",
         },
         blocking=True,
@@ -180,7 +175,7 @@ async def test_select_action_error(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.genie_room_size",
+                TargetKey.ENTITY_ID: "select.genie_room_size",
                 SelectServiceArgument.OPTION: "30",
             },
             blocking=True,

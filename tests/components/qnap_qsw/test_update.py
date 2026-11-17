@@ -12,7 +12,7 @@ from universalassistant.components.update import (
     UpdateService,
     UpdateServiceArgument,
 )
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .util import (
@@ -66,7 +66,7 @@ async def test_qnap_qsw_update(hass: UniversalAssistant) -> None:
             UpdateService.INSTALL,
             {
                 UpdateServiceArgument.BACKUP: False,
-                CommonServiceArgument.ENTITY_ID: "update.qsw_m408_4c_firmware",
+                TargetKey.ENTITY_ID: "update.qsw_m408_4c_firmware",
             },
             blocking=True,
         )

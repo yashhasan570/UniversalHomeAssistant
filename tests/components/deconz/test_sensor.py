@@ -1,20 +1,17 @@
 """deCONZ sensor platform tests."""
 
-from datetime import timedelta
 from typing import Any
 from unittest.mock import patch
 
 import pytest
-from pytest_universalassistant.common import async_fire_time_changed, snapshot_platform
+from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.deconz.const import CONF_ALLOW_CLIP_SENSOR
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
-from universalassistant.util import dt as dt_util
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
 
@@ -254,7 +251,6 @@ TEST_DATA = [
             "uniqueid": "01:23:4E:FF:FF:56:78:9A-01",
         },
         {
-            "enable_entity": True,
             "entity_id": "sensor.daylight",
             "websocket_event": {"state": {"status": 210}},
             "next_state": "dusk",
@@ -639,6 +635,7 @@ TEST_DATA = [
 ]
 
 
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize(("sensor_payload", "expected"), TEST_DATA)
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 async def test_sensors(
@@ -652,19 +649,6 @@ async def test_sensors(
     """Test successful creation of sensor entities."""
     with patch("universalassistant.components.deconz.PLATFORMS", [Platform.SENSOR]):
         config_entry = await config_entry_factory()
-
-    # Enable in entity registry
-    if expected.get("enable_entity"):
-        entity_registry.async_update_entity(
-            entity_id=expected["entity_id"], disabled_by=None
-        )
-        await hass.async_block_till_done()
-
-        async_fire_time_changed(
-            hass,
-            dt_util.utcnow() + timedelta(seconds=RELOAD_AFTER_UPDATE_DELAY + 1),
-        )
-        await hass.async_block_till_done()
 
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 

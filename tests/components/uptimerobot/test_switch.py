@@ -9,7 +9,7 @@ from pyuptimerobot.const import API_PATH_MONITOR_DETAIL
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.components.uptimerobot.const import COORDINATOR_UPDATE_INTERVAL
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
@@ -60,7 +60,7 @@ async def test_switch_off(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
+            {TargetKey.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
             blocking=True,
         )
 
@@ -93,7 +93,7 @@ async def test_switch_on(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
+            {TargetKey.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
             blocking=True,
         )
 
@@ -122,7 +122,7 @@ async def test_authentication_error(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
+            {TargetKey.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
             blocking=True,
         )
 
@@ -146,7 +146,7 @@ async def test_action_execution_failure(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
+            {TargetKey.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
             blocking=True,
         )
 
@@ -174,7 +174,7 @@ async def test_switch_api_failure(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
+            {TargetKey.ENTITY_ID: UPTIMEROBOT_SWITCH_TEST_ENTITY},
             blocking=True,
         )
 

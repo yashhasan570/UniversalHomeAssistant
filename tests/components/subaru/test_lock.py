@@ -13,7 +13,7 @@ from universalassistant.components.subaru.services import (
     SubaruService,
     SubaruServiceArgument,
 )
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
+from universalassistant.const import STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -39,7 +39,7 @@ async def test_lock_cmd(hass: UniversalAssistant, ev_entry) -> None:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -52,7 +52,7 @@ async def test_unlock_cmd(hass: UniversalAssistant, ev_entry) -> None:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -68,7 +68,7 @@ async def test_lock_cmd_fails(hass: UniversalAssistant, ev_entry) -> None:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
     mock_lock.assert_not_called()
@@ -81,7 +81,7 @@ async def test_unlock_specific_door(hass: UniversalAssistant, ev_entry) -> None:
             DOMAIN,
             SubaruService.UNLOCK_SPECIFIC_DOOR,
             {
-                CommonServiceArgument.ENTITY_ID: DEVICE_ID,
+                TargetKey.ENTITY_ID: DEVICE_ID,
                 SubaruServiceArgument.DOOR: UNLOCK_DOOR_DRIVERS,
             },
             blocking=True,
@@ -97,7 +97,7 @@ async def test_unlock_specific_door_invalid(hass: UniversalAssistant, ev_entry) 
             DOMAIN,
             SubaruService.UNLOCK_SPECIFIC_DOOR,
             {
-                CommonServiceArgument.ENTITY_ID: DEVICE_ID,
+                TargetKey.ENTITY_ID: DEVICE_ID,
                 SubaruServiceArgument.DOOR: "bad_value",
             },
             blocking=True,

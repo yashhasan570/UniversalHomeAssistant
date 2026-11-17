@@ -30,7 +30,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -135,7 +135,7 @@ async def test_select_option_via_domain_service(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: select_entry.entity_id,
+            TargetKey.ENTITY_ID: select_entry.entity_id,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,
@@ -176,7 +176,7 @@ async def test_select_option_propagates_api_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: volume_entry.entity_id,
+                TargetKey.ENTITY_ID: volume_entry.entity_id,
                 SelectServiceArgument.OPTION: "high",
             },
             blocking=True,
@@ -212,7 +212,7 @@ async def test_select_option_invalid_auth_starts_reauth(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: volume_entry.entity_id,
+                TargetKey.ENTITY_ID: volume_entry.entity_id,
                 SelectServiceArgument.OPTION: "high",
             },
             blocking=True,
@@ -277,7 +277,7 @@ async def test_select_option_unavailable_offline_device(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: night_entry.entity_id,
+            TargetKey.ENTITY_ID: night_entry.entity_id,
             SelectServiceArgument.OPTION: "fullcolor",
         },
         blocking=True,

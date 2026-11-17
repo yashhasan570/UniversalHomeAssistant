@@ -10,7 +10,7 @@ from pyblu.errors import (
 import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -27,7 +27,7 @@ async def test_set_sleep_timer(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.player_name1111_set_sleep_timer"},
+        {TargetKey.ENTITY_ID: "button.player_name1111_set_sleep_timer"},
         blocking=True,
     )
 
@@ -46,7 +46,7 @@ async def test_clear_sleep_timer(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.player_name1111_clear_sleep_timer"},
+        {TargetKey.ENTITY_ID: "button.player_name1111_clear_sleep_timer"},
         blocking=True,
     )
 
@@ -90,6 +90,6 @@ async def test_press_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )

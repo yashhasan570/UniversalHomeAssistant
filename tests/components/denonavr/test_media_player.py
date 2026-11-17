@@ -29,6 +29,7 @@ from universalassistant.const import (
     CONF_MODEL,
     STATE_UNAVAILABLE,
     CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -140,7 +141,7 @@ async def test_update_audyssey(hass: UniversalAssistant, client: MagicMock) -> N
         DOMAIN,
         DenonAvrService.UPDATE_AUDYSSEY,
         {
-            CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
         },
     )
     await hass.async_block_till_done()

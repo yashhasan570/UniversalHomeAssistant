@@ -7,7 +7,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -41,7 +41,7 @@ async def test_start_backflush(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: f"button.{serial_number}_start_backflush",
+                TargetKey.ENTITY_ID: f"button.{serial_number}_start_backflush",
             },
             blocking=True,
         )
@@ -75,7 +75,7 @@ async def test_button_error(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: f"button.{serial_number}_start_backflush",
+                TargetKey.ENTITY_ID: f"button.{serial_number}_start_backflush",
             },
             blocking=True,
         )

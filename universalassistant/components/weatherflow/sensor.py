@@ -44,7 +44,8 @@ from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCal
 from universalassistant.helpers.typing import StateType
 
 from . import WeatherFlowConfigEntry
-from .const import DOMAIN, LOGGER, format_dispatch_call
+from .const import DOMAIN, LOGGER
+from .util import format_dispatch_call
 
 
 def precipitation_raw_conversion_fn(raw_data: Enum):

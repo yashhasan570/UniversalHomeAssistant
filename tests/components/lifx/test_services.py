@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lifx import DOMAIN
 from universalassistant.components.lifx.const import CONF_SERIAL, LIFXService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST
+from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
@@ -56,7 +56,7 @@ async def test_service_without_loaded_entry_raises(hass: UniversalAssistant) -> 
         await hass.services.async_call(
             DOMAIN,
             LIFXService.EFFECT_PULSE,
-            {ATTR_ENTITY_ID: "light.test"},
+            {TargetKey.ENTITY_ID: "light.test"},
             blocking=True,
         )
 

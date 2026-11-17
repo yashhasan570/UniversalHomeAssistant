@@ -11,7 +11,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -66,7 +66,7 @@ async def test_number_actions(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: target,
+            TargetKey.ENTITY_ID: target,
             NumberServiceArgument.VALUE: input_value,
         },
         blocking=True,

@@ -11,12 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import (
-    CONF_DEVICES,
-    STATE_UNAVAILABLE,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import CONF_DEVICES, STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -62,7 +57,7 @@ async def test_switch_turn_on(hass: UniversalAssistant, fritz: Mock) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
         True,
     )
     assert device.set_switch_state_on.call_count == 1
@@ -79,7 +74,7 @@ async def test_switch_turn_off(hass: UniversalAssistant, fritz: Mock) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
         True,
     )
 
@@ -102,7 +97,7 @@ async def test_switch_toggle_while_locked(hass: UniversalAssistant, fritz: Mock)
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+            {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
             True,
         )
 
@@ -113,7 +108,7 @@ async def test_switch_toggle_while_locked(hass: UniversalAssistant, fritz: Mock)
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+            {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
             True,
         )
 
@@ -230,7 +225,7 @@ async def test_activate_trigger(hass: UniversalAssistant, fritz: Mock) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: TRIGGER_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TRIGGER_ENTITY_ID},
         True,
     )
     assert fritz().set_trigger_active.call_count == 1
@@ -249,7 +244,7 @@ async def test_deactivate_trigger(hass: UniversalAssistant, fritz: Mock) -> None
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: TRIGGER_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TRIGGER_ENTITY_ID},
         True,
     )
     assert fritz().set_trigger_inactive.call_count == 1

@@ -28,8 +28,8 @@ from universalassistant.const import (
     CONF_PLATFORM,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -71,7 +71,7 @@ async def test_custom_integration(
     await hass.services.async_call(
         DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.button_1"},
+        {TargetKey.ENTITY_ID: "button.button_1"},
         blocking=True,
     )
 
@@ -86,7 +86,7 @@ async def test_custom_integration(
     await hass.services.async_call(
         DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.button_1"},
+        {TargetKey.ENTITY_ID: "button.button_1"},
         blocking=True,
     )
 

@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.openevse.const import DOMAIN
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -67,7 +67,7 @@ async def test_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     getattr(mock_charger, method_name).assert_called_once()
@@ -155,7 +155,7 @@ async def test_press_raises(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: "button.openevse_mock_config_restart_wi_fi",
+                TargetKey.ENTITY_ID: "button.openevse_mock_config_restart_wi_fi",
             },
             blocking=True,
         )

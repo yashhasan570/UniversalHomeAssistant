@@ -55,8 +55,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
     STATE_UNAVAILABLE,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
@@ -1079,7 +1079,7 @@ async def test_send_text(
         await hass.services.async_call(
             DOMAIN,
             VizioService.SEND_TEXT,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID, "text": "stranger things"},
+            {TargetKey.ENTITY_ID: ENTITY_ID, "text": "stranger things"},
             blocking=True,
         )
     mock_send_text.assert_called_once_with("stranger things")
@@ -1102,6 +1102,6 @@ async def test_send_text_device_error(
         await hass.services.async_call(
             DOMAIN,
             VizioService.SEND_TEXT,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID, "text": "abc"},
+            {TargetKey.ENTITY_ID: ENTITY_ID, "text": "abc"},
             blocking=True,
         )

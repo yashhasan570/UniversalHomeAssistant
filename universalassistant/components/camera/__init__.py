@@ -212,7 +212,10 @@ async def _async_get_image(
 
                 return image
 
-    raise UniversalAssistantError("Unable to get image")
+    raise UniversalAssistantError(
+        translation_domain=DOMAIN,
+        translation_key="image_unavailable",
+    )
 
 
 async def async_get_image(

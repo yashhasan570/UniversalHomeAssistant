@@ -8,13 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.opentherm_gw import DOMAIN
 from universalassistant.components.opentherm_gw.const import OpenThermDeviceIdentifier
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import (
-    CONF_ID,
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-)
+from universalassistant.const import CONF_ID, STATE_OFF, STATE_ON, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -85,7 +79,7 @@ async def test_ch_override_switch(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
         {
-            CommonServiceArgument.ENTITY_ID: switch_entity_id,
+            TargetKey.ENTITY_ID: switch_entity_id,
         },
         blocking=True,
     )
@@ -95,7 +89,7 @@ async def test_ch_override_switch(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
         {
-            CommonServiceArgument.ENTITY_ID: switch_entity_id,
+            TargetKey.ENTITY_ID: switch_entity_id,
         },
         blocking=True,
     )

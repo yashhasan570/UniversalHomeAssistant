@@ -4,7 +4,7 @@ from pyyardian import AsyncYardianClient, NetworkException, NotAuthorizedExcepti
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, Platform
 from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
+from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YardianConfigEntry)
             async_get_clientsession(hass), host, token=access_token
         )
     except NotAuthorizedException as err:
-        raise ConfigEntryError(
+        raise ConfigEntryAuthFailed(
             translation_domain=DOMAIN, translation_key="invalid_auth"
         ) from err
     except (NetworkException, TimeoutError) as err:

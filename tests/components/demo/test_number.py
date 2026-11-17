@@ -15,7 +15,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import ATTR_MODE, CommonServiceArgument, Platform
+from universalassistant.const import ATTR_MODE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
@@ -89,7 +89,7 @@ async def test_set_value_bad_attr(hass: UniversalAssistant) -> None:
             NumberService.SET_VALUE,
             {
                 NumberServiceArgument.VALUE: None,
-                CommonServiceArgument.ENTITY_ID: ENTITY_VOLUME,
+                TargetKey.ENTITY_ID: ENTITY_VOLUME,
             },
             blocking=True,
         )
@@ -110,7 +110,7 @@ async def test_set_value_bad_range(hass: UniversalAssistant) -> None:
             NumberService.SET_VALUE,
             {
                 NumberServiceArgument.VALUE: 1024,
-                CommonServiceArgument.ENTITY_ID: ENTITY_VOLUME,
+                TargetKey.ENTITY_ID: ENTITY_VOLUME,
             },
             blocking=True,
         )
@@ -130,7 +130,7 @@ async def test_set_set_value(hass: UniversalAssistant) -> None:
         NumberService.SET_VALUE,
         {
             NumberServiceArgument.VALUE: 23,
-            CommonServiceArgument.ENTITY_ID: ENTITY_VOLUME,
+            TargetKey.ENTITY_ID: ENTITY_VOLUME,
         },
         blocking=True,
     )

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -43,7 +43,7 @@ async def test_reset_filter_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: RESET_FILTER_ENTITY},
+        {TargetKey.ENTITY_ID: RESET_FILTER_ENTITY},
         blocking=True,
     )
     mock_helty_client.async_reset_filter.assert_awaited_once()
@@ -63,6 +63,6 @@ async def test_reset_filter_press_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: RESET_FILTER_ENTITY},
+            {TargetKey.ENTITY_ID: RESET_FILTER_ENTITY},
             blocking=True,
         )

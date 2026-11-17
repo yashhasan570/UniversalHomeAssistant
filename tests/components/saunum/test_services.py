@@ -12,7 +12,7 @@ from universalassistant.components.saunum.services import (
     LeilSaunaService,
     LeilSaunaServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
@@ -33,7 +33,7 @@ async def test_start_session_success(
         DOMAIN,
         LeilSaunaService.START_SESSION,
         {
-            CommonServiceArgument.ENTITY_ID: "climate.saunum_leil",
+            TargetKey.ENTITY_ID: "climate.saunum_leil",
             LeilSaunaServiceArgument.DURATION: {"hours": 2, "minutes": 0, "seconds": 0},
             LeilSaunaServiceArgument.TARGET_TEMPERATURE: 80,
             LeilSaunaServiceArgument.FAN_DURATION: {"minutes": 10},
@@ -56,7 +56,7 @@ async def test_start_session_with_defaults(
     await hass.services.async_call(
         DOMAIN,
         LeilSaunaService.START_SESSION,
-        {CommonServiceArgument.ENTITY_ID: "climate.saunum_leil"},
+        {TargetKey.ENTITY_ID: "climate.saunum_leil"},
         blocking=True,
     )
 
@@ -84,7 +84,7 @@ async def test_start_session_door_open(
         await hass.services.async_call(
             DOMAIN,
             LeilSaunaService.START_SESSION,
-            {CommonServiceArgument.ENTITY_ID: "climate.saunum_leil"},
+            {TargetKey.ENTITY_ID: "climate.saunum_leil"},
             blocking=True,
         )
 
@@ -105,7 +105,7 @@ async def test_start_session_communication_error(
         await hass.services.async_call(
             DOMAIN,
             LeilSaunaService.START_SESSION,
-            {CommonServiceArgument.ENTITY_ID: "climate.saunum_leil"},
+            {TargetKey.ENTITY_ID: "climate.saunum_leil"},
             blocking=True,
         )
 

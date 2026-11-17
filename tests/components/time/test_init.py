@@ -5,7 +5,7 @@ from datetime import time
 from pytest_universalassistant.common import setup_test_component_platform
 
 from universalassistant.components.time import DOMAIN, TimeService, TimeServiceArgument
-from universalassistant.const import ATTR_FRIENDLY_NAME, CONF_PLATFORM, CommonServiceArgument
+from universalassistant.const import ATTR_FRIENDLY_NAME, CONF_PLATFORM, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ async def test_date(hass: UniversalAssistant) -> None:
         TimeService.SET_VALUE,
         {
             TimeServiceArgument.TIME: time(2, 3, 4),
-            CommonServiceArgument.ENTITY_ID: "time.test",
+            TargetKey.ENTITY_ID: "time.test",
         },
         blocking=True,
     )

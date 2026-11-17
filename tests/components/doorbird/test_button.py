@@ -1,7 +1,7 @@
 """Test DoorBird buttons."""
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import DoorbirdMockerType
@@ -18,7 +18,7 @@ async def test_relay_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: relay_1_entity_id},
+        {TargetKey.ENTITY_ID: relay_1_entity_id},
         blocking=True,
     )
     assert hass.states.get(relay_1_entity_id).state != STATE_UNKNOWN
@@ -36,7 +36,7 @@ async def test_ir_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ir_entity_id},
+        {TargetKey.ENTITY_ID: ir_entity_id},
         blocking=True,
     )
     assert hass.states.get(ir_entity_id).state != STATE_UNKNOWN
@@ -54,7 +54,7 @@ async def test_reset_favorites_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: reset_entity_id},
+        {TargetKey.ENTITY_ID: reset_entity_id},
         blocking=True,
     )
     assert hass.states.get(reset_entity_id).state != STATE_UNKNOWN

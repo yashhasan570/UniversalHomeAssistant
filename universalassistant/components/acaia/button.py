@@ -5,11 +5,14 @@ from dataclasses import dataclass
 from typing import Any, override
 
 from aioacaia import AcaiaScale
+from aioacaia.exceptions import AcaiaDeviceNotFound, AcaiaError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from .const import DOMAIN
 from .coordinator import AcaiaConfigEntry
 from .entity import AcaiaEntity
 
@@ -61,5 +64,10 @@ class AcaiaButton(AcaiaEntity, ButtonEntity):
     @override
     async def async_press(self) -> None:
         """Handle the button press."""
-        # aioacaia queues button commands, so enqueueing cannot fail.
-        await self.entity_description.press_fn(self._scale)
+        try:
+            await self.entity_description.press_fn(self._scale)
+        except (AcaiaDeviceNotFound, AcaiaError) as err:
+            raise UniversalAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="cannot_connect",
+            ) from err

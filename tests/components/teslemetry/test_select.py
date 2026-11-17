@@ -19,7 +19,7 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.teslemetry.coordinator import VEHICLE_INTERVAL
 from universalassistant.components.teslemetry.select import HIGH, LEVEL, LOW, MEDIUM, OFF
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -137,7 +137,7 @@ async def test_select_services(hass: UniversalAssistant, mock_vehicle_data) -> N
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: LOW,
             },
             blocking=True,
@@ -155,7 +155,7 @@ async def test_select_services(hass: UniversalAssistant, mock_vehicle_data) -> N
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: LOW,
             },
             blocking=True,
@@ -173,7 +173,7 @@ async def test_select_services(hass: UniversalAssistant, mock_vehicle_data) -> N
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: EnergyOperationMode.AUTONOMOUS.value,
             },
             blocking=True,
@@ -191,7 +191,7 @@ async def test_select_services(hass: UniversalAssistant, mock_vehicle_data) -> N
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: EnergyExportMode.BATTERY_OK.value,
             },
             blocking=True,
@@ -235,7 +235,7 @@ async def test_seat_cooler_services(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: LOW,
             },
             blocking=True,
@@ -285,7 +285,7 @@ async def test_select_command_errors(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.test_seat_heater_front_left",
+                TargetKey.ENTITY_ID: "select.test_seat_heater_front_left",
                 SelectServiceArgument.OPTION: LOW,
             },
             blocking=True,
@@ -307,7 +307,7 @@ async def test_select_command_exception(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.energy_site_operation_mode",
+                TargetKey.ENTITY_ID: "select.energy_site_operation_mode",
                 SelectServiceArgument.OPTION: EnergyOperationMode.AUTONOMOUS.value,
             },
             blocking=True,
@@ -418,7 +418,7 @@ async def test_select_streaming_climate_start(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.test_seat_heater_front_left",
+                TargetKey.ENTITY_ID: "select.test_seat_heater_front_left",
                 SelectServiceArgument.OPTION: LOW,
             },
             blocking=True,
@@ -528,7 +528,7 @@ async def test_export_rule_restore(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: EnergyExportMode.BATTERY_OK.value,
             },
             blocking=True,

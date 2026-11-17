@@ -19,7 +19,7 @@ from universalassistant.components.silvercrest_infrared.const import (
     SilverCrestIrDeviceType,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -115,7 +115,7 @@ async def test_button_press(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 

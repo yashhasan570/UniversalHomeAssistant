@@ -18,7 +18,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -44,7 +44,7 @@ async def test_input_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: INPUT_ENTITY_ID,
+            TargetKey.ENTITY_ID: INPUT_ENTITY_ID,
             SelectServiceArgument.OPTION: cmd.Input.HDMI2,
         },
         blocking=True,

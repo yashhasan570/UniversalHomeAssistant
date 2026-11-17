@@ -22,13 +22,7 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
     SwitchService,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_OFF,
-    STATE_ON,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +47,7 @@ async def test_auto_shut_off_switch(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
     mock_watergate_client.async_update_auto_shut_off.assert_called_once_with(
@@ -65,7 +59,7 @@ async def test_auto_shut_off_switch(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
     mock_watergate_client.async_update_auto_shut_off.assert_called_once_with(

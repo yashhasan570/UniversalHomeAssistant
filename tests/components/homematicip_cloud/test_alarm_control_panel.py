@@ -16,12 +16,7 @@ from universalassistant.components.homematicip_cloud.services import (
     HomematicIPService,
     HomematicIPServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_OFF,
-    STATE_ON,
-    CommonServiceArgument,
-)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -207,7 +202,7 @@ async def _async_arm_anyway(hass: UniversalAssistant, mode: str = "away") -> Non
         DOMAIN,
         HomematicIPService.ARM_ANYWAY,
         {
-            CommonServiceArgument.ENTITY_ID: ENTITY_ID,
+            TargetKey.ENTITY_ID: ENTITY_ID,
             HomematicIPServiceArgument.MODE: mode,
         },
         blocking=True,

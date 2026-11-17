@@ -9,7 +9,7 @@ import pytest
 
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.services import EcovacsService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 pytestmark = [pytest.mark.usefixtures("init_integration")]
@@ -81,7 +81,7 @@ async def test_get_positions_service(
     assert await hass.services.async_call(
         DOMAIN,
         EcovacsService.RAW_GET_POSITIONS,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
         return_response=True,
     ) == {entity_id: mock_device_execute_response}

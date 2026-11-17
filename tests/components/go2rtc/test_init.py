@@ -61,7 +61,7 @@ from universalassistant.components.go2rtc.util import (
 )
 from universalassistant.components.stream import Orientation
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import ATTR_ENTITY_ID, CONF_PASSWORD, CONF_URL, CONF_USERNAME
+from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, TargetKey
 from universalassistant.core import EVENT_HOMEASSISTANT_STOP
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
@@ -1104,7 +1104,7 @@ async def test_snapshot_service_go2rtc_error(
             CAMERA_DOMAIN,
             CameraService.SNAPSHOT,
             {
-                ATTR_ENTITY_ID: init_test_integration.entity_id,
+                TargetKey.ENTITY_ID: init_test_integration.entity_id,
                 CameraServiceArgument.FILENAME: str(snapshot_file),
             },
             blocking=True,

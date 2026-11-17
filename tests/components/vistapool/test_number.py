@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -263,7 +263,7 @@ async def test_number_set_value(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
             NumberServiceArgument.VALUE: user_value,
         },
         blocking=True,
@@ -295,7 +295,7 @@ async def test_number_set_value_raises_on_api_error(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.my_pool_redox_setpoint",
+                TargetKey.ENTITY_ID: "number.my_pool_redox_setpoint",
                 NumberServiceArgument.VALUE: 700,
             },
             blocking=True,

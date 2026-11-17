@@ -9,12 +9,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import (
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNAVAILABLE,
-    CommonServiceArgument,
-)
+from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.util import utcnow
 
@@ -103,7 +98,7 @@ async def _select_option_and_wait(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: entity,
+            TargetKey.ENTITY_ID: entity,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,

@@ -9,7 +9,7 @@ from tesla_fleet_api.exceptions import InvalidCommand
 from teslemetry_stream.const import Signal
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -60,7 +60,7 @@ async def test_lock_services(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         state = hass.states.get(entity_id)
@@ -74,7 +74,7 @@ async def test_lock_services(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         state = hass.states.get(entity_id)
@@ -87,7 +87,7 @@ async def test_lock_services(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 
@@ -98,7 +98,7 @@ async def test_lock_services(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         state = hass.states.get(entity_id)
@@ -122,7 +122,7 @@ async def test_lock_command_errors(hass: UniversalAssistant, response: dict) -> 
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: "lock.test_lock"},
+            {TargetKey.ENTITY_ID: "lock.test_lock"},
             blocking=True,
         )
 
@@ -154,7 +154,7 @@ async def test_lock_command_exception(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: "lock.test_lock"},
+            {TargetKey.ENTITY_ID: "lock.test_lock"},
             blocking=True,
         )
     assert exc_info.value.translation_key == translation_key

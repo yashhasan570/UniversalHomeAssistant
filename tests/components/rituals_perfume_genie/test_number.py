@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
+from universalassistant.const import ATTR_ENTITY_ID, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -62,7 +62,7 @@ async def test_set_number_value(hass: UniversalAssistant) -> None:
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.genie_perfume_amount",
+            TargetKey.ENTITY_ID: "number.genie_perfume_amount",
             NumberServiceArgument.VALUE: 1,
         },
         blocking=True,
@@ -105,7 +105,7 @@ async def test_set_number_value_out_of_range(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.genie_perfume_amount",
+                TargetKey.ENTITY_ID: "number.genie_perfume_amount",
                 NumberServiceArgument.VALUE: 4,
             },
             blocking=True,
@@ -127,7 +127,7 @@ async def test_set_number_value_out_of_range(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.genie_perfume_amount",
+                TargetKey.ENTITY_ID: "number.genie_perfume_amount",
                 NumberServiceArgument.VALUE: 0,
             },
             blocking=True,
@@ -161,7 +161,7 @@ async def test_set_number_value_to_float(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.genie_perfume_amount",
+                TargetKey.ENTITY_ID: "number.genie_perfume_amount",
                 NumberServiceArgument.VALUE: 1.5,
             },
             blocking=True,
@@ -191,7 +191,7 @@ async def test_number_action_error(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.genie_perfume_amount",
+                TargetKey.ENTITY_ID: "number.genie_perfume_amount",
                 NumberServiceArgument.VALUE: 1,
             },
             blocking=True,

@@ -12,7 +12,7 @@ from universalassistant.components.number import (
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.components.tplink.number import NUMBER_DESCRIPTIONS
-from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
+from universalassistant.const import CONF_HOST, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -153,7 +153,7 @@ async def test_number_set(
     await hass.services.async_call(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
-        {CommonServiceArgument.ENTITY_ID: entity_id, NumberServiceArgument.VALUE: 50},
+        {TargetKey.ENTITY_ID: entity_id, NumberServiceArgument.VALUE: 50},
         blocking=True,
     )
     new_feature.set_value.assert_called_with(50)

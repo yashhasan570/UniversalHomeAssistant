@@ -1,7 +1,7 @@
 """Tests for the Lutron Caseta integration."""
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -73,7 +73,7 @@ async def test_smart_away_turn_on(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: smart_away_entity_id},
+        {TargetKey.ENTITY_ID: smart_away_entity_id},
         blocking=True,
     )
 
@@ -97,7 +97,7 @@ async def test_smart_away_turn_off(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: smart_away_entity_id},
+        {TargetKey.ENTITY_ID: smart_away_entity_id},
         blocking=True,
     )
 

@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.renault.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
-from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -148,9 +148,7 @@ async def test_button_authentication_expired(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            service_data={
-                CommonServiceArgument.ENTITY_ID: "button.reg_zoe_40_start_charge"
-            },
+            service_data={TargetKey.ENTITY_ID: "button.reg_zoe_40_start_charge"},
             blocking=True,
         )
 

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.dremel_3d_printer.const import DOMAIN
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
@@ -37,7 +37,7 @@ async def test_buttons(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: [f"button.dremel_3d45_{button}_job"]},
+            {TargetKey.ENTITY_ID: [f"button.dremel_3d45_{button}_job"]},
             blocking=True,
         )
     assert mock.call_count == 1
@@ -52,7 +52,7 @@ async def test_buttons(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: [f"button.dremel_3d45_{button}_job"]},
+            {TargetKey.ENTITY_ID: [f"button.dremel_3d45_{button}_job"]},
             blocking=True,
         )
     assert mock.call_count == 1

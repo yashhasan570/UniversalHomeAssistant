@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +53,7 @@ async def test_set_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.garden_light_brightness",
+            TargetKey.ENTITY_ID: "select.garden_light_brightness",
             SelectServiceArgument.OPTION: "high",
         },
         blocking=True,
@@ -97,7 +97,7 @@ async def test_select_error(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.garden_light_mode",
+                TargetKey.ENTITY_ID: "select.garden_light_mode",
                 SelectServiceArgument.OPTION: LightMode.FLOWER.name.lower(),
             },
             blocking=True,

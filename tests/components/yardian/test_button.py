@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -39,9 +39,7 @@ async def test_stop_all_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {
-            CommonServiceArgument.ENTITY_ID: "button.yardian_smart_sprinkler_stop_irrigation"
-        },
+        {TargetKey.ENTITY_ID: "button.yardian_smart_sprinkler_stop_irrigation"},
         blocking=True,
     )
     mock_yardian_client.stop_irrigation.assert_called_once()

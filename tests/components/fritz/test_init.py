@@ -19,7 +19,7 @@ from universalassistant.components.fritz.const import (
 )
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_USER_DATA
@@ -190,7 +190,7 @@ async def test_execute_action_while_shutdown(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.mock_title_wi_fi_guest"},
+        {TargetKey.ENTITY_ID: "switch.mock_title_wi_fi_guest"},
         blocking=True,
     )
 

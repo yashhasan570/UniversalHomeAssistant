@@ -12,7 +12,7 @@ from teslemetry_stream import Signal
 from universalassistant.components.teslemetry.coordinator import VEHICLE_INTERVAL
 from universalassistant.components.teslemetry.update import INSTALLING
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
-from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
+from universalassistant.const import STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
@@ -66,7 +66,7 @@ async def test_update_services(
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         call.assert_called_once()

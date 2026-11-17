@@ -24,9 +24,9 @@ from universalassistant.components.zha.helpers import (
 from universalassistant.const import (
     ATTR_DEVICE_CLASS,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     EntityCategory,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -112,7 +112,7 @@ async def test_button(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         await hass.async_block_till_done()

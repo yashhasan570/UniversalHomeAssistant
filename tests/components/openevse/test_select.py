@@ -25,7 +25,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
@@ -91,7 +91,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.openevse_mock_config_override_state",
+            TargetKey.ENTITY_ID: "select.openevse_mock_config_override_state",
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,
@@ -191,7 +191,7 @@ async def test_select_raises(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.openevse_mock_config_override_state",
+                TargetKey.ENTITY_ID: "select.openevse_mock_config_override_state",
                 SelectServiceArgument.OPTION: "active",
             },
             blocking=True,

@@ -40,7 +40,7 @@ from pytest_universalassistant.typing import MqttMockHAClientGenerator, MqttMock
 from universalassistant.components import time
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.components.time import TimeService
-from universalassistant.const import ATTR_ASSUMED_STATE, STATE_UNKNOWN, CommonServiceArgument
+from universalassistant.const import ATTR_ASSUMED_STATE, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 DEFAULT_CONFIG = {
@@ -55,7 +55,7 @@ async def async_set_value(
     await hass.services.async_call(
         time.DOMAIN,
         TimeService.SET_VALUE,
-        {CommonServiceArgument.ENTITY_ID: entity_id, "time": value},
+        {TargetKey.ENTITY_ID: entity_id, "time": value},
         blocking=True,
     )
 

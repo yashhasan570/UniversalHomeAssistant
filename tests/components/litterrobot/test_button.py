@@ -6,7 +6,7 @@ from freezegun import freeze_time
 import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, EntityCategory
+from universalassistant.const import STATE_UNKNOWN, EntityCategory, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -34,7 +34,7 @@ async def test_button(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY},
+            {TargetKey.ENTITY_ID: BUTTON_ENTITY},
             blocking=True,
         )
     await hass.async_block_till_done()
@@ -56,7 +56,7 @@ async def test_button_command_exception(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY},
+            {TargetKey.ENTITY_ID: BUTTON_ENTITY},
             blocking=True,
         )
 
@@ -90,7 +90,7 @@ async def test_litter_robot_5_button(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
     await hass.async_block_till_done()

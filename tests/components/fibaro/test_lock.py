@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -54,7 +54,7 @@ async def test_execute_lock_action(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
-            {CommonServiceArgument.ENTITY_ID: "lock.test_lock_room_1_test_lock"},
+            {TargetKey.ENTITY_ID: "lock.test_lock_room_1_test_lock"},
             blocking=True,
         )
         # Assert
@@ -79,7 +79,7 @@ async def test_execute_unlock_action(
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
-            {CommonServiceArgument.ENTITY_ID: "lock.test_lock_room_1_test_lock"},
+            {TargetKey.ENTITY_ID: "lock.test_lock_room_1_test_lock"},
             blocking=True,
         )
         # Assert

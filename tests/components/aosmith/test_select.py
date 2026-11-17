@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -64,7 +64,7 @@ async def test_set_hot_water_plus_level(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.basement_my_water_heater_hot_water_plus_level",
+            TargetKey.ENTITY_ID: "select.basement_my_water_heater_hot_water_plus_level",
             SelectServiceArgument.OPTION: hass_level,
         },
     )

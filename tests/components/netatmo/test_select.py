@@ -16,12 +16,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import (
-    CONF_WEBHOOK_ID,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-    Platform,
-)
+from universalassistant.const import CONF_WEBHOOK_ID, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -91,7 +86,7 @@ async def test_select_schedule_thermostats(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: SELECT_ENTITY,
+                TargetKey.ENTITY_ID: SELECT_ENTITY,
                 SelectServiceArgument.OPTION: "Default",
             },
             blocking=True,

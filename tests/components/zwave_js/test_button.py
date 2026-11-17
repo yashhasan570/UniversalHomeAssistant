@@ -11,7 +11,12 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.zwave_js.const import DOMAIN, ZWaveJSService
 from universalassistant.components.zwave_js.helpers import get_valueless_base_unique_id
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
-from universalassistant.const import CommonServiceArgument, EntityCategory, Platform
+from universalassistant.const import (
+    CommonServiceArgument,
+    EntityCategory,
+    Platform,
+    TargetKey,
+)
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -39,7 +44,7 @@ async def test_ping_entity(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: "button.z_wave_thermostat_ping",
+            TargetKey.ENTITY_ID: "button.z_wave_thermostat_ping",
         },
         blocking=True,
     )
@@ -118,7 +123,7 @@ async def test_notification_idle_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: entity_id,
+            TargetKey.ENTITY_ID: entity_id,
         },
         blocking=True,
     )

@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -106,7 +106,7 @@ async def test_dst_switch(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: DST_SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: DST_SWITCH_ENTITY_ID},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -117,7 +117,7 @@ async def test_dst_switch(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: DST_SWITCH_ENTITY_ID},
+        {TargetKey.ENTITY_ID: DST_SWITCH_ENTITY_ID},
         blocking=True,
     )
     await hass.async_block_till_done()

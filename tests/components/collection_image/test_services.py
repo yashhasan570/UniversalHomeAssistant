@@ -12,7 +12,12 @@ from universalassistant.components.collection_image.services import (
     CollectionImageServiceArgument,
 )
 from universalassistant.components.media_source import PlayMedia
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
+from universalassistant.const import (
+    ATTR_ENTITY_ID,
+    STATE_UNAVAILABLE,
+    STATE_UNKNOWN,
+    TargetKey,
+)
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -221,7 +226,7 @@ async def test_first_unavailable(
         await hass.services.async_call(
             DOMAIN,
             CollectionImageService.SELECT_FIRST,
-            {ATTR_ENTITY_ID: DEFAULT_ENTITY_ID},
+            {TargetKey.ENTITY_ID: DEFAULT_ENTITY_ID},
             blocking=True,
         )
     state = hass.states.get(DEFAULT_ENTITY_ID)
@@ -240,7 +245,7 @@ async def test_select_image(
         DOMAIN,
         CollectionImageService.SELECT_IMAGE,
         {
-            ATTR_ENTITY_ID: DEFAULT_ENTITY_ID,
+            TargetKey.ENTITY_ID: DEFAULT_ENTITY_ID,
             CollectionImageServiceArgument.IMAGE: {
                 "media_content_id": MOCK_MEDIA_IMAGE_URI_2,
                 "media_content_type": "image/png",
@@ -274,7 +279,7 @@ async def test_select_image_invalid_media_type(
             DOMAIN,
             CollectionImageService.SELECT_IMAGE,
             {
-                ATTR_ENTITY_ID: DEFAULT_ENTITY_ID,
+                TargetKey.ENTITY_ID: DEFAULT_ENTITY_ID,
                 CollectionImageServiceArgument.IMAGE: {
                     "media_content_id": MOCK_MEDIA_IMAGE_URI_2,
                     "media_content_type": "image/png",

@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CONF_URL, CommonServiceArgument
+from universalassistant.const import CONF_URL, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import magic_client
@@ -37,7 +37,7 @@ async def test_set_net_mode(hass: UniversalAssistant) -> None:
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: SELECT_NETWORK_MODE,
+            TargetKey.ENTITY_ID: SELECT_NETWORK_MODE,
             SelectServiceArgument.OPTION: NetworkModeEnum.MODE_4G_3G_AUTO.value,
         },
         blocking=True,

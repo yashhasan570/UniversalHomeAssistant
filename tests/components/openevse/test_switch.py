@@ -24,8 +24,8 @@ from universalassistant.const import (
     ATTR_ENTITY_ID,
     STATE_ON,
     STATE_UNAVAILABLE,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
@@ -128,9 +128,7 @@ async def test_manual_override_switch_uses_current_state(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {
-            CommonServiceArgument.ENTITY_ID: "switch.openevse_mock_config_manual_override"
-        },
+        {TargetKey.ENTITY_ID: "switch.openevse_mock_config_manual_override"},
         blocking=True,
     )
 
@@ -287,7 +285,7 @@ async def test_switch_raises(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
             {
-                CommonServiceArgument.ENTITY_ID: "switch.openevse_mock_config_current_shaper",
+                TargetKey.ENTITY_ID: "switch.openevse_mock_config_current_shaper",
             },
             blocking=True,
         )

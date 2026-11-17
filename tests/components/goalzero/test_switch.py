@@ -5,7 +5,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.goalzero.const import DEFAULT_NAME, DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration
@@ -28,7 +28,7 @@ async def test_switches_states(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     assert hass.states.get(entity_id).state == STATE_ON
@@ -40,7 +40,7 @@ async def test_switches_states(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     assert hass.states.get(entity_id).state == STATE_OFF

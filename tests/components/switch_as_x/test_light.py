@@ -27,8 +27,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_OFF,
     STATE_ON,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import Context, UniversalAssistant
 from universalassistant.setup import async_setup_component
@@ -150,7 +150,7 @@ async def test_switch_service_calls(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        {TargetKey.ENTITY_ID: "switch.decorative_lights"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -161,7 +161,7 @@ async def test_switch_service_calls(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        {TargetKey.ENTITY_ID: "switch.decorative_lights"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -255,7 +255,7 @@ async def test_switch_service_calls_inverted(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        {TargetKey.ENTITY_ID: "switch.decorative_lights"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -266,7 +266,7 @@ async def test_switch_service_calls_inverted(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        {TargetKey.ENTITY_ID: "switch.decorative_lights"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -299,7 +299,7 @@ async def test_switch_state_change_context(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        {TargetKey.ENTITY_ID: "switch.decorative_lights"},
         blocking=True,
         context=context,
     )

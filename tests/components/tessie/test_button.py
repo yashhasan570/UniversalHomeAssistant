@@ -6,7 +6,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -45,7 +45,7 @@ async def test_buttons(
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,
-                {CommonServiceArgument.ENTITY_ID: [entity_id]},
+                {TargetKey.ENTITY_ID: [entity_id]},
                 blocking=True,
             )
             mock_press.assert_called_once()
@@ -66,7 +66,7 @@ async def test_button_error(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: ["button.test_wake"]},
+            {TargetKey.ENTITY_ID: ["button.test_wake"]},
             blocking=True,
         )
 

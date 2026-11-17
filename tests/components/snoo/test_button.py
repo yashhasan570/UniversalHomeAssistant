@@ -6,7 +6,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -35,7 +35,7 @@ async def test_button_starts_snoo(hass: UniversalAssistant, bypass_api: AsyncMoc
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: "button.test_snoo_start"},
+        {TargetKey.ENTITY_ID: "button.test_snoo_start"},
         blocking=True,
     )
 

@@ -37,12 +37,7 @@ from pytest_universalassistant.typing import MqttMockHAClientGenerator, MqttMock
 from universalassistant.components import update
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
-from universalassistant.const import (
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-)
+from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 DEFAULT_CONFIG = {
@@ -598,7 +593,7 @@ async def test_run_install_service(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: "update.test_update"},
+        {TargetKey.ENTITY_ID: "update.test_update"},
         blocking=True,
     )
 

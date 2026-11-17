@@ -19,7 +19,7 @@ from universalassistant.components.motioneye import get_motioneye_device_identif
 from universalassistant.components.motioneye.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -58,7 +58,7 @@ async def test_switch_turn_on_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
         blocking=True,
     )
 
@@ -81,7 +81,7 @@ async def test_switch_turn_on_off(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
         blocking=True,
     )
 
@@ -112,7 +112,7 @@ async def test_switch_state_updates_right_after_toggling(hass: UniversalAssistan
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
         blocking=True,
     )
 
@@ -127,7 +127,7 @@ async def test_switch_state_updates_right_after_toggling(hass: UniversalAssistan
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
+        {TargetKey.ENTITY_ID: TEST_SWITCH_MOTION_DETECTION_ENTITY_ID},
         blocking=True,
     )
 

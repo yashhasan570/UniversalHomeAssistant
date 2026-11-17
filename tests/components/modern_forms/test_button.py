@@ -5,7 +5,7 @@ from unittest.mock import patch
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -52,7 +52,7 @@ async def test_restart_button_press(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: "button.modernformsfan_restart"},
+            {TargetKey.ENTITY_ID: "button.modernformsfan_restart"},
             blocking=True,
         )
         await hass.async_block_till_done()

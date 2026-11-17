@@ -18,10 +18,18 @@ def get_camera_from_entity_id(hass: UniversalAssistant, entity_id: str) -> Camer
         raise UniversalAssistantError("Camera integration not set up")
 
     if (camera := component.get_entity(entity_id)) is None:
-        raise UniversalAssistantError("Camera not found")
+        raise UniversalAssistantError(
+            translation_domain=DOMAIN,
+            translation_key="camera_not_found",
+            translation_placeholders={"entity_id": entity_id},
+        )
 
     if not camera.is_on:
-        raise UniversalAssistantError("Camera is off")
+        raise UniversalAssistantError(
+            translation_domain=DOMAIN,
+            translation_key="camera_off",
+            translation_placeholders={"entity_id": entity_id},
+        )
 
     return camera
 

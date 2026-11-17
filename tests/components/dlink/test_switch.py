@@ -6,7 +6,7 @@ from pytest_universalassistant.common import AsyncMock, MockConfigEntry
 
 from universalassistant.components.dlink.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import CONF_DATA
@@ -32,14 +32,14 @@ async def test_switch_state(hass: UniversalAssistant, mocked_plug: AsyncMock) ->
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     assert hass.states.get(entity_id).state == STATE_ON
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: [entity_id]},
+        {TargetKey.ENTITY_ID: [entity_id]},
         blocking=True,
     )
     assert hass.states.get(entity_id).state == STATE_OFF

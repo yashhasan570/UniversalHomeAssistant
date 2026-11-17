@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from togrill_bluetooth.packets import PacketA5Write
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -48,7 +48,7 @@ async def test_press(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         target={
-            ATTR_ENTITY_ID: "button.pro_05_silence_alarm",
+            TargetKey.ENTITY_ID: "button.pro_05_silence_alarm",
         },
         blocking=True,
     )
@@ -74,7 +74,7 @@ async def test_press_disconnected(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             target={
-                ATTR_ENTITY_ID: "button.pro_05_silence_alarm",
+                TargetKey.ENTITY_ID: "button.pro_05_silence_alarm",
             },
             blocking=True,
         )

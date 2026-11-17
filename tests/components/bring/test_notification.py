@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bring.const import DOMAIN
 from universalassistant.components.bring.services import BringService, BringServiceArgument
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
@@ -33,7 +33,7 @@ async def test_send_notification(
         service_data={
             BringServiceArgument.MESSAGE: "GOING_SHOPPING",
         },
-        target={ATTR_ENTITY_ID: "todo.einkauf"},
+        target={TargetKey.ENTITY_ID: "todo.einkauf"},
         blocking=True,
     )
 
@@ -64,7 +64,7 @@ async def test_send_notification_exception(
             service_data={
                 BringServiceArgument.MESSAGE: "GOING_SHOPPING",
             },
-            target={ATTR_ENTITY_ID: "todo.einkauf"},
+            target={TargetKey.ENTITY_ID: "todo.einkauf"},
             blocking=True,
         )
     assert err.value.translation_key == "notify_request_failed"
@@ -91,7 +91,7 @@ async def test_send_notification_service_validation_error(
                 BringServiceArgument.MESSAGE: "URGENT_MESSAGE",
                 BringServiceArgument.ITEM: "",
             },
-            target={ATTR_ENTITY_ID: "todo.einkauf"},
+            target={TargetKey.ENTITY_ID: "todo.einkauf"},
             blocking=True,
         )
     assert err.value.translation_key == "notify_missing_argument"

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.irm_kmi.const import CONF_LANGUAGE_OVERRIDE, DOMAIN
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 import universalassistant.helpers.entity_registry as er
@@ -27,7 +27,7 @@ async def _get_forecast(
         WEATHER_DOMAIN,
         WeatherService.GET_FORECASTS,
         {
-            CommonServiceArgument.ENTITY_ID: WEATHER_ENTITY_ID,
+            TargetKey.ENTITY_ID: WEATHER_ENTITY_ID,
             "type": forecast_type,
         },
         blocking=True,

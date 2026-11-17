@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bsblan.const import DOMAIN
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -54,7 +54,7 @@ async def test_button_press_syncs_time(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_SYNC_TIME},
+        {TargetKey.ENTITY_ID: ENTITY_SYNC_TIME},
         blocking=True,
     )
 
@@ -87,7 +87,7 @@ async def test_button_press_no_update_when_same(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_SYNC_TIME},
+        {TargetKey.ENTITY_ID: ENTITY_SYNC_TIME},
         blocking=True,
     )
 
@@ -114,7 +114,7 @@ async def test_button_press_error_handling(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_SYNC_TIME},
+            {TargetKey.ENTITY_ID: ENTITY_SYNC_TIME},
             blocking=True,
         )
     assert exc.value.translation_domain == DOMAIN
@@ -149,7 +149,7 @@ async def test_button_press_set_time_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_SYNC_TIME},
+            {TargetKey.ENTITY_ID: ENTITY_SYNC_TIME},
             blocking=True,
         )
     assert exc.value.translation_domain == DOMAIN

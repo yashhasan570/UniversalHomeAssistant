@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import LOCALE_EN, async_get_translations
@@ -50,7 +50,7 @@ async def test_select(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: select.entity_id,
+            TargetKey.ENTITY_ID: select.entity_id,
             SelectServiceArgument.OPTION: "30",
         },
         blocking=True,

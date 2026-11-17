@@ -10,7 +10,7 @@ from pyyardian.typing import OperationInfo
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryError
+from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -94,7 +94,9 @@ class YardianUpdateCoordinator(DataUpdateCoordinator[YardianCoordinatorData]):
         except TimeoutError as e:
             raise UpdateFailed("Timeout communicating with device") from e
         except NotAuthorizedException as e:
-            raise ConfigEntryError("Invalid access token") from e
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN, translation_key="invalid_auth"
+            ) from e
         except NetworkException as e:
             raise UpdateFailed("Failed to communicate with device") from e
         except Exception as e:  # safety net for tests to surface failure reason

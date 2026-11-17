@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -38,7 +38,7 @@ async def test_identify(hass: UniversalAssistant, mock_identify: AsyncMock) -> N
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: IDENTIFY},
+        {TargetKey.ENTITY_ID: IDENTIFY},
         blocking=True,
     )
     mock_identify.assert_awaited_once()
@@ -52,7 +52,7 @@ async def test_identify_error(hass: UniversalAssistant, mock_identify: AsyncMock
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: IDENTIFY},
+            {TargetKey.ENTITY_ID: IDENTIFY},
             blocking=True,
         )
     assert raised.value.translation_key == "cannot_connect"

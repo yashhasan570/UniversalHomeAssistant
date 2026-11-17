@@ -9,7 +9,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.tplink.button import BUTTON_DESCRIPTIONS
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
-from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
+from universalassistant.const import CONF_HOST, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
@@ -190,7 +190,7 @@ async def test_button_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     mocked_feature.set_value.assert_called_with(True)

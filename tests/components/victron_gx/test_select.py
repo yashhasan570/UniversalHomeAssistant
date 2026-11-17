@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.components.victron_gx.const import DOMAIN
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -120,7 +120,7 @@ async def test_victron_select_actions(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: entity_id,
+                TargetKey.ENTITY_ID: entity_id,
                 SelectServiceArgument.OPTION: "manual",
             },
             blocking=True,

@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -46,7 +46,7 @@ async def test_set_power_level(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.clou_duo_power_level",
+            TargetKey.ENTITY_ID: "number.clou_duo_power_level",
             NumberServiceArgument.VALUE: 3,
         },
         blocking=True,
@@ -65,7 +65,7 @@ async def test_set_fan_speed(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
         {
-            CommonServiceArgument.ENTITY_ID: "number.clou_duo_fan_speed",
+            TargetKey.ENTITY_ID: "number.clou_duo_fan_speed",
             NumberServiceArgument.VALUE: 2,
         },
         blocking=True,
@@ -87,7 +87,7 @@ async def test_number_error_handling(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: "number.clou_duo_power_level",
+                TargetKey.ENTITY_ID: "number.clou_duo_power_level",
                 NumberServiceArgument.VALUE: 3,
             },
             blocking=True,

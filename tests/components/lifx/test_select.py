@@ -11,7 +11,7 @@ from universalassistant.components.lifx import DOMAIN
 from universalassistant.components.lifx.const import LIFXService, LIFXServiceArgument
 from universalassistant.components.lifx.util import THEME_OPTIONS, THEME_SELECT_OPTIONS
 from universalassistant.components.select import ATTR_OPTIONS, DOMAIN as SELECT_DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -143,7 +143,7 @@ async def test_theme_select_follows_the_paint_theme_action(
     await hass.services.async_call(
         DOMAIN,
         LIFXService.PAINT_THEME,
-        {ATTR_ENTITY_ID: LIGHT_ENTITY_ID, LIFXServiceArgument.THEME: "halloween"},
+        {TargetKey.ENTITY_ID: LIGHT_ENTITY_ID, LIFXServiceArgument.THEME: "halloween"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -306,7 +306,7 @@ async def test_theme_select_shows_the_action_paint_before_the_refresh(
     await hass.services.async_call(
         DOMAIN,
         LIFXService.PAINT_THEME,
-        {ATTR_ENTITY_ID: LIGHT_ENTITY_ID, LIFXServiceArgument.THEME: "halloween"},
+        {TargetKey.ENTITY_ID: LIGHT_ENTITY_ID, LIFXServiceArgument.THEME: "halloween"},
         blocking=True,
     )
 

@@ -13,9 +13,12 @@ from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
 )
+from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
+from universalassistant.helpers.typing import ConfigType
 
 from .const import CONF_COOL_AWAY_TEMPERATURE, CONF_HEAT_AWAY_TEMPERATURE, DOMAIN
+from .services import async_setup_services
 
 UPDATE_LOOP_SLEEP_TIME = 5
 PLATFORMS = [Platform.CLIMATE, Platform.HUMIDIFIER, Platform.SENSOR, Platform.SWITCH]
@@ -23,6 +26,14 @@ PLATFORMS = [Platform.CLIMATE, Platform.HUMIDIFIER, Platform.SENSOR, Platform.SW
 MIGRATE_OPTIONS_KEYS = {CONF_COOL_AWAY_TEMPERATURE, CONF_HEAT_AWAY_TEMPERATURE}
 
 type HoneywellConfigEntry = ConfigEntry[HoneywellData]
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up the Honeywell integration."""
+    async_setup_services(hass)
+    return True
 
 
 @callback

@@ -24,7 +24,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -80,7 +80,7 @@ async def test_airzone_select_sys_qadapt(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.system_1_q_adapt",
+                TargetKey.ENTITY_ID: "select.system_1_q_adapt",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -94,7 +94,7 @@ async def test_airzone_select_sys_qadapt(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.system_1_q_adapt",
+                TargetKey.ENTITY_ID: "select.system_1_q_adapt",
                 SelectServiceArgument.OPTION: "silence",
             },
             blocking=True,
@@ -121,7 +121,7 @@ async def test_airzone_select_sys_qadapt(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.system_1_q_adapt",
+                TargetKey.ENTITY_ID: "select.system_1_q_adapt",
                 SelectServiceArgument.OPTION: "silence",
             },
             blocking=True,
@@ -148,7 +148,7 @@ async def test_airzone_select_sleep(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_1_sleep",
+                TargetKey.ENTITY_ID: "select.dorm_1_sleep",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -162,7 +162,7 @@ async def test_airzone_select_sleep(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_1_sleep",
+                TargetKey.ENTITY_ID: "select.dorm_1_sleep",
                 SelectServiceArgument.OPTION: "30m",
             },
             blocking=True,
@@ -192,7 +192,7 @@ async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.salon_mode",
+                TargetKey.ENTITY_ID: "select.salon_mode",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -206,7 +206,7 @@ async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.salon_mode",
+                TargetKey.ENTITY_ID: "select.salon_mode",
                 SelectServiceArgument.OPTION: "cool",
             },
             blocking=True,
@@ -241,7 +241,7 @@ async def test_airzone_select_grille_angle(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_1_cold_angle",
+                TargetKey.ENTITY_ID: "select.dorm_1_cold_angle",
                 SelectServiceArgument.OPTION: "50deg",
             },
             blocking=True,
@@ -269,7 +269,7 @@ async def test_airzone_select_grille_angle(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_1_heat_angle",
+                TargetKey.ENTITY_ID: "select.dorm_1_heat_angle",
                 SelectServiceArgument.OPTION: "45deg",
             },
             blocking=True,
@@ -303,7 +303,7 @@ async def test_airzone_select_heat_stage(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_ppal_heat_stage",
+                TargetKey.ENTITY_ID: "select.dorm_ppal_heat_stage",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -317,7 +317,7 @@ async def test_airzone_select_heat_stage(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dorm_ppal_heat_stage",
+                TargetKey.ENTITY_ID: "select.dorm_ppal_heat_stage",
                 SelectServiceArgument.OPTION: "radiant",
             },
             blocking=True,

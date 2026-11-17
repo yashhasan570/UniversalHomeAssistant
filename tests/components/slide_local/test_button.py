@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -46,7 +46,7 @@ async def test_pressing_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: "button.slide_bedroom_calibrate",
+            TargetKey.ENTITY_ID: "button.slide_bedroom_calibrate",
         },
         blocking=True,
     )
@@ -81,7 +81,7 @@ async def test_pressing_button_exception(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             {
-                CommonServiceArgument.ENTITY_ID: "button.slide_bedroom_calibrate",
+                TargetKey.ENTITY_ID: "button.slide_bedroom_calibrate",
             },
             blocking=True,
         )

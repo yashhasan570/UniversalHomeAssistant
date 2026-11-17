@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -96,7 +96,7 @@ async def test_button(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: expected["entity_id"]},
+        {TargetKey.ENTITY_ID: expected["entity_id"]},
         blocking=True,
     )
     assert aioclient_mock.mock_calls[1][2] == expected["request_data"]

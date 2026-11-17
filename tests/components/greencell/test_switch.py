@@ -21,8 +21,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
-    CommonServiceArgument,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -125,7 +125,7 @@ async def test_switch_rejects_command_without_execute_access(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: SWITCH_ENTITY_ID},
+            {TargetKey.ENTITY_ID: SWITCH_ENTITY_ID},
             blocking=True,
         )
 

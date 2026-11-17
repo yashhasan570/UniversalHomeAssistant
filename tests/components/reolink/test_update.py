@@ -20,7 +20,7 @@ from universalassistant.components.reolink.coordinator import DEVICE_UPDATE_INTE
 from universalassistant.components.reolink.update import POLL_AFTER_INSTALL, POLL_PROGRESS
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
+from universalassistant.const import STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -134,7 +134,7 @@ async def test_update_firm(
     await hass.services.async_call(
         UPDATE_DOMAIN,
         UpdateService.INSTALL,
-        {CommonServiceArgument.ENTITY_ID: entity_id},
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     reolink_host.update_firmware.assert_called()
@@ -160,7 +160,7 @@ async def test_update_firm(
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 
@@ -171,7 +171,7 @@ async def test_update_firm(
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 
@@ -220,7 +220,7 @@ async def test_update_firm_keeps_available(
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
-            {CommonServiceArgument.ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 

@@ -12,7 +12,7 @@ from universalassistant.components.lock import (
     LockService,
     LockState,
 )
-from universalassistant.const import EVENT_STATE_CHANGED, CommonServiceArgument, Platform
+from universalassistant.const import EVENT_STATE_CHANGED, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ async def test_locking(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: KITCHEN},
+        {TargetKey.ENTITY_ID: KITCHEN},
         blocking=False,
     )
     await hass.async_block_till_done()
@@ -75,7 +75,7 @@ async def test_unlocking(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.UNLOCK,
-        {CommonServiceArgument.ENTITY_ID: FRONT},
+        {TargetKey.ENTITY_ID: FRONT},
         blocking=False,
     )
     await hass.async_block_till_done()
@@ -98,7 +98,7 @@ async def test_opening(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.OPEN,
-        {CommonServiceArgument.ENTITY_ID: OPENABLE_LOCK},
+        {TargetKey.ENTITY_ID: OPENABLE_LOCK},
         blocking=False,
     )
     await hass.async_block_till_done()
@@ -121,7 +121,7 @@ async def test_jammed_when_locking(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.LOCK,
-        {CommonServiceArgument.ENTITY_ID: POORLY_INSTALLED},
+        {TargetKey.ENTITY_ID: POORLY_INSTALLED},
         blocking=False,
     )
     await hass.async_block_till_done()
@@ -139,7 +139,7 @@ async def test_opening_mocked(hass: UniversalAssistant) -> None:
     await hass.services.async_call(
         LOCK_DOMAIN,
         LockService.OPEN,
-        {CommonServiceArgument.ENTITY_ID: OPENABLE_LOCK},
+        {TargetKey.ENTITY_ID: OPENABLE_LOCK},
         blocking=True,
     )
     assert len(calls) == 1

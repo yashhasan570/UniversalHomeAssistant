@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +53,7 @@ async def test_airzone_select_air_quality_mode(hass: UniversalAssistant) -> None
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dormitorio_air_quality_mode",
+                TargetKey.ENTITY_ID: "select.dormitorio_air_quality_mode",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -67,7 +67,7 @@ async def test_airzone_select_air_quality_mode(hass: UniversalAssistant) -> None
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.dormitorio_air_quality_mode",
+                TargetKey.ENTITY_ID: "select.dormitorio_air_quality_mode",
                 SelectServiceArgument.OPTION: "off",
             },
             blocking=True,
@@ -87,7 +87,7 @@ async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.salon_mode",
+                TargetKey.ENTITY_ID: "select.salon_mode",
                 SelectServiceArgument.OPTION: "Invalid",
             },
             blocking=True,
@@ -101,7 +101,7 @@ async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
             {
-                CommonServiceArgument.ENTITY_ID: "select.salon_mode",
+                TargetKey.ENTITY_ID: "select.salon_mode",
                 SelectServiceArgument.OPTION: "heat",
             },
             blocking=True,

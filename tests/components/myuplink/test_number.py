@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -42,7 +42,7 @@ async def test_set_value(
     await hass.services.async_call(
         NUMBER_DOMAIN,
         NumberService.SET_VALUE,
-        {CommonServiceArgument.ENTITY_ID: ENTITY_ID, "value": 1},
+        {TargetKey.ENTITY_ID: ENTITY_ID, "value": 1},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -61,7 +61,7 @@ async def test_api_failure(
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID, "value": 1},
+            {TargetKey.ENTITY_ID: ENTITY_ID, "value": 1},
             blocking=True,
         )
     mock_myuplink_client.async_set_device_points.assert_called_once()

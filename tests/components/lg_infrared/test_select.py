@@ -22,7 +22,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
@@ -82,7 +82,7 @@ async def test_select_option_sends_correct_code(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: _ENTITY_ID,
+            TargetKey.ENTITY_ID: _ENTITY_ID,
             SelectServiceArgument.OPTION: previous_option,
         },
         blocking=True,
@@ -92,7 +92,7 @@ async def test_select_option_sends_correct_code(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: _ENTITY_ID,
+            TargetKey.ENTITY_ID: _ENTITY_ID,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,

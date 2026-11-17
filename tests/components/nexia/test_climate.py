@@ -10,7 +10,7 @@ import pytest
 from universalassistant.components.climate import HVACMode
 from universalassistant.components.nexia.const import DOMAIN
 from universalassistant.components.nexia.services import NexiaService, NexiaServiceArgument
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
@@ -125,7 +125,7 @@ async def test_set_hvac_run_mode(
     await hass.services.async_call(
         DOMAIN,
         NexiaService.SET_HVAC_RUN_MODE,
-        {ATTR_ENTITY_ID: ENTITY_ID, **service_data},
+        {TargetKey.ENTITY_ID: ENTITY_ID, **service_data},
         blocking=True,
     )
 

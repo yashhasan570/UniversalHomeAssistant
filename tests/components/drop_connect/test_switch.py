@@ -4,12 +4,7 @@ from pytest_universalassistant.common import async_fire_mqtt_message
 from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import (
-    STATE_OFF,
-    STATE_ON,
-    STATE_UNKNOWN,
-    CommonServiceArgument,
-)
+from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .common import (
@@ -58,7 +53,7 @@ async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClien
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: water_supply_switch_name},
+        {TargetKey.ENTITY_ID: water_supply_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -73,7 +68,7 @@ async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClien
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: water_supply_switch_name},
+        {TargetKey.ENTITY_ID: water_supply_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -88,7 +83,7 @@ async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClien
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -103,7 +98,7 @@ async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClien
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -142,7 +137,7 @@ async def test_switches_protection_valve(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: water_supply_switch_name},
+        {TargetKey.ENTITY_ID: water_supply_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -159,7 +154,7 @@ async def test_switches_protection_valve(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: water_supply_switch_name},
+        {TargetKey.ENTITY_ID: water_supply_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -196,7 +191,7 @@ async def test_switches_softener(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -211,7 +206,7 @@ async def test_switches_softener(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -246,7 +241,7 @@ async def test_switches_filter(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1
@@ -261,7 +256,7 @@ async def test_switches_filter(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: bypass_switch_name},
+        {TargetKey.ENTITY_ID: bypass_switch_name},
         blocking=True,
     )
     assert len(mqtt_mock.async_publish.mock_calls) == 1

@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -45,7 +45,7 @@ async def test_setting_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.cambridge_audio_cxnv2_display_brightness",
+            TargetKey.ENTITY_ID: "select.cambridge_audio_cxnv2_display_brightness",
             SelectServiceArgument.OPTION: "dim",
         },
         blocking=True,
@@ -56,7 +56,7 @@ async def test_setting_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.cambridge_audio_cxnv2_audio_output",
+            TargetKey.ENTITY_ID: "select.cambridge_audio_cxnv2_audio_output",
             SelectServiceArgument.OPTION: "Speaker A",
         },
         blocking=True,

@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
     STATE_UNAVAILABLE,
-    CommonServiceArgument,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -64,7 +64,7 @@ async def test_state_integration_yaml(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -75,7 +75,7 @@ async def test_state_integration_yaml(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -118,7 +118,7 @@ async def test_state_value(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -130,7 +130,7 @@ async def test_state_value(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -177,7 +177,7 @@ async def test_state_json_value(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -189,7 +189,7 @@ async def test_state_json_value(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -228,7 +228,7 @@ async def test_state_code(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -239,7 +239,7 @@ async def test_state_code(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
 
@@ -362,7 +362,7 @@ async def test_switch_command_state_fail(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.test"},
+        {TargetKey.ENTITY_ID: "switch.test"},
         blocking=True,
     )
     await hass.async_block_till_done()
@@ -526,7 +526,7 @@ async def test_command_failure(
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
-        {CommonServiceArgument.ENTITY_ID: "switch.test"},
+        {TargetKey.ENTITY_ID: "switch.test"},
         blocking=True,
     )
     assert "return code 33" in caplog.text
@@ -584,13 +584,13 @@ async def test_templating(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test"},
+            {TargetKey.ENTITY_ID: "switch.test"},
             blocking=True,
         )
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.test2"},
+            {TargetKey.ENTITY_ID: "switch.test2"},
             blocking=True,
         )
 

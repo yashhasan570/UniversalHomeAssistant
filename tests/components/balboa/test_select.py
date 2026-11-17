@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -91,7 +91,7 @@ async def _select_option_and_wait(hass: UniversalAssistant | None, entity, optio
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: entity,
+            TargetKey.ENTITY_ID: entity,
             SelectServiceArgument.OPTION: option,
         },
         blocking=True,

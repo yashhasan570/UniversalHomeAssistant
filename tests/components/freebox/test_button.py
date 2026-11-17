@@ -5,7 +5,7 @@ from unittest.mock import ANY, AsyncMock, Mock, patch
 from pytest_unordered import unordered
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
@@ -28,7 +28,7 @@ async def test_reboot(hass: UniversalAssistant, router: Mock) -> None:
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             service_data={
-                CommonServiceArgument.ENTITY_ID: "button.freebox_server_r2_restart",
+                TargetKey.ENTITY_ID: "button.freebox_server_r2_restart",
             },
             blocking=True,
         )
@@ -54,7 +54,7 @@ async def test_mark_calls_as_read(hass: UniversalAssistant, router: Mock) -> Non
             BUTTON_DOMAIN,
             ButtonService.PRESS,
             service_data={
-                CommonServiceArgument.ENTITY_ID: "button.freebox_server_r2_mark_calls_as_read",
+                TargetKey.ENTITY_ID: "button.freebox_server_r2_mark_calls_as_read",
             },
             blocking=True,
         )

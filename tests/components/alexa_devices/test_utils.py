@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.alexa_devices.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
-from universalassistant.const import STATE_OFF, CommonServiceArgument, Platform
+from universalassistant.const import STATE_OFF, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -75,7 +75,7 @@ async def test_alexa_api_call_exceptions(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: ENTITY_ID},
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
 

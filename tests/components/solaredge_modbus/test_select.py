@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -72,7 +72,7 @@ async def test_select_option(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: CONTROL_MODE_ENTITY,
+            TargetKey.ENTITY_ID: CONTROL_MODE_ENTITY,
             SelectServiceArgument.OPTION: "time_of_use",
         },
         blocking=True,

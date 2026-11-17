@@ -14,7 +14,7 @@ from universalassistant.components.velbus import (
 )
 from universalassistant.components.velbus.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.const import CONF_NAME, CONF_PORT, CommonServiceArgument
+from universalassistant.const import CONF_NAME, CONF_PORT, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -203,7 +203,7 @@ async def test_api_call(
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
-            {CommonServiceArgument.ENTITY_ID: "switch.living_room_relayname"},
+            {TargetKey.ENTITY_ID: "switch.living_room_relayname"},
             blocking=True,
         )
 

@@ -14,10 +14,10 @@ from universalassistant.components.input_button import (
     InputButtonService,
 )
 from universalassistant.const import (
-    ATTR_ENTITY_ID,
     CONF_NAME,
     STATE_UNKNOWN,
     EntityStateAttribute,
+    TargetKey,
 )
 from universalassistant.core import (
     Context,
@@ -133,7 +133,7 @@ async def test_input_button_context(
     await hass.services.async_call(
         DOMAIN,
         InputButtonService.PRESS,
-        {ATTR_ENTITY_ID: state.entity_id},
+        {TargetKey.ENTITY_ID: state.entity_id},
         True,
         Context(user_id=hass_admin_user.id),
     )
@@ -233,7 +233,7 @@ async def test_reload_not_changing_state(hass: UniversalAssistant, storage_setup
     await hass.services.async_call(
         DOMAIN,
         InputButtonService.PRESS,
-        {ATTR_ENTITY_ID: state.entity_id},
+        {TargetKey.ENTITY_ID: state.entity_id},
         True,
     )
     await hass.async_block_till_done()

@@ -11,7 +11,7 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -47,7 +47,7 @@ async def test_set_min_time_home(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: VENTILATOR_MIN_HOME_ID,
+                TargetKey.ENTITY_ID: VENTILATOR_MIN_HOME_ID,
                 NumberServiceArgument.VALUE: target_value,
             },
             blocking=True,
@@ -68,7 +68,7 @@ async def test_set_min_time_away(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: VENTILATOR_MIN_AWAY_ID,
+                TargetKey.ENTITY_ID: VENTILATOR_MIN_AWAY_ID,
                 NumberServiceArgument.VALUE: target_value,
             },
             blocking=True,
@@ -92,7 +92,7 @@ async def test_set_compressor_protection_min_temp(hass: UniversalAssistant) -> N
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: COMPRESSOR_MIN_TEMP_ID,
+                TargetKey.ENTITY_ID: COMPRESSOR_MIN_TEMP_ID,
                 NumberServiceArgument.VALUE: target_value,
             },
             blocking=True,
@@ -113,7 +113,7 @@ async def test_set_fan_min_on_time(hass: UniversalAssistant) -> None:
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
             {
-                CommonServiceArgument.ENTITY_ID: FAN_MIN_ON_TIME_ID,
+                TargetKey.ENTITY_ID: FAN_MIN_ON_TIME_ID,
                 NumberServiceArgument.VALUE: target_value,
             },
             blocking=True,

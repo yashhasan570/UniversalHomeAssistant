@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.opentherm_gw import DOMAIN
 from universalassistant.components.opentherm_gw.const import OpenThermDeviceIdentifier
-from universalassistant.const import CONF_ID, CommonServiceArgument
+from universalassistant.const import CONF_ID, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -41,7 +41,7 @@ async def test_cancel_room_setpoint_override_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: button_entity_id,
+            TargetKey.ENTITY_ID: button_entity_id,
         },
         blocking=True,
     )
@@ -75,7 +75,7 @@ async def test_hot_water_push_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: button_entity_id,
+            TargetKey.ENTITY_ID: button_entity_id,
         },
         blocking=True,
     )
@@ -109,7 +109,7 @@ async def test_restart_button(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
         {
-            CommonServiceArgument.ENTITY_ID: button_entity_id,
+            TargetKey.ENTITY_ID: button_entity_id,
         },
         blocking=True,
     )

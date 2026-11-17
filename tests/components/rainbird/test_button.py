@@ -14,7 +14,7 @@ from pytest_universalassistant.test_util.aiohttp import (
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument, EntityCategory, Platform
+from universalassistant.const import EntityCategory, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -105,9 +105,7 @@ async def test_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {
-            CommonServiceArgument.ENTITY_ID: f"button.rain_bird_controller_run_pgm_{program}"
-        },
+        {TargetKey.ENTITY_ID: f"button.rain_bird_controller_run_pgm_{program}"},
         blocking=True,
     )
 
@@ -143,7 +141,7 @@ async def test_press_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: PROGRAM_A_ENTITY_ID},
+            {TargetKey.ENTITY_ID: PROGRAM_A_ENTITY_ID},
             blocking=True,
         )
 
@@ -212,7 +210,7 @@ async def test_sync_time_press(
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
-        {CommonServiceArgument.ENTITY_ID: SYNC_TIME_ENTITY_ID},
+        {TargetKey.ENTITY_ID: SYNC_TIME_ENTITY_ID},
         blocking=True,
     )
 
@@ -260,7 +258,7 @@ async def test_sync_time_press_error(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
-            {CommonServiceArgument.ENTITY_ID: SYNC_TIME_ENTITY_ID},
+            {TargetKey.ENTITY_ID: SYNC_TIME_ENTITY_ID},
             blocking=True,
         )
 

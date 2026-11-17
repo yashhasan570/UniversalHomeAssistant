@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -46,7 +46,7 @@ async def test_setting_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.backyard_backyard_party_mode",
+            TargetKey.ENTITY_ID: "select.backyard_backyard_party_mode",
             SelectServiceArgument.OPTION: "master",
         },
         blocking=True,
@@ -59,7 +59,7 @@ async def test_setting_value(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
         {
-            CommonServiceArgument.ENTITY_ID: "select.backyard_backyard_party_mode",
+            TargetKey.ENTITY_ID: "select.backyard_backyard_party_mode",
             SelectServiceArgument.OPTION: "off",
         },
         blocking=True,

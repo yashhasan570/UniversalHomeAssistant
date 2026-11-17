@@ -15,12 +15,12 @@ from universalassistant.components.pi_hole.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import (
-    ATTR_ENTITY_ID,
     CONF_API_VERSION,
     CONF_HOST,
     CONF_LOCATION,
     CONF_NAME,
     CONF_SSL,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -366,7 +366,7 @@ async def test_disable_service_call(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             pi_hole.DOMAIN,
             PiHoleService.DISABLE,
-            {ATTR_ENTITY_ID: "all", PiHoleServiceArgument.DURATION: "00:00:01"},
+            {TargetKey.ENTITY_ID: "all", PiHoleServiceArgument.DURATION: "00:00:01"},
             blocking=True,
         )
 
