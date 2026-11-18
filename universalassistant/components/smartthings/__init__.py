@@ -206,7 +206,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SmartThingsConfigEn
     try:
         subscription = await client.create_subscription(
             entry.data[CONF_LOCATION_ID],
-            entry.data[CONF_TOKEN][CONF_INSTALLED_APP_ID],
         )
     except (SmartThingsConnectionError, SmartThingsSinkError) as err:
         raise ConfigEntryNotReady(
@@ -221,7 +220,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SmartThingsConfigEn
         hass,
         client.subscribe(
             entry.data[CONF_LOCATION_ID],
-            entry.data[CONF_TOKEN][CONF_INSTALLED_APP_ID],
             subscription,
         ),
         "smartthings_socket",

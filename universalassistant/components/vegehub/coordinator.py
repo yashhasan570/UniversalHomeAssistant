@@ -11,7 +11,7 @@ from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-type VegeHubConfigEntry = ConfigEntry[VegeHub]
+type VegeHubConfigEntry = ConfigEntry[VegeHubCoordinator]
 
 
 class VegeHubCoordinator(DataUpdateCoordinator[dict[str, Any]]):

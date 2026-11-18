@@ -6,7 +6,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.components.llm import LLMTools
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.helpers.llm import (
@@ -95,7 +95,7 @@ class BroadcastTool(Tool):
                 {AssistSatelliteServiceArgument.MESSAGE: args["message"]},
                 blocking=True,
                 context=llm_context.context,
-                target={ATTR_ENTITY_ID: [state.entity_id for state in states]},
+                target={TargetKey.ENTITY_ID: [state.entity_id for state in states]},
             ),
             f"{DOMAIN}_broadcast",
         )
