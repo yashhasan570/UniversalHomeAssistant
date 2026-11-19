@@ -20,7 +20,7 @@ from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import raise_if_invalid_filename
 from universalassistant.util.hass_dict import HassKey
-from universalassistant.util.ulid import ulid_hex
+from universalassistant.util.uuid import secure_uuid_hex
 
 DOMAIN = "file_upload"
 _DATA: HassKey[FileUploadData] = HassKey(DOMAIN)
@@ -217,7 +217,7 @@ class FileUploadView(UniversalAssistantView):
             raise web.HTTPBadRequest from err
 
         hass = request.app[KEY_HASS]
-        file_id = ulid_hex()
+        file_id = secure_uuid_hex()
 
         if _DATA not in hass.data:
             hass.data[_DATA] = await FileUploadData.create(hass)

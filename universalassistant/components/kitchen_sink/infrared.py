@@ -7,8 +7,10 @@ from infrared_protocols.commands import Command as InfraredCommand
 from universalassistant.components import persistent_notification
 from universalassistant.components.infrared import (
     InfraredEmitterEntity,
+    InfraredEmitterEntityDescription,
     InfraredReceivedSignal,
     InfraredReceiverEntity,
+    InfraredReceiverEntityDescription,
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.core import UniversalAssistant, callback
@@ -17,7 +19,7 @@ from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
 )
-from universalassistant.helpers.entity import Entity
+from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -26,6 +28,11 @@ PARALLEL_UPDATES = 0
 
 INFRARED_COMMAND_SIGNAL = f"{DOMAIN}_infrared_command_signal"
 
+EMITTER = InfraredEmitterEntityDescription(key="ir_emitter", name="Infrared Emitter")
+RECEIVER = InfraredReceiverEntityDescription(
+    key="ir_receiver", name="Infrared Receiver"
+)
+
 
 async def async_setup_entry(
     hass: UniversalAssistant,
@@ -33,18 +40,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the demo infrared platform."""
-    async_add_entities(
-        [
-            DemoInfraredEmitter(
-                unique_id="ir_emitter",
-                entity_name="Infrared Emitter",
-            ),
-            DemoInfraredReceiver(
-                unique_id="ir_receiver",
-                entity_name="Infrared Receiver",
-            ),
-        ]
-    )
+    async_add_entities([DemoInfraredEmitter(EMITTER), DemoInfraredReceiver(RECEIVER)])
 
 
 # pylint: disable=universal-assistant-enforce-class-module
@@ -54,14 +50,14 @@ class DemoInfraredEntityBase(Entity):
     _attr_has_entity_name = True
     _attr_should_poll = False
 
-    def __init__(self, unique_id: str, entity_name: str) -> None:
+    def __init__(self, description: EntityDescription) -> None:
         """Initialize the demo infrared entity."""
         super().__init__()
-        self._attr_unique_id = unique_id
+        self.entity_description = description
+        self._attr_unique_id = description.key
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, "infrared")}, name="IR Blaster"
         )
-        self._attr_name = entity_name
 
 
 class DemoInfraredEmitter(DemoInfraredEntityBase, InfraredEmitterEntity):

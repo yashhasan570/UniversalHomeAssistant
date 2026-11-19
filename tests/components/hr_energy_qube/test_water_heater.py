@@ -7,15 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.water_heater import (
-    ATTR_OPERATION_MODE,
-    ATTR_TEMPERATURE,
     DOMAIN as WATER_HEATER_DOMAIN,
-    SERVICE_SET_OPERATION_MODE,
-    SERVICE_SET_TEMPERATURE,
     STATE_HEAT_PUMP,
     STATE_PERFORMANCE,
+    WaterHeaterService,
+    WaterHeaterServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -52,8 +50,8 @@ async def test_set_temperature(
 
     await hass.services.async_call(
         WATER_HEATER_DOMAIN,
-        SERVICE_SET_TEMPERATURE,
-        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_TEMPERATURE: 55},
+        WaterHeaterService.SET_TEMPERATURE,
+        {TargetKey.ENTITY_ID: ENTITY_ID, WaterHeaterServiceArgument.TEMPERATURE: 55},
         blocking=True,
     )
 
@@ -83,8 +81,11 @@ async def test_set_temperature_failure(
     with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
-            SERVICE_SET_TEMPERATURE,
-            {ATTR_ENTITY_ID: ENTITY_ID, ATTR_TEMPERATURE: 55},
+            WaterHeaterService.SET_TEMPERATURE,
+            {
+                TargetKey.ENTITY_ID: ENTITY_ID,
+                WaterHeaterServiceArgument.TEMPERATURE: 55,
+            },
             blocking=True,
         )
 
@@ -108,8 +109,11 @@ async def test_set_operation_mode(
 
     await hass.services.async_call(
         WATER_HEATER_DOMAIN,
-        SERVICE_SET_OPERATION_MODE,
-        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_OPERATION_MODE: operation_mode},
+        WaterHeaterService.SET_OPERATION_MODE,
+        {
+            TargetKey.ENTITY_ID: ENTITY_ID,
+            WaterHeaterServiceArgument.OPERATION_MODE: operation_mode,
+        },
         blocking=True,
     )
 
@@ -141,8 +145,11 @@ async def test_set_operation_mode_failure(
     with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
-            SERVICE_SET_OPERATION_MODE,
-            {ATTR_ENTITY_ID: ENTITY_ID, ATTR_OPERATION_MODE: STATE_PERFORMANCE},
+            WaterHeaterService.SET_OPERATION_MODE,
+            {
+                TargetKey.ENTITY_ID: ENTITY_ID,
+                WaterHeaterServiceArgument.OPERATION_MODE: STATE_PERFORMANCE,
+            },
             blocking=True,
         )
 

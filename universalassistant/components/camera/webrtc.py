@@ -17,7 +17,7 @@ from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util.hass_dict import HassKey
-from universalassistant.util.ulid import ulid
+from universalassistant.util.ulid import secure_ulid_now
 
 from .const import DATA_COMPONENT, DOMAIN, StreamType
 from .helper import get_camera_from_entity_id
@@ -272,7 +272,7 @@ async def ws_webrtc_offer(
     Async friendly.
     """
     offer = msg["offer"]
-    session_id = ulid()
+    session_id = secure_ulid_now()
     connection.subscriptions[msg["id"]] = partial(
         camera.close_webrtc_session, session_id
     )

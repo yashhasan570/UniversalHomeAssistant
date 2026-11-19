@@ -404,7 +404,10 @@ def mock_chat_session(hass: UniversalAssistant) -> Generator[chat_session.ChatSe
     """Mock the ulid of chat sessions."""
     # pylint: disable-next=contextmanager-generator-missing-cleanup
     with (
-        patch("universalassistant.helpers.chat_session.ulid_now", return_value="mock-ulid"),
+        patch(
+            "universalassistant.helpers.chat_session.secure_ulid_now",
+            return_value="mock-ulid",
+        ),
         chat_session.async_get_chat_session(hass, context=None) as session,
     ):
         yield session

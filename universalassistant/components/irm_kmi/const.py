@@ -17,7 +17,7 @@ from universalassistant.components.weather import (
 from universalassistant.const import Platform, __version__
 
 DOMAIN: Final = "irm_kmi"
-PLATFORMS: Final = [Platform.WEATHER]
+PLATFORMS: Final = [Platform.SENSOR, Platform.WEATHER]
 
 OUT_OF_BENELUX: Final = [
     "außerhalb der Benelux (Brussels)",

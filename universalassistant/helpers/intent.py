@@ -14,7 +14,7 @@ import probatio
 from propcache.api import cached_property
 
 from universalassistant.components.universalassistant.exposed_entities import async_should_expose
-from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute
+from universalassistant.const import EntityStateAttribute, TargetKey
 from universalassistant.core import Context, UniversalAssistant, State, callback
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.hass_dict import HassKey
@@ -1244,7 +1244,7 @@ class DynamicServiceIntentHandler(IntentHandler):
         """Call service on entity."""
         hass = intent_obj.hass
 
-        service_data: dict[str, Any] = {ATTR_ENTITY_ID: state.entity_id}
+        service_data: dict[str, Any] = {TargetKey.ENTITY_ID: state.entity_id}
         if self.required_slots:
             for key, slot_info in self.required_slots.items():
                 service_data[slot_info.service_data_name or key] = intent_obj.slots[
