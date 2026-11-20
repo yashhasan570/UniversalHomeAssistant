@@ -12,8 +12,7 @@ import pytest
 
 from universalassistant.components.media_player import (
     DOMAIN as MEDIA_PLAYER_DOMAIN,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
+    MediaPlayerService,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -431,7 +430,7 @@ async def test_turn_on(hass: UniversalAssistant, get_next_aid: Callable[[], int]
 
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
-        SERVICE_TURN_ON,
+        MediaPlayerService.TURN_ON,
         {"entity_id": "media_player.testdevice"},
         blocking=True,
     )
@@ -458,7 +457,7 @@ async def test_turn_off(hass: UniversalAssistant, get_next_aid: Callable[[], int
 
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
-        SERVICE_TURN_OFF,
+        MediaPlayerService.TURN_OFF,
         {"entity_id": "media_player.testdevice"},
         blocking=True,
     )

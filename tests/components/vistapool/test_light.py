@@ -13,8 +13,9 @@ from universalassistant.components.light import (
     DOMAIN as LIGHT_DOMAIN,
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
+    LightService,
 )
-from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -114,8 +115,8 @@ async def test_light_set_value_raises_on_api_error(
     with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             LIGHT_DOMAIN,
-            SERVICE_TURN_ON,
-            {ATTR_ENTITY_ID: "light.my_pool_light"},
+            LightService.TURN_ON,
+            {TargetKey.ENTITY_ID: "light.my_pool_light"},
             blocking=True,
         )
     assert excinfo.value.translation_key == "set_failed"

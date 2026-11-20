@@ -7,15 +7,12 @@ import pytest
 
 from universalassistant.components.camera import (
     DOMAIN as CAMERA_DOMAIN,
-    SERVICE_DISABLE_MOTION,
-    SERVICE_ENABLE_MOTION,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
+    CameraService,
     CameraState,
     async_get_image,
 )
 from universalassistant.components.demo import DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
@@ -61,14 +58,20 @@ async def test_turn_on_state_back_to_streaming(hass: UniversalAssistant) -> None
     assert state.state == CameraState.STREAMING
 
     await hass.services.async_call(
-        CAMERA_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: ENTITY_CAMERA}, blocking=True
+        CAMERA_DOMAIN,
+        CameraService.TURN_OFF,
+        {TargetKey.ENTITY_ID: ENTITY_CAMERA},
+        blocking=True,
     )
 
     state = hass.states.get(ENTITY_CAMERA)
     assert state.state == CameraState.IDLE
 
     await hass.services.async_call(
-        CAMERA_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_CAMERA}, blocking=True
+        CAMERA_DOMAIN,
+        CameraService.TURN_ON,
+        {TargetKey.ENTITY_ID: ENTITY_CAMERA},
+        blocking=True,
     )
 
     state = hass.states.get(ENTITY_CAMERA)
@@ -78,7 +81,10 @@ async def test_turn_on_state_back_to_streaming(hass: UniversalAssistant) -> None
 async def test_turn_off_image(hass: UniversalAssistant) -> None:
     """After turn off, Demo camera raise error."""
     await hass.services.async_call(
-        CAMERA_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: ENTITY_CAMERA}, blocking=True
+        CAMERA_DOMAIN,
+        CameraService.TURN_OFF,
+        {TargetKey.ENTITY_ID: ENTITY_CAMERA},
+        blocking=True,
     )
 
     with pytest.raises(UniversalAssistantError) as error:
@@ -93,8 +99,8 @@ async def test_turn_off_invalid_camera(hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         CAMERA_DOMAIN,
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: "camera.invalid_camera"},
+        CameraService.TURN_OFF,
+        {TargetKey.ENTITY_ID: "camera.invalid_camera"},
         blocking=True,
     )
 
@@ -112,8 +118,8 @@ async def test_motion_detection(hass: UniversalAssistant) -> None:
     # Call service to turn on motion detection
     await hass.services.async_call(
         CAMERA_DOMAIN,
-        SERVICE_ENABLE_MOTION,
-        {ATTR_ENTITY_ID: ENTITY_CAMERA},
+        CameraService.ENABLE_MOTION_DETECTION,
+        {TargetKey.ENTITY_ID: ENTITY_CAMERA},
         blocking=True,
     )
 
@@ -124,8 +130,8 @@ async def test_motion_detection(hass: UniversalAssistant) -> None:
     # Call service to turn off motion detection
     await hass.services.async_call(
         CAMERA_DOMAIN,
-        SERVICE_DISABLE_MOTION,
-        {ATTR_ENTITY_ID: ENTITY_CAMERA},
+        CameraService.DISABLE_MOTION_DETECTION,
+        {TargetKey.ENTITY_ID: ENTITY_CAMERA},
         blocking=True,
     )
 

@@ -28,7 +28,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.media_player.condition import CONDITIONS
 from universalassistant.components.media_player.const import MediaPlayerState
-from universalassistant.const import CONF_ENTITY_ID, CONF_OPTIONS, CONF_TARGET
+from universalassistant.const import CONF_OPTIONS, CONF_TARGET, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import async_validate_condition_config
 
@@ -388,7 +388,7 @@ async def test_media_player_is_current_source_condition_validation(
             hass,
             {
                 "condition": condition,
-                CONF_TARGET: {CONF_ENTITY_ID: "media_player.test"},
+                CONF_TARGET: {TargetKey.ENTITY_ID: "media_player.test"},
                 CONF_OPTIONS: condition_options,
             },
         )

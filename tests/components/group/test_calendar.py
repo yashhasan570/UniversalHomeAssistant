@@ -18,12 +18,18 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant import config as hass_config, config_entries
 from universalassistant.components.calendar import (
     DOMAIN as CALENDAR_DOMAIN,
-    SERVICE_GET_EVENTS,
     CalendarEntity,
     CalendarEvent,
+    CalendarService,
 )
 from universalassistant.components.group import DOMAIN, SERVICE_RELOAD
-from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, STATE_UNAVAILABLE
+from universalassistant.const import (
+    ATTR_ENTITY_ID,
+    STATE_OFF,
+    STATE_ON,
+    STATE_UNAVAILABLE,
+    TargetKey,
+)
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -372,9 +378,9 @@ async def test_get_events(
 
     response = await hass.services.async_call(
         CALENDAR_DOMAIN,
-        SERVICE_GET_EVENTS,
+        CalendarService.GET_EVENTS,
         {
-            ATTR_ENTITY_ID: GROUP_ENTITY_ID,
+            TargetKey.ENTITY_ID: GROUP_ENTITY_ID,
             "start_date_time": dt_util.start_of_local_day(),
             "duration": {"days": 1},
         },
@@ -446,9 +452,9 @@ async def test_get_events_nested_groups(
 
     response = await hass.services.async_call(
         CALENDAR_DOMAIN,
-        SERVICE_GET_EVENTS,
+        CalendarService.GET_EVENTS,
         {
-            ATTR_ENTITY_ID: GROUP_ENTITY_ID,
+            TargetKey.ENTITY_ID: GROUP_ENTITY_ID,
             "start_date_time": dt_util.start_of_local_day(),
             "duration": {"days": 1},
         },

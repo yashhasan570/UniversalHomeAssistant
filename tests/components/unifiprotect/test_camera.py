@@ -28,12 +28,7 @@ from universalassistant.components.camera import (
 from universalassistant.components.unifiprotect.const import CONF_DISABLE_RTSP, DOMAIN
 from universalassistant.components.unifiprotect.utils import get_camera_base_name
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    CONF_VERIFY_SSL,
-    STATE_UNAVAILABLE,
-    Platform,
-)
+from universalassistant.const import CONF_VERIFY_SSL, STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
@@ -385,7 +380,7 @@ async def test_camera_motion_detection(
         await hass.services.async_call(
             "camera",
             service,
-            {ATTR_ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         mock_method.assert_called_once_with(expected_value)
@@ -585,7 +580,7 @@ async def test_camera_motion_detection_uses_replaced_device(
         await hass.services.async_call(
             "camera",
             "enable_motion_detection",
-            {ATTR_ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
         mock_method.assert_called_once_with(True)
@@ -616,7 +611,7 @@ async def test_public_only_camera_motion_detection_raises(
         await hass.services.async_call(
             "camera",
             service,
-            {ATTR_ENTITY_ID: entity_id},
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 

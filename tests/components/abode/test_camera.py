@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.abode.const import DOMAIN
 from universalassistant.components.abode.services import AbodeService
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import ATTR_ENTITY_ID, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -66,7 +66,7 @@ async def test_camera_on(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             CAMERA_DOMAIN,
             "turn_on",
-            {ATTR_ENTITY_ID: "camera.test_cam"},
+            {TargetKey.ENTITY_ID: "camera.test_cam"},
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -81,7 +81,7 @@ async def test_camera_off(hass: UniversalAssistant) -> None:
         await hass.services.async_call(
             CAMERA_DOMAIN,
             "turn_off",
-            {ATTR_ENTITY_ID: "camera.test_cam"},
+            {TargetKey.ENTITY_ID: "camera.test_cam"},
             blocking=True,
         )
         await hass.async_block_till_done()

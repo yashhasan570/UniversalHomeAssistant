@@ -15,15 +15,9 @@ from pytest_universalassistant.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
+from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN, LightService
 from universalassistant.components.neopool.const import FOLLOW_UP_REFRESH_DELAY
-from universalassistant.const import (
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    STATE_OFF,
-    STATE_ON,
-    Platform,
-)
+from universalassistant.const import STATE_OFF, STATE_ON, Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -45,7 +39,7 @@ def _seed_light_relay_manual(mock_neopool_client: MagicMock) -> None:
 async def _turn_on(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -54,7 +48,7 @@ async def _turn_on(hass: UniversalAssistant, entity_id: str) -> None:
 async def _turn_off(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_OFF,
+        LightService.TURN_OFF,
         {"entity_id": entity_id},
         blocking=True,
     )

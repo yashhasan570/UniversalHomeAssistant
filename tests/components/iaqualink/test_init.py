@@ -20,18 +20,16 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.components.iaqualink.const import UPDATE_INTERVAL_BY_SYSTEM_TYPE
-from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
+from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN, LightService
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import (
     ATTR_ASSUMED_STATE,
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
     STATE_OFF,
     STATE_ON,
     STATE_UNAVAILABLE,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -204,8 +202,8 @@ async def test_light_service_calls_update_entity_state(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: entity_id},
+        LightService.TURN_OFF,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     state = hass.states.get(entity_id)
@@ -214,8 +212,8 @@ async def test_light_service_calls_update_entity_state(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: entity_id},
+        LightService.TURN_ON,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
     state = hass.states.get(entity_id)

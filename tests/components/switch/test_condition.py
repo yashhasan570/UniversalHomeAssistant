@@ -18,7 +18,7 @@ from pytest_universalassistant.components.common import (
 )
 
 from universalassistant.components.switch.condition import CONDITIONS
-from universalassistant.const import CONF_ENTITY_ID, STATE_OFF, STATE_ON
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 
 
@@ -260,7 +260,7 @@ async def test_switch_condition_evaluates_both_domains(
     condition = await create_target_condition(
         hass,
         condition="switch.is_on",
-        target={CONF_ENTITY_ID: [entity_id_switch, entity_id_input_boolean]},
+        target={TargetKey.ENTITY_ID: [entity_id_switch, entity_id_input_boolean]},
         behavior="any",
     )
 

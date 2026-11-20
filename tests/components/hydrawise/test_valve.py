@@ -9,12 +9,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN
+from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN, ValveService
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     SERVICE_CLOSE_VALVE,
     SERVICE_OPEN_VALVE,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -45,8 +46,8 @@ async def test_services(
     """Test valve services."""
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_OPEN_VALVE,
-        service_data={ATTR_ENTITY_ID: "valve.zone_one"},
+        ValveService.OPEN,
+        service_data={TargetKey.ENTITY_ID: "valve.zone_one"},
         blocking=True,
     )
     mock_pydrawise.start_zone.assert_called_once_with(zones[0])
@@ -57,8 +58,8 @@ async def test_services(
 
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_CLOSE_VALVE,
-        service_data={ATTR_ENTITY_ID: "valve.zone_one"},
+        ValveService.CLOSE,
+        service_data={TargetKey.ENTITY_ID: "valve.zone_one"},
         blocking=True,
     )
     mock_pydrawise.stop_zone.assert_called_once_with(zones[0])

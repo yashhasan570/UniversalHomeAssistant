@@ -20,6 +20,7 @@ from universalassistant.components.light import (
     DOMAIN as LIGHT_DOMAIN,
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
+    LightService,
 )
 from universalassistant.const import (
     ATTR_ENTITY_ID,
@@ -27,6 +28,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -161,8 +163,8 @@ async def test_turn_on_when_off(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: ENTITY_ID},
+        LightService.TURN_ON,
+        {TargetKey.ENTITY_ID: ENTITY_ID},
         blocking=True,
     )
 
@@ -242,8 +244,8 @@ async def test_feature_operation_error(
     with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LIGHT_DOMAIN,
-            SERVICE_TURN_OFF,
-            {ATTR_ENTITY_ID: ENTITY_ID},
+            LightService.TURN_OFF,
+            {TargetKey.ENTITY_ID: ENTITY_ID},
             blocking=True,
         )
 

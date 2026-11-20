@@ -11,7 +11,7 @@ from uiprotect.data.public_devices import PublicDoorbellSettings, PublicLcdMessa
 from universalassistant.components.unifiprotect.const import DEFAULT_ATTRIBUTION, DOMAIN
 from universalassistant.components.unifiprotect.text import CAMERA
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import ATTR_ATTRIBUTION, ATTR_ENTITY_ID, Platform
+from universalassistant.const import ATTR_ATTRIBUTION, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -91,7 +91,7 @@ async def test_text_camera_set(
         await hass.services.async_call(
             "text",
             "set_value",
-            {ATTR_ENTITY_ID: entity_id, "value": "Test test"},
+            {TargetKey.ENTITY_ID: entity_id, "value": "Test test"},
             blocking=True,
         )
 

@@ -5,9 +5,9 @@ from pywemo.exceptions import ActionException
 from pywemo.ouimeaux_device.humidifier import DesiredHumidity, FanMode
 
 from universalassistant.components.fan import (
-    ATTR_PERCENTAGE,
     DOMAIN as FAN_DOMAIN,
-    SERVICE_SET_PERCENTAGE,
+    FanService,
+    FanServiceArgument,
 )
 from universalassistant.components.universalassistant import (
     DOMAIN as HA_DOMAIN,
@@ -15,13 +15,7 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.components.wemo.const import DOMAIN
 from universalassistant.components.wemo.services import WemoService, WemoServiceArgument
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_ON,
-    STATE_OFF,
-    STATE_ON,
-    TargetKey,
-)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
@@ -166,8 +160,11 @@ async def test_fan_set_percentage(
     """Verify set_percentage works properly through the entire range of FanModes."""
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_SET_PERCENTAGE,
-        {ATTR_ENTITY_ID: [wemo_entity.entity_id], ATTR_PERCENTAGE: percentage},
+        FanService.SET_PERCENTAGE,
+        {
+            TargetKey.ENTITY_ID: [wemo_entity.entity_id],
+            FanServiceArgument.PERCENTAGE: percentage,
+        },
         blocking=True,
     )
     pywemo_device.set_state.assert_called_with(expected_fan_mode)
@@ -179,8 +176,8 @@ async def test_fan_mode_high_initially(hass: UniversalAssistant, pywemo_device) 
     wemo_entity = await async_create_wemo_entity(hass, pywemo_device, "")
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: [wemo_entity.entity_id]},
+        FanService.TURN_ON,
+        {TargetKey.ENTITY_ID: [wemo_entity.entity_id]},
         blocking=True,
     )
     pywemo_device.set_state.assert_called_with(FanMode.High)

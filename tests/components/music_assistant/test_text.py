@@ -8,11 +8,11 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.music_assistant.const import DOMAIN
 from universalassistant.components.music_assistant.text import PLAYER_OPTIONS_TEXT
 from universalassistant.components.text import (
-    ATTR_VALUE,
     DOMAIN as TEXT_DOMAIN,
-    SERVICE_SET_VALUE,
+    TextService,
+    TextServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import LOCALE_EN, async_get_translations
@@ -52,10 +52,10 @@ async def test_text_set_action(
 
     await hass.services.async_call(
         TEXT_DOMAIN,
-        SERVICE_SET_VALUE,
+        TextService.SET_VALUE,
         {
-            ATTR_ENTITY_ID: entity_id,
-            ATTR_VALUE: option_value,
+            TargetKey.ENTITY_ID: entity_id,
+            TextServiceArgument.VALUE: option_value,
         },
         blocking=True,
     )

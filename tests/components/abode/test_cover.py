@@ -5,8 +5,8 @@ from unittest.mock import patch
 from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.cover import DOMAIN as COVER_DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, SERVICE_CLOSE_COVER, SERVICE_OPEN_COVER
+from universalassistant.components.cover import DOMAIN as COVER_DOMAIN, CoverService
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -32,7 +32,10 @@ async def test_open(hass: UniversalAssistant) -> None:
 
     with patch("jaraco.abode.devices.cover.Cover.open_cover") as mock_open:
         await hass.services.async_call(
-            COVER_DOMAIN, SERVICE_OPEN_COVER, {ATTR_ENTITY_ID: DEVICE_ID}, blocking=True
+            COVER_DOMAIN,
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: DEVICE_ID},
+            blocking=True,
         )
         await hass.async_block_till_done()
         mock_open.assert_called_once()
@@ -45,8 +48,8 @@ async def test_close(hass: UniversalAssistant) -> None:
     with patch("jaraco.abode.devices.cover.Cover.close_cover") as mock_close:
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: DEVICE_ID},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: DEVICE_ID},
             blocking=True,
         )
         await hass.async_block_till_done()

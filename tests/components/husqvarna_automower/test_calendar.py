@@ -21,13 +21,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.calendar import (
     DOMAIN as CALENDAR_DOMAIN,
-    EVENT_END_DATETIME,
-    EVENT_START_DATETIME,
-    SERVICE_GET_EVENTS,
+    CalendarService,
+    CalendarServiceArgument,
 )
 from universalassistant.components.husqvarna_automower.const import DOMAIN
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -140,14 +139,14 @@ async def test_calendar_snapshot(
     await setup_integration(hass, mock_config_entry)
     events = await hass.services.async_call(
         CALENDAR_DOMAIN,
-        SERVICE_GET_EVENTS,
+        CalendarService.GET_EVENTS,
         {
-            ATTR_ENTITY_ID: [
+            TargetKey.ENTITY_ID: [
                 "calendar.garden_test_mower_1",
                 "calendar.garden_test_mower_2",
             ],
-            EVENT_START_DATETIME: start_date,
-            EVENT_END_DATETIME: end_date,
+            CalendarServiceArgument.START_DATE_TIME: start_date,
+            CalendarServiceArgument.END_DATE_TIME: end_date,
         },
         blocking=True,
         return_response=True,

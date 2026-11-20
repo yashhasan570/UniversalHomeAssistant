@@ -6,14 +6,8 @@ from aioswitcher.api.messages import SwitcherBaseResponse
 from aioswitcher.device import DeviceState
 import pytest
 
-from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    STATE_OFF,
-    STATE_ON,
-)
+from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN, LightService
+from universalassistant.const import STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import slugify
@@ -88,7 +82,10 @@ async def test_light(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_light",
     ) as mock_set_light:
         await hass.services.async_call(
-            LIGHT_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: entity_id}, blocking=True
+            LIGHT_DOMAIN,
+            LightService.TURN_ON,
+            {TargetKey.ENTITY_ID: entity_id},
+            blocking=True,
         )
 
         assert mock_api.call_count == 2
@@ -101,7 +98,10 @@ async def test_light(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_light"
     ) as mock_set_light:
         await hass.services.async_call(
-            LIGHT_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: entity_id}, blocking=True
+            LIGHT_DOMAIN,
+            LightService.TURN_OFF,
+            {TargetKey.ENTITY_ID: entity_id},
+            blocking=True,
         )
 
         assert mock_api.call_count == 4
@@ -129,7 +129,10 @@ async def test_light_ignore_previous_async_state(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_light"
     ) as mock_set_light:
         await hass.services.async_call(
-            LIGHT_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: entity_id}, blocking=True
+            LIGHT_DOMAIN,
+            LightService.TURN_OFF,
+            {TargetKey.ENTITY_ID: entity_id},
+            blocking=True,
         )
 
     # Push old state and makge sure it is ignored
@@ -195,8 +198,8 @@ async def test_light_control_fail(
         with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
-                SERVICE_TURN_ON,
-                {ATTR_ENTITY_ID: entity_id},
+                LightService.TURN_ON,
+                {TargetKey.ENTITY_ID: entity_id},
                 blocking=True,
             )
 
@@ -214,8 +217,8 @@ async def test_light_control_fail(
         with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
-                SERVICE_TURN_ON,
-                {ATTR_ENTITY_ID: entity_id},
+                LightService.TURN_ON,
+                {TargetKey.ENTITY_ID: entity_id},
                 blocking=True,
             )
 

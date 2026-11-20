@@ -9,13 +9,12 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.camera import (
     DOMAIN as CAMERA_DOMAIN,
-    SERVICE_DISABLE_MOTION,
-    SERVICE_ENABLE_MOTION,
+    CameraService,
     async_get_stream_source,
 )
 from universalassistant.components.freebox import SCAN_INTERVAL
 from universalassistant.components.freebox.const import DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
@@ -103,16 +102,16 @@ async def test_motion_detection_toggle(
 
     await hass.services.async_call(
         CAMERA_DOMAIN,
-        SERVICE_DISABLE_MOTION,
-        service_data={ATTR_ENTITY_ID: "camera.camera_i"},
+        CameraService.DISABLE_MOTION_DETECTION,
+        service_data={TargetKey.ENTITY_ID: "camera.camera_i"},
         blocking=True,
     )
     router().home.set_home_endpoint_value.assert_called_with(15, 0, {"value": False})
 
     await hass.services.async_call(
         CAMERA_DOMAIN,
-        SERVICE_ENABLE_MOTION,
-        service_data={ATTR_ENTITY_ID: "camera.camera_i"},
+        CameraService.ENABLE_MOTION_DETECTION,
+        service_data={TargetKey.ENTITY_ID: "camera.camera_i"},
         blocking=True,
     )
     router().home.set_home_endpoint_value.assert_called_with(15, 0, {"value": True})

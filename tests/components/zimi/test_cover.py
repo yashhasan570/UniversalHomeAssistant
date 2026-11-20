@@ -4,13 +4,12 @@ from unittest.mock import MagicMock
 
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.cover import DOMAIN as COVER_DOMAIN, CoverEntityFeature
-from universalassistant.const import (
-    SERVICE_CLOSE_COVER,
-    SERVICE_OPEN_COVER,
-    SERVICE_SET_COVER_POSITION,
-    Platform,
+from universalassistant.components.cover import (
+    DOMAIN as COVER_DOMAIN,
+    CoverEntityFeature,
+    CoverService,
 )
+from universalassistant.const import Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -77,7 +76,7 @@ async def test_cover_entity(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_CLOSE_COVER,
+        CoverService.CLOSE,
         {"entity_id": door_entity_key},
         blocking=True,
     )
@@ -85,7 +84,7 @@ async def test_cover_entity(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_OPEN_COVER,
+        CoverService.OPEN,
         {"entity_id": door_entity_key},
         blocking=True,
     )
@@ -93,7 +92,7 @@ async def test_cover_entity(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_SET_COVER_POSITION,
+        CoverService.SET_POSITION,
         {"entity_id": door_entity_key, "position": 50},
         blocking=True,
     )

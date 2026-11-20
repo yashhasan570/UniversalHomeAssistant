@@ -9,19 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.light import (
     ATTR_BRIGHTNESS,
-    ATTR_COLOR_TEMP_KELVIN,
-    ATTR_EFFECT,
     ATTR_RGBW_COLOR,
     ATTR_SUPPORTED_COLOR_MODES,
     ColorMode,
+    LightService,
+    LightServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import (
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    STATE_ON,
-    STATE_UNKNOWN,
-)
+from universalassistant.const import STATE_ON, STATE_UNKNOWN
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
@@ -106,7 +101,7 @@ async def test_dimmer_on(dimmer, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -129,8 +124,8 @@ async def test_dimmer_on_with_brightness(dimmer, hass: UniversalAssistant) -> No
     feature_mock.apply_brightness = apply
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
-        {"entity_id": entity_id, ATTR_BRIGHTNESS: 202},
+        LightService.TURN_ON,
+        {"entity_id": entity_id, LightServiceArgument.BRIGHTNESS: 202},
         blocking=True,
     )
 
@@ -146,7 +141,7 @@ async def test_dimmer_off(dimmer, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_OFF,
+        LightService.TURN_OFF,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -230,7 +225,7 @@ async def test_wlightbox_s_on(wlightbox_s, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -316,8 +311,11 @@ async def test_wlightbox_on_color_temp(
     await async_setup_entity(hass, entity_id)
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
-        {"entity_id": entity_id, ATTR_COLOR_TEMP_KELVIN: kelvin_requested},
+        LightService.TURN_ON,
+        {
+            "entity_id": entity_id,
+            LightServiceArgument.COLOR_TEMP_KELVIN: kelvin_requested,
+        },
         blocking=True,
     )
 
@@ -377,8 +375,11 @@ async def test_wlightbox_on_rgbw(wlightbox, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
-        {"entity_id": entity_id, ATTR_RGBW_COLOR: (0xC1, 0xD2, 0xF3, 0xC7)},
+        LightService.TURN_ON,
+        {
+            "entity_id": entity_id,
+            LightServiceArgument.RGBW_COLOR: (0xC1, 0xD2, 0xF3, 0xC7),
+        },
         blocking=True,
     )
 
@@ -395,7 +396,7 @@ async def test_wlightbox_on_to_last_color(wlightbox, hass: UniversalAssistant) -
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -414,8 +415,8 @@ async def test_wlightbox_turn_on_with_zero_brightness_turns_off(
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
-        {"entity_id": entity_id, ATTR_BRIGHTNESS: 0},
+        LightService.TURN_ON,
+        {"entity_id": entity_id, LightServiceArgument.BRIGHTNESS: 0},
         blocking=True,
     )
 
@@ -432,7 +433,7 @@ async def test_wlightbox_off(wlightbox, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_OFF,
+        LightService.TURN_OFF,
         {"entity_id": entity_id},
         blocking=True,
     )
@@ -478,7 +479,7 @@ async def test_turn_on_failure(
     with pytest.raises(UniversalAssistantError) as info:
         await hass.services.async_call(
             "light",
-            SERVICE_TURN_ON,
+            LightService.TURN_ON,
             {"entity_id": entity_id},
             blocking=True,
         )
@@ -496,8 +497,8 @@ async def test_wlightbox_on_effect(wlightbox, hass: UniversalAssistant) -> None:
     with pytest.raises(UniversalAssistantError) as info:
         await hass.services.async_call(
             "light",
-            SERVICE_TURN_ON,
-            {"entity_id": entity_id, ATTR_EFFECT: "NOT IN LIST"},
+            LightService.TURN_ON,
+            {"entity_id": entity_id, LightServiceArgument.EFFECT: "NOT IN LIST"},
             blocking=True,
         )
 
@@ -506,8 +507,8 @@ async def test_wlightbox_on_effect(wlightbox, hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         "light",
-        SERVICE_TURN_ON,
-        {"entity_id": entity_id, ATTR_EFFECT: "POLICE"},
+        LightService.TURN_ON,
+        {"entity_id": entity_id, LightServiceArgument.EFFECT: "POLICE"},
         blocking=True,
     )
 

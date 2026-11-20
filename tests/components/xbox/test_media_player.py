@@ -32,6 +32,7 @@ from universalassistant.components.media_player import (
     ATTR_MEDIA_VOLUME_MUTED,
     DOMAIN as MEDIA_PLAYER_DOMAIN,
     SERVICE_PLAY_MEDIA,
+    MediaPlayerService,
     MediaType,
 )
 from universalassistant.components.xbox import DOMAIN
@@ -417,7 +418,7 @@ async def test_media_player_turn_on_failed(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
-            SERVICE_TURN_ON,
+            MediaPlayerService.TURN_ON,
             target={TargetKey.ENTITY_ID: "media_player.xone"},
             blocking=True,
         )

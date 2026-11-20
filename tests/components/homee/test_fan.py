@@ -18,6 +18,8 @@ from universalassistant.components.fan import (
     SERVICE_TOGGLE,
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
+    FanService,
+    FanServiceArgument,
 )
 from universalassistant.components.homee.const import (
     DOMAIN,
@@ -25,7 +27,7 @@ from universalassistant.components.homee.const import (
     PRESET_MANUAL,
     PRESET_SUMMER,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -151,8 +153,11 @@ async def test_turn_on_preset_last_value_zero(
 
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: "fan.test_fan", ATTR_PRESET_MODE: PRESET_MANUAL},
+        FanService.TURN_ON,
+        {
+            TargetKey.ENTITY_ID: "fan.test_fan",
+            FanServiceArgument.PRESET_MODE: PRESET_MANUAL,
+        },
         blocking=True,
     )
 
@@ -174,8 +179,11 @@ async def test_turn_on_invalid_preset(
     with pytest.raises(ServiceValidationError) as exc_info:
         await hass.services.async_call(
             FAN_DOMAIN,
-            SERVICE_TURN_ON,
-            {ATTR_ENTITY_ID: "fan.test_fan", ATTR_PRESET_MODE: PRESET_AUTO},
+            FanService.TURN_ON,
+            {
+                TargetKey.ENTITY_ID: "fan.test_fan",
+                FanServiceArgument.PRESET_MODE: PRESET_AUTO,
+            },
             blocking=True,
         )
 

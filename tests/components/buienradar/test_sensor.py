@@ -1,48 +1,55 @@
 """The tests for the Buienradar sensor platform."""
 
-from http import HTTPStatus
+from unittest.mock import patch
 
-from pytest_universalassistant.common import MockConfigEntry
-from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.buienradar.const import DOMAIN
-from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
+from universalassistant.const import Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
-TEST_LONGITUDE = 51.5288504
-TEST_LATITUDE = 5.4002156
+from . import TEST_CFG_DATA, TEST_LATITUDE, TEST_LONGITUDE, setup_integration
 
-CONDITIONS = ["stationname", "temperature"]
-TEST_CFG_DATA = {CONF_LATITUDE: TEST_LATITUDE, CONF_LONGITUDE: TEST_LONGITUDE}
+CONDITIONS = {"stationname": "Eindhoven (6370)", "temperature": "8.2"}
 
 
+@pytest.mark.usefixtures("mock_buienradar_feeds")
 async def test_smoke_test_setup_component(
-    aioclient_mock: AiohttpClientMocker,
-    hass: UniversalAssistant,
-    entity_registry: er.EntityRegistry,
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Smoke test for successfully set-up with default config."""
-    aioclient_mock.get(
-        "https://data.buienradar.nl/2.0/feed/json", status=HTTPStatus.NOT_FOUND
-    )
     mock_entry = MockConfigEntry(domain=DOMAIN, unique_id="TEST_ID", data=TEST_CFG_DATA)
-
     mock_entry.add_to_hass(hass)
 
-    for cond in CONDITIONS:
-        entity_registry.async_get_or_create(
+    entity_ids = {
+        cond: entity_registry.async_get_or_create(
             domain="sensor",
             platform="buienradar",
             unique_id=f"{TEST_LATITUDE:2.6f}{TEST_LONGITUDE:2.6f}{cond}",
             config_entry=mock_entry,
             original_name=f"Buienradar {cond}",
-        )
-    await hass.async_block_till_done()
+        ).entity_id
+        for cond in CONDITIONS
+    }
 
     await hass.config_entries.async_setup(mock_entry.entry_id)
     await hass.async_block_till_done()
 
-    for cond in CONDITIONS:
-        state = hass.states.get(f"sensor.buienradar_5_40021651_528850{cond}")
-        assert state.state == "unknown"
+    for cond, value in CONDITIONS.items():
+        assert hass.states.get(entity_ids[cond]).state == value
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_buienradar_feeds")
+async def test_sensors(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test all sensors."""
+    with patch("universalassistant.components.buienradar.PLATFORMS", [Platform.SENSOR]):
+        entry = await setup_integration(hass)
+
+    await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)

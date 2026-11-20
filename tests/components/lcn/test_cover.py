@@ -17,21 +17,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import (
     ATTR_CURRENT_POSITION,
-    ATTR_POSITION,
     DOMAIN as COVER_DOMAIN,
+    CoverService,
+    CoverServiceArgument,
     CoverState,
 )
 from universalassistant.components.lcn.cover import SCAN_INTERVAL
 from universalassistant.components.lcn.helpers import get_device_connection
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_CLOSE_COVER,
-    SERVICE_OPEN_COVER,
-    SERVICE_SET_COVER_POSITION,
-    SERVICE_STOP_COVER,
-    STATE_UNAVAILABLE,
-    Platform,
-)
+from universalassistant.const import STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -72,8 +65,8 @@ async def test_outputs_open(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -91,8 +84,8 @@ async def test_outputs_open(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -114,8 +107,8 @@ async def test_outputs_close(hass: UniversalAssistant, entry: MockConfigEntry) -
     ) as control_motor_outputs:
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -124,8 +117,8 @@ async def test_outputs_close(hass: UniversalAssistant, entry: MockConfigEntry) -
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -143,8 +136,8 @@ async def test_outputs_close(hass: UniversalAssistant, entry: MockConfigEntry) -
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -166,8 +159,8 @@ async def test_outputs_stop(hass: UniversalAssistant, entry: MockConfigEntry) ->
     ) as control_motor_outputs:
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -176,8 +169,8 @@ async def test_outputs_stop(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_STOP_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.STOP,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -193,8 +186,8 @@ async def test_outputs_stop(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_STOP_COVER,
-            {ATTR_ENTITY_ID: COVER_OUTPUTS},
+            CoverService.STOP,
+            {TargetKey.ENTITY_ID: COVER_OUTPUTS},
             blocking=True,
         )
 
@@ -221,8 +214,8 @@ async def test_relays_open(hass: UniversalAssistant, entry: MockConfigEntry) -> 
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -240,8 +233,8 @@ async def test_relays_open(hass: UniversalAssistant, entry: MockConfigEntry) -> 
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -263,8 +256,8 @@ async def test_relays_close(hass: UniversalAssistant, entry: MockConfigEntry) ->
     ) as control_motor_relays:
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -273,8 +266,8 @@ async def test_relays_close(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -292,8 +285,8 @@ async def test_relays_close(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -315,8 +308,8 @@ async def test_relays_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> 
     ) as control_motor_relays:
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_CLOSE_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.CLOSE,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -325,8 +318,8 @@ async def test_relays_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> 
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_STOP_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.STOP,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -344,8 +337,8 @@ async def test_relays_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> 
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_STOP_COVER,
-            {ATTR_ENTITY_ID: COVER_RELAYS},
+            CoverService.STOP,
+            {TargetKey.ENTITY_ID: COVER_RELAYS},
             blocking=True,
         )
 
@@ -387,8 +380,8 @@ async def test_relays_set_position(
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_SET_COVER_POSITION,
-            {ATTR_ENTITY_ID: entity_id, ATTR_POSITION: 50},
+            CoverService.SET_POSITION,
+            {TargetKey.ENTITY_ID: entity_id, CoverServiceArgument.POSITION: 50},
             blocking=True,
         )
 
@@ -405,8 +398,8 @@ async def test_relays_set_position(
 
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_SET_COVER_POSITION,
-            {ATTR_ENTITY_ID: entity_id, ATTR_POSITION: 50},
+            CoverService.SET_POSITION,
+            {TargetKey.ENTITY_ID: entity_id, CoverServiceArgument.POSITION: 50},
             blocking=True,
         )
 

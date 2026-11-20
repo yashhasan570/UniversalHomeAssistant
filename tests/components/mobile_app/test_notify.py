@@ -24,12 +24,13 @@ from universalassistant.components.mobile_app.const import DATA_LIVE_ACTIVITY_TO
 from universalassistant.components.mobile_app.push_notification import PUSH_CONFIRM_TIMEOUT
 from universalassistant.components.notify import (
     ATTR_MESSAGE,
-    ATTR_TITLE,
     DOMAIN as NOTIFY_DOMAIN,
     SERVICE_SEND_MESSAGE,
+    NotifyService,
+    NotifyServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -883,11 +884,11 @@ async def test_send_message(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: "notify.test",
-            ATTR_MESSAGE: "Hello world",
-            ATTR_TITLE: "test",
+            TargetKey.ENTITY_ID: "notify.test",
+            NotifyServiceArgument.MESSAGE: "Hello world",
+            NotifyServiceArgument.TITLE: "test",
         },
         blocking=True,
     )
@@ -931,11 +932,11 @@ async def test_send_message_local_push(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: "notify.websocket_push_name",
-            ATTR_MESSAGE: "Hello world",
-            ATTR_TITLE: "test",
+            TargetKey.ENTITY_ID: "notify.websocket_push_name",
+            NotifyServiceArgument.MESSAGE: "Hello world",
+            NotifyServiceArgument.TITLE: "test",
         },
         blocking=True,
     )
@@ -1007,11 +1008,11 @@ async def test_send_message_exceptions(
     with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.test",
-                ATTR_MESSAGE: "Hello world",
-                ATTR_TITLE: "test",
+                TargetKey.ENTITY_ID: "notify.test",
+                NotifyServiceArgument.MESSAGE: "Hello world",
+                NotifyServiceArgument.TITLE: "test",
             },
             blocking=True,
         )
@@ -1027,11 +1028,11 @@ async def test_send_message_local_push_exception(hass: UniversalAssistant) -> No
     with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.websocket_push_name",
-                ATTR_MESSAGE: "Hello world",
-                ATTR_TITLE: "test",
+                TargetKey.ENTITY_ID: "notify.websocket_push_name",
+                NotifyServiceArgument.MESSAGE: "Hello world",
+                NotifyServiceArgument.TITLE: "test",
             },
             blocking=True,
         )

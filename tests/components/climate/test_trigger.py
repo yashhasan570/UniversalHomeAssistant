@@ -35,6 +35,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_OPTIONS,
     CONF_TARGET,
+    TargetKey,
     UnitOfTemperature,
 )
 from universalassistant.core import UniversalAssistant
@@ -169,7 +170,7 @@ async def test_climate_trigger_validation(
             [
                 {
                     "platform": trigger,
-                    CONF_TARGET: {CONF_ENTITY_ID: "climate.test_climate"},
+                    CONF_TARGET: {TargetKey.ENTITY_ID: "climate.test_climate"},
                     CONF_OPTIONS: trigger_options,
                 }
             ],

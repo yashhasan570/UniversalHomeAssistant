@@ -10,7 +10,7 @@ from pytest_universalassistant.components.recorder.common import async_wait_reco
 from universalassistant.components import text
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
-from universalassistant.components.text import ATTR_MAX, ATTR_MIN, ATTR_MODE, ATTR_PATTERN
+from universalassistant.components.text import TextEntityCapabilityAttribute
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
@@ -43,6 +43,11 @@ async def test_exclude_attributes(recorder_mock: Recorder, hass: UniversalAssist
     assert len(states) >= 1
     for entity_states in states.values():
         for state in entity_states:
-            for attr in (ATTR_MAX, ATTR_MIN, ATTR_MODE, ATTR_PATTERN):
+            for attr in (
+                TextEntityCapabilityAttribute.MAX,
+                TextEntityCapabilityAttribute.MIN,
+                TextEntityCapabilityAttribute.MODE,
+                TextEntityCapabilityAttribute.PATTERN,
+            ):
                 assert attr not in state.attributes
             assert ATTR_FRIENDLY_NAME in state.attributes

@@ -14,8 +14,7 @@ from universalassistant.components.fan import (
     ATTR_PERCENTAGE,
     ATTR_PRESET_MODE,
     DOMAIN as FAN_DOMAIN,
-    SERVICE_SET_PERCENTAGE,
-    SERVICE_SET_PRESET_MODE,
+    FanService,
     NotValidPresetModeError,
 )
 from universalassistant.components.zha.helpers import (
@@ -24,14 +23,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway,
     get_zha_gateway_proxy,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    STATE_OFF,
-    STATE_ON,
-    Platform,
-)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
 from universalassistant.core import UniversalAssistant
 
 from .common import find_entity_id, send_attributes_report
@@ -156,14 +148,14 @@ async def async_turn_on(hass: UniversalAssistant, entity_id, percentage=None):
         if value is not None
     }
 
-    await hass.services.async_call(FAN_DOMAIN, SERVICE_TURN_ON, data, blocking=True)
+    await hass.services.async_call(FAN_DOMAIN, FanService.TURN_ON, data, blocking=True)
 
 
 async def async_turn_off(hass: UniversalAssistant, entity_id):
     """Turn fan off."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
 
-    await hass.services.async_call(FAN_DOMAIN, SERVICE_TURN_OFF, data, blocking=True)
+    await hass.services.async_call(FAN_DOMAIN, FanService.TURN_OFF, data, blocking=True)
 
 
 async def async_set_percentage(hass: UniversalAssistant, entity_id, percentage=None):
@@ -175,7 +167,7 @@ async def async_set_percentage(hass: UniversalAssistant, entity_id, percentage=N
     }
 
     await hass.services.async_call(
-        FAN_DOMAIN, SERVICE_SET_PERCENTAGE, data, blocking=True
+        FAN_DOMAIN, FanService.SET_PERCENTAGE, data, blocking=True
     )
 
 
@@ -188,5 +180,5 @@ async def async_set_preset_mode(hass: UniversalAssistant, entity_id, preset_mode
     }
 
     await hass.services.async_call(
-        FAN_DOMAIN, SERVICE_SET_PRESET_MODE, data, blocking=True
+        FAN_DOMAIN, FanService.SET_PRESET_MODE, data, blocking=True
     )

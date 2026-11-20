@@ -14,8 +14,10 @@ from universalassistant.components.fan import (
     DOMAIN as FAN_DOMAIN,
     SERVICE_SET_PERCENTAGE,
     SERVICE_SET_PRESET_MODE,
+    FanService,
+    FanServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -100,8 +102,8 @@ async def test_fan_set_state_error(
     with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             FAN_DOMAIN,
-            SERVICE_SET_PERCENTAGE,
-            {ATTR_ENTITY_ID: _FAN_ENTITY, ATTR_PERCENTAGE: 100},
+            FanService.SET_PERCENTAGE,
+            {TargetKey.ENTITY_ID: _FAN_ENTITY, FanServiceArgument.PERCENTAGE: 100},
             blocking=True,
         )
 

@@ -7,8 +7,13 @@ from universalassistant.components.universalassistant import (
     DOMAIN as HA_DOMAIN,
     SERVICE_UPDATE_ENTITY,
 )
-from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, STATE_OFF, STATE_ON
+from universalassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    DOMAIN as LIGHT_DOMAIN,
+    LightService,
+    LightServiceArgument,
+)
+from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
@@ -69,8 +74,11 @@ async def test_turn_on_brightness(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: [wemo_entity.entity_id], ATTR_BRIGHTNESS: 204},
+        LightService.TURN_ON,
+        {
+            TargetKey.ENTITY_ID: [wemo_entity.entity_id],
+            LightServiceArgument.BRIGHTNESS: 204,
+        },
         blocking=True,
     )
 

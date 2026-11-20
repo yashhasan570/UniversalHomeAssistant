@@ -17,7 +17,11 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.liebherr.const import DOMAIN
-from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
+from universalassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    DOMAIN as LIGHT_DOMAIN,
+    LightService,
+)
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     SERVICE_TURN_OFF,
@@ -27,6 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -110,8 +115,8 @@ async def test_light_updates_optimistically(hass: UniversalAssistant) -> None:
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: entity_id},
+        LightService.TURN_OFF,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 
@@ -137,8 +142,8 @@ async def test_light_failure(
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
-            SERVICE_TURN_ON,
-            {ATTR_ENTITY_ID: entity_id},
+            LightService.TURN_ON,
+            {TargetKey.ENTITY_ID: entity_id},
             blocking=True,
         )
 

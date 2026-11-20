@@ -5,11 +5,11 @@ from unittest.mock import call
 from aioesphomeapi import APIClient, DateTimeInfo, DateTimeState
 
 from universalassistant.components.datetime import (
-    ATTR_DATETIME,
     DOMAIN as DATETIME_DOMAIN,
-    SERVICE_SET_VALUE,
+    DateTimeService,
+    DateTimeServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
+from universalassistant.const import STATE_UNKNOWN, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
@@ -42,10 +42,10 @@ async def test_generic_datetime_entity(
 
     await hass.services.async_call(
         DATETIME_DOMAIN,
-        SERVICE_SET_VALUE,
+        DateTimeService.SET_VALUE,
         {
-            ATTR_ENTITY_ID: "datetime.test_my_datetime",
-            ATTR_DATETIME: "2000-01-01T01:23:45+00:00",
+            TargetKey.ENTITY_ID: "datetime.test_my_datetime",
+            DateTimeServiceArgument.DATETIME: "2000-01-01T01:23:45+00:00",
         },
         blocking=True,
     )

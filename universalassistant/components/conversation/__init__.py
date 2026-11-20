@@ -11,7 +11,7 @@ from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import MATCH_ALL
 from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
-from universalassistant.helpers import config_validation as cv, intent
+from universalassistant.helpers import config_validation as cv, frame, intent
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
 
@@ -108,6 +108,15 @@ def async_set_agent(
     agent: AbstractConversationAgent,
 ) -> None:
     """Set the agent to handle the conversations."""
+    if not isinstance(agent, ConversationEntity):
+        frame.report_usage(
+            "sets a conversation agent that is not a conversation entity. Convert "
+            "the conversation platform to use ConversationEntity",
+            breaks_in_ha_version="2027.6.0",
+            # Test agents use config entries of domains that are not loaded
+            core_behavior=frame.ReportBehavior.LOG,
+            integration_domain=config_entry.domain,
+        )
     get_agent_manager(hass).async_set_agent(config_entry.entry_id, agent)
 
 

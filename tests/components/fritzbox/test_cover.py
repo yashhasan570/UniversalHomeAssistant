@@ -6,19 +6,14 @@ from unittest.mock import Mock, call, patch
 from pytest_universalassistant.common import async_fire_time_changed, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.cover import ATTR_POSITION, DOMAIN as COVER_DOMAIN
+from universalassistant.components.cover import (
+    DOMAIN as COVER_DOMAIN,
+    CoverService,
+    CoverServiceArgument,
+)
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    CONF_DEVICES,
-    SERVICE_CLOSE_COVER,
-    SERVICE_OPEN_COVER,
-    SERVICE_SET_COVER_POSITION,
-    SERVICE_STOP_COVER,
-    STATE_UNKNOWN,
-    Platform,
-)
+from universalassistant.const import CONF_DEVICES, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -71,7 +66,7 @@ async def test_open_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     )
 
     await hass.services.async_call(
-        COVER_DOMAIN, SERVICE_OPEN_COVER, {ATTR_ENTITY_ID: ENTITY_ID}, True
+        COVER_DOMAIN, CoverService.OPEN, {TargetKey.ENTITY_ID: ENTITY_ID}, True
     )
     assert device.set_blind_open.call_count == 1
 
@@ -84,7 +79,7 @@ async def test_close_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     )
 
     await hass.services.async_call(
-        COVER_DOMAIN, SERVICE_CLOSE_COVER, {ATTR_ENTITY_ID: ENTITY_ID}, True
+        COVER_DOMAIN, CoverService.CLOSE, {TargetKey.ENTITY_ID: ENTITY_ID}, True
     )
     assert device.set_blind_close.call_count == 1
 
@@ -98,8 +93,8 @@ async def test_set_position_cover(hass: UniversalAssistant, fritz: Mock) -> None
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_SET_COVER_POSITION,
-        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_POSITION: 50},
+        CoverService.SET_POSITION,
+        {TargetKey.ENTITY_ID: ENTITY_ID, CoverServiceArgument.POSITION: 50},
         True,
     )
     assert device.set_level_percentage.call_args_list == [call(50, True)]
@@ -113,7 +108,7 @@ async def test_stop_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     )
 
     await hass.services.async_call(
-        COVER_DOMAIN, SERVICE_STOP_COVER, {ATTR_ENTITY_ID: ENTITY_ID}, True
+        COVER_DOMAIN, CoverService.STOP, {TargetKey.ENTITY_ID: ENTITY_ID}, True
     )
     assert device.set_blind_stop.call_count == 1
 

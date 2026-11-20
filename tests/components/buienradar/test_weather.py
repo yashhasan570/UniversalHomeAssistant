@@ -2,14 +2,23 @@
 
 from http import HTTPStatus
 
+import pytest
 from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
+from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.buienradar.const import DOMAIN
-from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
+from universalassistant.components.weather import (
+    DOMAIN as WEATHER_DOMAIN,
+    WeatherService,
+    WeatherServiceArgument,
+)
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 
-TEST_CFG_DATA = {CONF_LATITUDE: 51.5288504, CONF_LONGITUDE: 5.4002156}
+from . import TEST_CFG_DATA, setup_integration
+
+WEATHER_ENTITY = "weather.buienradar"
 
 
 async def test_smoke_test_setup_component(
@@ -28,3 +37,27 @@ async def test_smoke_test_setup_component(
 
     state = hass.states.get("weather.buienradar")
     assert state.state == "unknown"
+
+
+@pytest.mark.usefixtures("mock_buienradar_feeds")
+async def test_weather(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+    """Test the weather entity state."""
+    await setup_integration(hass)
+
+    assert hass.states.get(WEATHER_ENTITY) == snapshot
+
+
+@pytest.mark.usefixtures("mock_buienradar_feeds")
+async def test_forecast(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+    """Test the daily forecast."""
+    await setup_integration(hass)
+
+    response = await hass.services.async_call(
+        WEATHER_DOMAIN,
+        WeatherService.GET_FORECASTS,
+        {TargetKey.ENTITY_ID: WEATHER_ENTITY, WeatherServiceArgument.TYPE: "daily"},
+        blocking=True,
+        return_response=True,
+    )
+
+    assert response == snapshot

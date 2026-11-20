@@ -25,11 +25,12 @@ from universalassistant.components.media_player import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
     SERVICE_VOLUME_DOWN,
-    SERVICE_VOLUME_MUTE,
     SERVICE_VOLUME_UP,
+    MediaPlayerService,
+    MediaPlayerServiceArgument,
     MediaPlayerState,
 )
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -134,8 +135,11 @@ async def test_mute(
     """Test muting sends the mute toggle and tracks the requested state."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
-        SERVICE_VOLUME_MUTE,
-        {ATTR_ENTITY_ID: MEDIA_PLAYER_ENTITY_ID, ATTR_MEDIA_VOLUME_MUTED: mute},
+        MediaPlayerService.VOLUME_MUTE,
+        {
+            TargetKey.ENTITY_ID: MEDIA_PLAYER_ENTITY_ID,
+            MediaPlayerServiceArgument.IS_VOLUME_MUTED: mute,
+        },
         blocking=True,
     )
 

@@ -19,7 +19,8 @@ from universalassistant.components.notify import (
     ATTR_TITLE,
     ATTR_TITLE_DEFAULT,
     DOMAIN as NOTIFY_DOMAIN,
-    SERVICE_SEND_MESSAGE,
+    NotifyService,
+    NotifyServiceArgument,
 )
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.components.system_bridge.notify import async_get_service
@@ -30,6 +31,7 @@ from universalassistant.const import (
     CONF_NAME,
     STATE_UNKNOWN,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, Unauthorized
@@ -104,11 +106,11 @@ async def test_send_message(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: "notify.hostname",
-            ATTR_MESSAGE: "World",
-            ATTR_TITLE: "Hello",
+            TargetKey.ENTITY_ID: "notify.hostname",
+            NotifyServiceArgument.MESSAGE: "World",
+            NotifyServiceArgument.TITLE: "Hello",
         },
         blocking=True,
     )
@@ -390,11 +392,11 @@ async def test_send_message_exception(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.hostname",
-                ATTR_MESSAGE: "World",
-                ATTR_TITLE: "Hello",
+                TargetKey.ENTITY_ID: "notify.hostname",
+                NotifyServiceArgument.MESSAGE: "World",
+                NotifyServiceArgument.TITLE: "Hello",
             },
             blocking=True,
         )

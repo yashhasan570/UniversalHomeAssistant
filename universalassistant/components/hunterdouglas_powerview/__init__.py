@@ -92,9 +92,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PowerviewConfigEntr
             f"Connection error to PowerView hub {hub_address}: {err}"
         ) from err
 
-    if not device_info:
-        raise ConfigEntryNotReady(f"Unable to initialize PowerView hub: {hub_address}")
-
     if CONF_API_VERSION not in config:
         new_data = {**entry.data}
         new_data[CONF_API_VERSION] = hub.api_version

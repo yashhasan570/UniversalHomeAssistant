@@ -9,14 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import (
-    ATTR_HVAC_MODE,
     DOMAIN as CLIMATE_DOMAIN,
-    SERVICE_SET_HVAC_MODE,
-    SERVICE_SET_TEMPERATURE,
+    ClimateService,
+    ClimateServiceArgument,
     HVACMode,
 )
 from universalassistant.components.tado import DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -57,10 +56,10 @@ async def test_heater_set_temperature(
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_TEMPERATURE,
+            ClimateService.SET_TEMPERATURE,
             {
-                ATTR_ENTITY_ID: "climate.baseboard_heater_baseboard_heater",
-                ATTR_TEMPERATURE: 22.0,
+                TargetKey.ENTITY_ID: "climate.baseboard_heater_baseboard_heater",
+                ClimateServiceArgument.TEMPERATURE: 22.0,
             },
             blocking=True,
         )
@@ -133,10 +132,10 @@ async def test_aircon_set_hvac_mode(
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_HVAC_MODE,
+            ClimateService.SET_HVAC_MODE,
             {
-                ATTR_ENTITY_ID: "climate.air_conditioning_air_conditioning",
-                ATTR_HVAC_MODE: hvac_mode,
+                TargetKey.ENTITY_ID: "climate.air_conditioning_air_conditioning",
+                ClimateServiceArgument.HVAC_MODE: hvac_mode,
             },
             blocking=True,
         )
@@ -193,8 +192,11 @@ async def test_aircon_turn_on_from_off(
     ) as mock_set_state:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_HVAC_MODE,
-            {ATTR_ENTITY_ID: entity_id, ATTR_HVAC_MODE: hvac_mode},
+            ClimateService.SET_HVAC_MODE,
+            {
+                TargetKey.ENTITY_ID: entity_id,
+                ClimateServiceArgument.HVAC_MODE: hvac_mode,
+            },
             blocking=True,
         )
 

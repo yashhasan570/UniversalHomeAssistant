@@ -23,9 +23,9 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.duco.const import SCAN_INTERVAL
 from universalassistant.components.fan import (
-    ATTR_PERCENTAGE,
     DOMAIN as FAN_DOMAIN,
-    SERVICE_SET_PERCENTAGE,
+    FanService,
+    FanServiceArgument,
 )
 from universalassistant.components.select import (
     ATTR_OPTIONS,
@@ -33,13 +33,7 @@ from universalassistant.components.select import (
     SelectService,
     SelectServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
-    Platform,
-    TargetKey,
-)
+from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -132,8 +126,8 @@ async def _async_set_fan_percentage(hass: UniversalAssistant) -> None:
     """Set the ventilation fan percentage."""
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_SET_PERCENTAGE,
-        {ATTR_ENTITY_ID: "fan.living", ATTR_PERCENTAGE: 33},
+        FanService.SET_PERCENTAGE,
+        {TargetKey.ENTITY_ID: "fan.living", FanServiceArgument.PERCENTAGE: 33},
         blocking=True,
     )
 

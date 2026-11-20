@@ -9,11 +9,11 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.text import (
-    ATTR_VALUE,
     DOMAIN as TEXT_DOMAIN,
-    SERVICE_SET_VALUE,
+    TextService,
+    TextServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -76,10 +76,10 @@ async def test_text_set_value(
 
     await hass.services.async_call(
         TEXT_DOMAIN,
-        SERVICE_SET_VALUE,
+        TextService.SET_VALUE,
         {
-            ATTR_ENTITY_ID: "text.mock_title_position_1",
-            ATTR_VALUE: "New Position Name",
+            TargetKey.ENTITY_ID: "text.mock_title_position_1",
+            TextServiceArgument.VALUE: "New Position Name",
         },
         blocking=True,
     )

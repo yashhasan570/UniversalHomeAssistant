@@ -6,12 +6,17 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.remote import (
-    ATTR_COMMAND,
     DOMAIN as REMOTE_DOMAIN,
-    SERVICE_SEND_COMMAND,
+    RemoteService,
+    RemoteServiceArgument,
 )
 from universalassistant.components.sky_remote.const import DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
+from universalassistant.const import (
+    ATTR_ENTITY_ID,
+    SERVICE_TURN_OFF,
+    SERVICE_TURN_ON,
+    TargetKey,
+)
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
@@ -27,8 +32,8 @@ async def test_send_command(
     await setup_mock_entry(hass, mock_config_entry)
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_SEND_COMMAND,
-        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_COMMAND: ["sky"]},
+        RemoteService.SEND_COMMAND,
+        {TargetKey.ENTITY_ID: ENTITY_ID, RemoteServiceArgument.COMMAND: ["sky"]},
         blocking=True,
     )
     mock_remote_control._instance_mock.send_keys.assert_called_once_with(["sky"])
@@ -43,8 +48,8 @@ async def test_send_invalid_command(
     with pytest.raises(ServiceValidationError):
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_SEND_COMMAND,
-            {ATTR_ENTITY_ID: ENTITY_ID, ATTR_COMMAND: ["apple"]},
+            RemoteService.SEND_COMMAND,
+            {TargetKey.ENTITY_ID: ENTITY_ID, RemoteServiceArgument.COMMAND: ["apple"]},
             blocking=True,
         )
     mock_remote_control._instance_mock.send_keys.assert_not_called()
@@ -62,8 +67,8 @@ async def test_send_command_failure(
     with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_SEND_COMMAND,
-            {ATTR_ENTITY_ID: ENTITY_ID, ATTR_COMMAND: ["sky"]},
+            RemoteService.SEND_COMMAND,
+            {TargetKey.ENTITY_ID: ENTITY_ID, RemoteServiceArgument.COMMAND: ["sky"]},
             blocking=True,
         )
     assert err.value.translation_domain == DOMAIN

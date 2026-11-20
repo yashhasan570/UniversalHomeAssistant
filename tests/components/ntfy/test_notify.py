@@ -14,14 +14,13 @@ from pytest_universalassistant.common import AsyncMock, MockConfigEntry, snapsho
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.notify import (
-    ATTR_MESSAGE,
-    ATTR_TITLE,
     DOMAIN as NOTIFY_DOMAIN,
-    SERVICE_SEND_MESSAGE,
+    NotifyService,
+    NotifyServiceArgument,
 )
 from universalassistant.components.ntfy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
+from universalassistant.const import STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -75,11 +74,11 @@ async def test_send_message(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: "notify.mytopic",
-            ATTR_MESSAGE: "triggered",
-            ATTR_TITLE: "test",
+            TargetKey.ENTITY_ID: "notify.mytopic",
+            NotifyServiceArgument.MESSAGE: "triggered",
+            NotifyServiceArgument.TITLE: "test",
         },
         blocking=True,
     )
@@ -130,11 +129,11 @@ async def test_send_message_exception(
     with pytest.raises(UniversalAssistantError, match=error_msg):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.mytopic",
-                ATTR_MESSAGE: "triggered",
-                ATTR_TITLE: "test",
+                TargetKey.ENTITY_ID: "notify.mytopic",
+                NotifyServiceArgument.MESSAGE: "triggered",
+                NotifyServiceArgument.TITLE: "test",
             },
             blocking=True,
         )
@@ -164,11 +163,11 @@ async def test_send_message_reauth_flow(
     with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.mytopic",
-                ATTR_MESSAGE: "triggered",
-                ATTR_TITLE: "test",
+                TargetKey.ENTITY_ID: "notify.mytopic",
+                NotifyServiceArgument.MESSAGE: "triggered",
+                NotifyServiceArgument.TITLE: "test",
             },
             blocking=True,
         )

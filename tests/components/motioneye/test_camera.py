@@ -47,7 +47,7 @@ from universalassistant.components.motioneye.services import (
     MotionEyeService,
     MotionEyeServiceArgument,
 )
-from universalassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID, CONF_URL
+from universalassistant.const import CONF_URL, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -515,7 +515,7 @@ async def test_set_text_overlay_bad_extra_key(hass: UniversalAssistant) -> None:
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
 
-    data = {ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID, "extra_key": "foo"}
+    data = {TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID, "extra_key": "foo"}
     with pytest.raises(probatio.error.MultipleInvalid):
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, data)
 
@@ -526,7 +526,7 @@ async def test_set_text_overlay_bad_entity_identifier(hass: UniversalAssistant) 
     await setup_mock_motioneye_config_entry(hass, client=client)
 
     data = {
-        ATTR_ENTITY_ID: "some random string",
+        TargetKey.ENTITY_ID: "some random string",
         MotionEyeServiceArgument.LEFT_TEXT: KEY_TEXT_OVERLAY_TIMESTAMP,
     }
 
@@ -548,7 +548,7 @@ async def test_set_text_overlay_bad_no_left_or_right(hass: UniversalAssistant) -
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
 
-    data = {ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID}
+    data = {TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID}
     with pytest.raises(probatio.error.MultipleInvalid):
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, data)
 
@@ -561,7 +561,7 @@ async def test_set_text_overlay_good(hass: UniversalAssistant) -> None:
     custom_left_text = "one\ntwo\nthree"
     custom_right_text = "four\nfive\nsix"
     data = {
-        ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID,
+        TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID,
         MotionEyeServiceArgument.LEFT_TEXT: KEY_TEXT_OVERLAY_CUSTOM_TEXT,
         MotionEyeServiceArgument.RIGHT_TEXT: KEY_TEXT_OVERLAY_CUSTOM_TEXT,
         MotionEyeServiceArgument.CUSTOM_LEFT_TEXT: custom_left_text,
@@ -587,7 +587,7 @@ async def test_set_text_overlay_good_entity_id(hass: UniversalAssistant) -> None
     await setup_mock_motioneye_config_entry(hass, client=client)
 
     data = {
-        ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID,
+        TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID,
         MotionEyeServiceArgument.LEFT_TEXT: KEY_TEXT_OVERLAY_TIMESTAMP,
     }
     client.async_get_camera = AsyncMock(return_value=copy.deepcopy(TEST_CAMERA))
@@ -606,7 +606,7 @@ async def test_set_text_overlay_bad_device(hass: UniversalAssistant) -> None:
     await setup_mock_motioneye_config_entry(hass, client=client)
 
     data = {
-        ATTR_DEVICE_ID: "not a device",
+        TargetKey.DEVICE_ID: "not a device",
         MotionEyeServiceArgument.LEFT_TEXT: KEY_TEXT_OVERLAY_TIMESTAMP,
     }
     client.reset_mock()
@@ -623,7 +623,7 @@ async def test_set_text_overlay_no_such_camera(hass: UniversalAssistant) -> None
     await setup_mock_motioneye_config_entry(hass, client=client)
 
     data = {
-        ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID,
+        TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID,
         MotionEyeServiceArgument.LEFT_TEXT: KEY_TEXT_OVERLAY_TIMESTAMP,
     }
     client.reset_mock()
@@ -639,7 +639,7 @@ async def test_request_action(hass: UniversalAssistant) -> None:
     await setup_mock_motioneye_config_entry(hass, client=client)
 
     data = {
-        ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID,
+        TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID,
         MotionEyeServiceArgument.ACTION: "foo",
     }
     await hass.services.async_call(DOMAIN, MotionEyeService.ACTION, data)
@@ -654,7 +654,7 @@ async def test_request_snapshot(hass: UniversalAssistant) -> None:
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
 
-    data = {ATTR_ENTITY_ID: TEST_CAMERA_ENTITY_ID}
+    data = {TargetKey.ENTITY_ID: TEST_CAMERA_ENTITY_ID}
 
     await hass.services.async_call(DOMAIN, MotionEyeService.SNAPSHOT, data)
     await hass.async_block_till_done()

@@ -25,14 +25,10 @@ from universalassistant.components.notify import (
     ATTR_DATA,
     ATTR_MESSAGE,
     DOMAIN as NOTIFY_DOMAIN,
-    SERVICE_SEND_MESSAGE,
+    NotifyService,
+    NotifyServiceArgument,
 )
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
-    Platform,
-)
+from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
@@ -246,10 +242,10 @@ async def test_send_message(
     """Test sending a message through the LaMetric notify entity."""
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: ENTITY_ID,
-            ATTR_MESSAGE: "The way to get started is to quit talking and begin doing",
+            TargetKey.ENTITY_ID: ENTITY_ID,
+            NotifyServiceArgument.MESSAGE: "The way to get started is to quit talking and begin doing",
         },
         blocking=True,
     )
@@ -303,10 +299,10 @@ async def test_send_message_error(
     with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: ENTITY_ID,
-                ATTR_MESSAGE: "It's failure that gives you the proper perspective",
+                TargetKey.ENTITY_ID: ENTITY_ID,
+                NotifyServiceArgument.MESSAGE: "It's failure that gives you the proper perspective",
             },
             blocking=True,
         )

@@ -26,6 +26,8 @@ from universalassistant.components.notify import (
     ATTR_TITLE,
     DOMAIN as NOTIFY_DOMAIN,
     SERVICE_SEND_MESSAGE,
+    NotifyService,
+    NotifyServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import (
@@ -522,11 +524,11 @@ async def test_send_message(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_ENTITY_ID: "notify.my_desktop",
-            ATTR_MESSAGE: "World",
-            ATTR_TITLE: "Hello",
+            TargetKey.ENTITY_ID: "notify.my_desktop",
+            NotifyServiceArgument.MESSAGE: "World",
+            NotifyServiceArgument.TITLE: "Hello",
         },
         blocking=True,
     )
@@ -629,11 +631,11 @@ async def test_send_message_save_fails(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.my_desktop",
-                ATTR_MESSAGE: "World",
-                ATTR_TITLE: "Hello",
+                TargetKey.ENTITY_ID: "notify.my_desktop",
+                NotifyServiceArgument.MESSAGE: "World",
+                NotifyServiceArgument.TITLE: "Hello",
             },
             blocking=True,
         )
@@ -665,11 +667,11 @@ async def test_send_message_unavailable(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
-            SERVICE_SEND_MESSAGE,
+            NotifyService.SEND_MESSAGE,
             {
-                ATTR_ENTITY_ID: "notify.my_desktop",
-                ATTR_MESSAGE: "World",
-                ATTR_TITLE: "Hello",
+                TargetKey.ENTITY_ID: "notify.my_desktop",
+                NotifyServiceArgument.MESSAGE: "World",
+                NotifyServiceArgument.TITLE: "Hello",
             },
             blocking=True,
         )

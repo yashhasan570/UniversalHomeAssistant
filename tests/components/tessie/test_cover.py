@@ -7,11 +7,10 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import (
     DOMAIN as COVER_DOMAIN,
-    SERVICE_CLOSE_COVER,
-    SERVICE_OPEN_COVER,
+    CoverService,
     CoverState,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -51,8 +50,8 @@ async def test_covers(
             ) as mock_open:
                 await hass.services.async_call(
                     COVER_DOMAIN,
-                    SERVICE_OPEN_COVER,
-                    {ATTR_ENTITY_ID: [entity_id]},
+                    CoverService.OPEN,
+                    {TargetKey.ENTITY_ID: [entity_id]},
                     blocking=True,
                 )
                 mock_open.assert_called_once()
@@ -66,8 +65,8 @@ async def test_covers(
             ) as mock_close:
                 await hass.services.async_call(
                     COVER_DOMAIN,
-                    SERVICE_CLOSE_COVER,
-                    {ATTR_ENTITY_ID: [entity_id]},
+                    CoverService.CLOSE,
+                    {TargetKey.ENTITY_ID: [entity_id]},
                     blocking=True,
                 )
                 mock_close.assert_called_once()
@@ -90,8 +89,8 @@ async def test_errors(hass: UniversalAssistant) -> None:
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: [entity_id]},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
     mock_set.assert_called_once()
@@ -109,8 +108,8 @@ async def test_errors(hass: UniversalAssistant) -> None:
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
-            SERVICE_OPEN_COVER,
-            {ATTR_ENTITY_ID: [entity_id]},
+            CoverService.OPEN,
+            {TargetKey.ENTITY_ID: [entity_id]},
             blocking=True,
         )
     mock_set.assert_called_once()

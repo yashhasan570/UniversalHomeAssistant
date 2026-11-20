@@ -57,6 +57,7 @@ base_platforms: &base_platforms
   - universalassistant/components/switch/**
   - universalassistant/components/text/**
   - universalassistant/components/time/**
+  - universalassistant/components/timer_list/**
   - universalassistant/components/todo/**
   - universalassistant/components/tts/**
   - universalassistant/components/update/**

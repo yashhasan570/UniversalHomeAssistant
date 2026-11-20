@@ -8,9 +8,10 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fan import (
     ATTR_PRESET_MODE,
     DOMAIN as FAN_DOMAIN,
-    SERVICE_SET_PRESET_MODE,
+    FanService,
+    FanServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -52,8 +53,8 @@ async def test_switch_setup_and_services(
     with patch("pyatmo.home.Home.async_set_state") as mock_set_state:
         await hass.services.async_call(
             FAN_DOMAIN,
-            SERVICE_SET_PRESET_MODE,
-            {ATTR_ENTITY_ID: fan_entity, ATTR_PRESET_MODE: "fast"},
+            FanService.SET_PRESET_MODE,
+            {TargetKey.ENTITY_ID: fan_entity, FanServiceArgument.PRESET_MODE: "fast"},
             blocking=True,
         )
         await hass.async_block_till_done()

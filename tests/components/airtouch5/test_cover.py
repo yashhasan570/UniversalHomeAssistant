@@ -11,15 +11,13 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import (
-    ATTR_POSITION,
     DOMAIN as COVER_DOMAIN,
-    SERVICE_CLOSE_COVER,
-    SERVICE_OPEN_COVER,
-    SERVICE_SET_COVER_POSITION,
     CoverEntityStateAttribute,
+    CoverService,
+    CoverServiceArgument,
     CoverState,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -55,8 +53,8 @@ async def test_cover_actions(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_CLOSE_COVER,
-        {ATTR_ENTITY_ID: COVER_ENTITY_ID},
+        CoverService.CLOSE,
+        {TargetKey.ENTITY_ID: COVER_ENTITY_ID},
         blocking=True,
     )
     mock_airtouch5_client.send_packet.assert_called_once()
@@ -64,8 +62,8 @@ async def test_cover_actions(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_OPEN_COVER,
-        {ATTR_ENTITY_ID: COVER_ENTITY_ID},
+        CoverService.OPEN,
+        {TargetKey.ENTITY_ID: COVER_ENTITY_ID},
         blocking=True,
     )
     mock_airtouch5_client.send_packet.assert_called_once()
@@ -73,8 +71,8 @@ async def test_cover_actions(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_SET_COVER_POSITION,
-        {ATTR_ENTITY_ID: COVER_ENTITY_ID, ATTR_POSITION: 50},
+        CoverService.SET_POSITION,
+        {TargetKey.ENTITY_ID: COVER_ENTITY_ID, CoverServiceArgument.POSITION: 50},
         blocking=True,
     )
     mock_airtouch5_client.send_packet.assert_called_once()

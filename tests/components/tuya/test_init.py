@@ -18,7 +18,7 @@ from universalassistant.components.tuya.const import (
 )
 from universalassistant.components.tuya.diagnostics import _REDACTED_DPCODES
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import Platform
+from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -381,3 +381,23 @@ async def test_network_error_retries_setup(
     await initialize_entry(hass, manager, mock_config_entry, [])
 
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_mq_stopped_on_universal_assistant_stop(
+    hass: UniversalAssistant,
+    mock_manager: Manager,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test the MQ thread is stopped when Universal Home Assistant stops.
+
+    Config entries are not unloaded on shutdown, and the thread is not a daemon,
+    so it would otherwise keep the process alive.
+    """
+    await initialize_entry(hass, mock_manager, mock_config_entry, [])
+    # A refresh of the MQ replaces it, the current one is the one to stop
+    mock_manager.mq = MagicMock()
+
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    await hass.async_block_till_done()
+
+    mock_manager.mq.stop.assert_called_once_with()

@@ -22,20 +22,14 @@ from universalassistant import config as hass_config
 from universalassistant.components import notify
 from universalassistant.components.group import DOMAIN, SERVICE_RELOAD
 from universalassistant.components.notify import (
-    ATTR_MESSAGE,
-    ATTR_TITLE,
     DOMAIN as NOTIFY_DOMAIN,
-    SERVICE_SEND_MESSAGE,
     NotifyEntity,
     NotifyEntityFeature,
+    NotifyService,
+    NotifyServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
-    Platform,
-)
+from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_setup_component
@@ -390,11 +384,11 @@ async def test_notify_entity_group(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_MESSAGE: "Hello",
-            ATTR_TITLE: "Test notification",
-            ATTR_ENTITY_ID: "notify.test_group",
+            NotifyServiceArgument.MESSAGE: "Hello",
+            NotifyServiceArgument.TITLE: "Test notification",
+            TargetKey.ENTITY_ID: "notify.test_group",
         },
         blocking=True,
     )
@@ -411,10 +405,10 @@ async def test_notify_entity_group(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_MESSAGE: "Hello",
-            ATTR_ENTITY_ID: "notify.test_group",
+            NotifyServiceArgument.MESSAGE: "Hello",
+            TargetKey.ENTITY_ID: "notify.test_group",
         },
         blocking=True,
     )
@@ -443,11 +437,11 @@ async def test_notify_entity_group(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_MESSAGE: "Hello",
-            ATTR_TITLE: "Test notification",
-            ATTR_ENTITY_ID: "notify.test_group_2",
+            NotifyServiceArgument.MESSAGE: "Hello",
+            NotifyServiceArgument.TITLE: "Test notification",
+            TargetKey.ENTITY_ID: "notify.test_group_2",
         },
         blocking=True,
     )
@@ -483,11 +477,11 @@ async def test_notify_entity_group(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_MESSAGE: "Hello",
-            ATTR_TITLE: "Test notification",
-            ATTR_ENTITY_ID: "notify.test_group_3",
+            NotifyServiceArgument.MESSAGE: "Hello",
+            NotifyServiceArgument.TITLE: "Test notification",
+            TargetKey.ENTITY_ID: "notify.test_group_3",
         },
         blocking=True,
     )
@@ -520,11 +514,11 @@ async def test_notify_entity_group(
 
     await hass.services.async_call(
         NOTIFY_DOMAIN,
-        SERVICE_SEND_MESSAGE,
+        NotifyService.SEND_MESSAGE,
         {
-            ATTR_MESSAGE: "Hello",
-            ATTR_TITLE: "Test notification",
-            ATTR_ENTITY_ID: "notify.test_group_4",
+            NotifyServiceArgument.MESSAGE: "Hello",
+            NotifyServiceArgument.TITLE: "Test notification",
+            TargetKey.ENTITY_ID: "notify.test_group_4",
         },
         blocking=True,
     )

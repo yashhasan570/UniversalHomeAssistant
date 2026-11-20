@@ -6,17 +6,15 @@ from unittest.mock import Mock, patch
 import pytest
 
 from universalassistant.components.media_player import (
-    ATTR_MEDIA_CONTENT_ID,
-    ATTR_MEDIA_CONTENT_TYPE,
-    ATTR_MEDIA_ENQUEUE,
     DOMAIN as MP_DOMAIN,
-    SERVICE_PLAY_MEDIA,
     MediaPlayerEnqueue,
+    MediaPlayerService,
+    MediaPlayerServiceArgument,
     MediaType,
 )
 from universalassistant.components.plex import DOMAIN as PLEX_DOMAIN, PLEX_URI_SCHEME
 from universalassistant.components.sonos.media_player import LONG_SERVICE_TIMEOUT
-from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.const import TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -48,11 +46,11 @@ async def test_plex_play_media(
         # Test successful Plex service call
         await hass.services.async_call(
             MP_DOMAIN,
-            SERVICE_PLAY_MEDIA,
+            MediaPlayerService.PLAY_MEDIA,
             {
-                ATTR_ENTITY_ID: media_player,
-                ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                ATTR_MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
+                TargetKey.ENTITY_ID: media_player,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
             },
             blocking=True,
         )
@@ -76,11 +74,11 @@ async def test_plex_play_media(
 
         await hass.services.async_call(
             MP_DOMAIN,
-            SERVICE_PLAY_MEDIA,
+            MediaPlayerService.PLAY_MEDIA,
             {
-                ATTR_ENTITY_ID: media_player,
-                ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                ATTR_MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{shuffle_media_content_id}",
+                TargetKey.ENTITY_ID: media_player,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{shuffle_media_content_id}",
             },
             blocking=True,
         )
@@ -99,11 +97,11 @@ async def test_plex_play_media(
         with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 MP_DOMAIN,
-                SERVICE_PLAY_MEDIA,
+                MediaPlayerService.PLAY_MEDIA,
                 {
-                    ATTR_ENTITY_ID: media_player,
-                    ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                    ATTR_MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
+                    TargetKey.ENTITY_ID: media_player,
+                    MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                    MediaPlayerServiceArgument.MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
                 },
                 blocking=True,
             )
@@ -124,11 +122,11 @@ async def test_plex_play_media(
         ):
             await hass.services.async_call(
                 MP_DOMAIN,
-                SERVICE_PLAY_MEDIA,
+                MediaPlayerService.PLAY_MEDIA,
                 {
-                    ATTR_ENTITY_ID: media_player,
-                    ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                    ATTR_MEDIA_CONTENT_ID: (
+                    TargetKey.ENTITY_ID: media_player,
+                    MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                    MediaPlayerServiceArgument.MEDIA_CONTENT_ID: (
                         f"{PLEX_URI_SCHEME}{server_id}/{plex_item_key}?shuffle=1"
                     ),
                 },
@@ -144,12 +142,12 @@ async def test_plex_play_media(
         mock_add_to_queue.reset_mock()
         await hass.services.async_call(
             MP_DOMAIN,
-            SERVICE_PLAY_MEDIA,
+            MediaPlayerService.PLAY_MEDIA,
             {
-                ATTR_ENTITY_ID: media_player,
-                ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                ATTR_MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
-                ATTR_MEDIA_ENQUEUE: MediaPlayerEnqueue.ADD,
+                TargetKey.ENTITY_ID: media_player,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
+                MediaPlayerServiceArgument.ENQUEUE: MediaPlayerEnqueue.ADD,
             },
             blocking=True,
         )
@@ -163,12 +161,12 @@ async def test_plex_play_media(
         mock_add_to_queue.return_value = 9
         await hass.services.async_call(
             MP_DOMAIN,
-            SERVICE_PLAY_MEDIA,
+            MediaPlayerService.PLAY_MEDIA,
             {
-                ATTR_ENTITY_ID: media_player,
-                ATTR_MEDIA_CONTENT_TYPE: MediaType.MUSIC,
-                ATTR_MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
-                ATTR_MEDIA_ENQUEUE: MediaPlayerEnqueue.PLAY,
+                TargetKey.ENTITY_ID: media_player,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_TYPE: MediaType.MUSIC,
+                MediaPlayerServiceArgument.MEDIA_CONTENT_ID: f"{PLEX_URI_SCHEME}{media_content_id}",
+                MediaPlayerServiceArgument.ENQUEUE: MediaPlayerEnqueue.PLAY,
             },
             blocking=True,
         )

@@ -4,8 +4,12 @@ from unittest.mock import MagicMock
 
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.fan import DOMAIN as FAN_DOMAIN, FanEntityFeature
-from universalassistant.const import SERVICE_TURN_OFF, SERVICE_TURN_ON, Platform
+from universalassistant.components.fan import (
+    DOMAIN as FAN_DOMAIN,
+    FanEntityFeature,
+    FanService,
+)
+from universalassistant.const import Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -43,7 +47,7 @@ async def test_fan_entity(
 
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_TURN_ON,
+        FanService.TURN_ON,
         {"entity_id": entity_key},
         blocking=True,
     )
@@ -52,7 +56,7 @@ async def test_fan_entity(
 
     await hass.services.async_call(
         FAN_DOMAIN,
-        SERVICE_TURN_OFF,
+        FanService.TURN_OFF,
         {"entity_id": entity_key},
         blocking=True,
     )

@@ -15,12 +15,15 @@ from universalassistant.components.remote import (
     ATTR_NUM_REPEATS,
     DOMAIN as REMOTE_DOMAIN,
     SERVICE_SEND_COMMAND,
+    RemoteService,
+    RemoteServiceArgument,
 )
 from universalassistant.const import (
     ATTR_COMMAND,
     ATTR_ENTITY_ID,
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
@@ -154,8 +157,11 @@ async def test_remote_unicode_decode_error(hass: UniversalAssistant) -> None:
             try:
                 await hass.services.async_call(
                     REMOTE_DOMAIN,
-                    SERVICE_SEND_COMMAND,
-                    service_data={ATTR_ENTITY_ID: entity_id, ATTR_COMMAND: "BACK"},
+                    RemoteService.SEND_COMMAND,
+                    service_data={
+                        TargetKey.ENTITY_ID: entity_id,
+                        RemoteServiceArgument.COMMAND: "BACK",
+                    },
                     blocking=True,
                 )
                 pytest.fail("Exception not raised")

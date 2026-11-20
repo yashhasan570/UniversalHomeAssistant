@@ -7,12 +7,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import (
     DOMAIN as CLIMATE_DOMAIN,
-    SERVICE_SET_TEMPERATURE,
+    ClimateService,
     ClimateServiceArgument,
     HVACMode,
 )
 from universalassistant.components.devolo_home_control.const import DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, STATE_UNAVAILABLE
+from universalassistant.const import ATTR_TEMPERATURE, STATE_UNAVAILABLE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -52,11 +52,11 @@ async def test_climate(
     ) as set_value:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_TEMPERATURE,
+            ClimateService.SET_TEMPERATURE,
             {
-                ATTR_ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
+                TargetKey.ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
                 ClimateServiceArgument.HVAC_MODE: HVACMode.HEAT,
-                ATTR_TEMPERATURE: 20.0,
+                ClimateServiceArgument.TEMPERATURE: 20.0,
             },
             blocking=True,
         )  # In reality, this leads to a websocket message like already tested above
@@ -71,11 +71,11 @@ async def test_climate(
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_TEMPERATURE,
+            ClimateService.SET_TEMPERATURE,
             {
-                ATTR_ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
+                TargetKey.ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
                 ClimateServiceArgument.HVAC_MODE: HVACMode.HEAT,
-                ATTR_TEMPERATURE: 20.0,
+                ClimateServiceArgument.TEMPERATURE: 20.0,
             },
             blocking=True,
         )

@@ -6,11 +6,11 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.text import (
-    ATTR_VALUE,
     DOMAIN as TEXT_DOMAIN,
-    SERVICE_SET_VALUE,
+    TextService,
+    TextServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -39,10 +39,10 @@ async def test_set_navigation_destination(hass: UniversalAssistant) -> None:
     ) as mock_nav:
         await hass.services.async_call(
             TEXT_DOMAIN,
-            SERVICE_SET_VALUE,
+            TextService.SET_VALUE,
             {
-                ATTR_ENTITY_ID: NAVIGATION_ENTITY_ID,
-                ATTR_VALUE: "1 Infinite Loop, Cupertino, CA",
+                TargetKey.ENTITY_ID: NAVIGATION_ENTITY_ID,
+                TextServiceArgument.VALUE: "1 Infinite Loop, Cupertino, CA",
             },
             blocking=True,
         )
@@ -62,10 +62,10 @@ async def test_set_navigation_destination_error(hass: UniversalAssistant) -> Non
     ):
         await hass.services.async_call(
             TEXT_DOMAIN,
-            SERVICE_SET_VALUE,
+            TextService.SET_VALUE,
             {
-                ATTR_ENTITY_ID: NAVIGATION_ENTITY_ID,
-                ATTR_VALUE: "Times Square, New York",
+                TargetKey.ENTITY_ID: NAVIGATION_ENTITY_ID,
+                TextServiceArgument.VALUE: "Times Square, New York",
             },
             blocking=True,
         )

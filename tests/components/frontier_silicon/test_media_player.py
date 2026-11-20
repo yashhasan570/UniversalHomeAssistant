@@ -12,14 +12,14 @@ from universalassistant.components.frontier_silicon.media_player import AFSAPIMe
 from universalassistant.components.media_player import (
     DOMAIN as MEDIA_PLAYER_DOMAIN,
     MediaPlayerEntityFeature,
+    MediaPlayerService,
 )
 from universalassistant.const import (
-    ATTR_ENTITY_ID,
     ATTR_SUPPORTED_FEATURES,
-    SERVICE_MEDIA_PREVIOUS_TRACK,
     STATE_IDLE,
     STATE_OFF,
     STATE_UNAVAILABLE,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
@@ -80,8 +80,8 @@ async def test_async_media_previous_track_maps_errors(
     with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
-            SERVICE_MEDIA_PREVIOUS_TRACK,
-            {ATTR_ENTITY_ID: MEDIA_PLAYER_ENTITY_ID},
+            MediaPlayerService.MEDIA_PREVIOUS_TRACK,
+            {TargetKey.ENTITY_ID: MEDIA_PLAYER_ENTITY_ID},
             blocking=True,
         )
 

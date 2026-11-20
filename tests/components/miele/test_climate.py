@@ -7,8 +7,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
-from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
+from universalassistant.components.climate import (
+    DOMAIN as CLIMATE_DOMAIN,
+    ClimateService,
+    ClimateServiceArgument,
+)
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -16,7 +20,6 @@ from universalassistant.helpers import entity_registry as er
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.CLIMATE,)])
 
 ENTITY_ID = "climate.freezer"
-SERVICE_SET_TEMPERATURE = "set_temperature"
 
 
 @pytest.mark.parametrize("load_action_file", ["action_freezer.json"], ids=["freezer"])
@@ -89,8 +92,8 @@ async def test_set_target(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_SET_TEMPERATURE,
-        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_TEMPERATURE: -17},
+        ClimateService.SET_TEMPERATURE,
+        {TargetKey.ENTITY_ID: ENTITY_ID, ClimateServiceArgument.TEMPERATURE: -17},
         blocking=True,
     )
     mock_miele_client.set_target_temperature.assert_called_once_with(
@@ -114,8 +117,8 @@ async def test_api_failure(
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_TEMPERATURE,
-            {ATTR_ENTITY_ID: ENTITY_ID, ATTR_TEMPERATURE: -17},
+            ClimateService.SET_TEMPERATURE,
+            {TargetKey.ENTITY_ID: ENTITY_ID, ClimateServiceArgument.TEMPERATURE: -17},
             blocking=True,
         )
     mock_miele_client.set_target_temperature.assert_called_once()

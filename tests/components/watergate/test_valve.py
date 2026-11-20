@@ -7,8 +7,17 @@ from pytest_universalassistant.common import AsyncMock, MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 from watergate_local_api import WatergateApiException, WatergateIndeterminateError
 
-from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN, ValveState
-from universalassistant.const import ATTR_ENTITY_ID, SERVICE_CLOSE_VALVE, SERVICE_OPEN_VALVE
+from universalassistant.components.valve import (
+    DOMAIN as VALVE_DOMAIN,
+    ValveService,
+    ValveState,
+)
+from universalassistant.const import (
+    ATTR_ENTITY_ID,
+    SERVICE_CLOSE_VALVE,
+    SERVICE_OPEN_VALVE,
+    TargetKey,
+)
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 
@@ -48,8 +57,8 @@ async def test_change_valve_state(
 
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_CLOSE_VALVE,
-        {ATTR_ENTITY_ID: entity_id},
+        ValveService.CLOSE,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 
@@ -62,8 +71,8 @@ async def test_change_valve_state(
 
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_OPEN_VALVE,
-        {ATTR_ENTITY_ID: entity_id},
+        ValveService.OPEN,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 

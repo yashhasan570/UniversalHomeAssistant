@@ -7,15 +7,13 @@ import pytest
 from universalassistant.components.broadlink.climate import SensorMode
 from universalassistant.components.broadlink.const import DOMAIN
 from universalassistant.components.climate import (
-    ATTR_TEMPERATURE,
     DOMAIN as CLIMATE_DOMAIN,
-    SERVICE_SET_TEMPERATURE,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
+    ClimateService,
+    ClimateServiceArgument,
     HVACAction,
     HVACMode,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -145,10 +143,10 @@ async def test_climate_set_temperature_turn_off_turn_on(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_SET_TEMPERATURE,
+        ClimateService.SET_TEMPERATURE,
         {
-            ATTR_ENTITY_ID: climate.entity_id,
-            ATTR_TEMPERATURE: "24",
+            TargetKey.ENTITY_ID: climate.entity_id,
+            ClimateServiceArgument.TEMPERATURE: "24",
         },
         blocking=True,
     )
@@ -161,9 +159,9 @@ async def test_climate_set_temperature_turn_off_turn_on(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_TURN_OFF,
+        ClimateService.TURN_OFF,
         {
-            ATTR_ENTITY_ID: climate.entity_id,
+            TargetKey.ENTITY_ID: climate.entity_id,
         },
         blocking=True,
     )
@@ -176,9 +174,9 @@ async def test_climate_set_temperature_turn_off_turn_on(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_TURN_ON,
+        ClimateService.TURN_ON,
         {
-            ATTR_ENTITY_ID: climate.entity_id,
+            TargetKey.ENTITY_ID: climate.entity_id,
         },
         blocking=True,
     )

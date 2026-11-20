@@ -10,8 +10,9 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import (
     ATTR_CURRENT_POSITION,
-    ATTR_POSITION,
     DOMAIN as COVER_DOMAIN,
+    CoverService,
+    CoverServiceArgument,
 )
 from universalassistant.components.smartthings.const import MAIN
 from universalassistant.const import (
@@ -19,11 +20,11 @@ from universalassistant.const import (
     ATTR_ENTITY_ID,
     SERVICE_CLOSE_COVER,
     SERVICE_OPEN_COVER,
-    SERVICE_SET_COVER_POSITION,
     STATE_OPEN,
     STATE_OPENING,
     STATE_UNAVAILABLE,
     Platform,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -92,8 +93,8 @@ async def test_cover_set_position(
 
     await hass.services.async_call(
         COVER_DOMAIN,
-        SERVICE_SET_COVER_POSITION,
-        {ATTR_ENTITY_ID: "cover.curtain_1a", ATTR_POSITION: 25},
+        CoverService.SET_POSITION,
+        {TargetKey.ENTITY_ID: "cover.curtain_1a", CoverServiceArgument.POSITION: 25},
         blocking=True,
     )
     devices.execute_device_command.assert_called_once_with(

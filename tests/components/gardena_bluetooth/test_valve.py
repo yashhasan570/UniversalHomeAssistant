@@ -8,13 +8,8 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_CLOSE_VALVE,
-    SERVICE_OPEN_VALVE,
-    Platform,
-)
+from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN, ValveService
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 
 from . import setup_entry
@@ -68,15 +63,15 @@ async def test_switching(
 
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_OPEN_VALVE,
-        {ATTR_ENTITY_ID: entity_id},
+        ValveService.OPEN,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 
     await hass.services.async_call(
         VALVE_DOMAIN,
-        SERVICE_CLOSE_VALVE,
-        {ATTR_ENTITY_ID: entity_id},
+        ValveService.CLOSE,
+        {TargetKey.ENTITY_ID: entity_id},
         blocking=True,
     )
 

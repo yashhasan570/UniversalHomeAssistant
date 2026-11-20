@@ -6,13 +6,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    Platform,
+from universalassistant.components.light import (
+    DOMAIN as LIGHT_DOMAIN,
+    LightService,
+    LightServiceArgument,
 )
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
@@ -46,8 +45,8 @@ async def test_light_turn_on_off(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: "light.evse_1_1_1_1_light_led"},
+        LightService.TURN_ON,
+        {TargetKey.ENTITY_ID: "light.evse_1_1_1_1_light_led"},
         blocking=True,
     )
 
@@ -55,8 +54,8 @@ async def test_light_turn_on_off(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: "light.evse_1_1_1_1_logo_led"},
+        LightService.TURN_OFF,
+        {TargetKey.ENTITY_ID: "light.evse_1_1_1_1_logo_led"},
         blocking=True,
     )
 
@@ -74,10 +73,10 @@ async def test_logo_led_set_brightness(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {
-            ATTR_ENTITY_ID: "light.evse_1_1_1_1_logo_led",
-            ATTR_BRIGHTNESS: 128,
+            TargetKey.ENTITY_ID: "light.evse_1_1_1_1_logo_led",
+            LightServiceArgument.BRIGHTNESS: 128,
         },
         blocking=True,
     )
@@ -96,10 +95,10 @@ async def test_logo_led_set_low_brightness(
 
     await hass.services.async_call(
         LIGHT_DOMAIN,
-        SERVICE_TURN_ON,
+        LightService.TURN_ON,
         {
-            ATTR_ENTITY_ID: "light.evse_1_1_1_1_logo_led",
-            ATTR_BRIGHTNESS: 1,
+            TargetKey.ENTITY_ID: "light.evse_1_1_1_1_logo_led",
+            LightServiceArgument.BRIGHTNESS: 1,
         },
         blocking=True,
     )

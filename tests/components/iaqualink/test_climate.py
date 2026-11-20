@@ -28,10 +28,12 @@ from universalassistant.components.climate import (
     DOMAIN as CLIMATE_DOMAIN,
     SERVICE_SET_HVAC_MODE,
     SERVICE_SET_TEMPERATURE,
+    ClimateService,
+    ClimateServiceArgument,
     HVACAction,
     HVACMode,
 )
-from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
+from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -208,8 +210,8 @@ async def test_thermostat_set_hvac_mode(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_SET_HVAC_MODE,
-        {ATTR_ENTITY_ID: entity_id, ATTR_HVAC_MODE: hvac_mode},
+        ClimateService.SET_HVAC_MODE,
+        {TargetKey.ENTITY_ID: entity_id, ClimateServiceArgument.HVAC_MODE: hvac_mode},
         blocking=True,
     )
 
@@ -237,8 +239,8 @@ async def test_thermostat_set_temperature(
 
     await hass.services.async_call(
         CLIMATE_DOMAIN,
-        SERVICE_SET_TEMPERATURE,
-        {ATTR_ENTITY_ID: entity_id, ATTR_TEMPERATURE: 84.9},
+        ClimateService.SET_TEMPERATURE,
+        {TargetKey.ENTITY_ID: entity_id, ClimateServiceArgument.TEMPERATURE: 84.9},
         blocking=True,
     )
 

@@ -30,12 +30,12 @@ from universalassistant.components.humidifier.const import (
 from universalassistant.const import (
     ATTR_MODE,
     ATTR_SUPPORTED_FEATURES,
-    CONF_ENTITY_ID,
     CONF_MODE,
     CONF_OPTIONS,
     CONF_TARGET,
     STATE_OFF,
     STATE_ON,
+    TargetKey,
 )
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import async_validate_condition_config
@@ -402,7 +402,7 @@ async def test_humidifier_is_mode_condition_validation(
             hass,
             {
                 "condition": condition,
-                CONF_TARGET: {CONF_ENTITY_ID: "humidifier.test"},
+                CONF_TARGET: {TargetKey.ENTITY_ID: "humidifier.test"},
                 CONF_OPTIONS: condition_options,
             },
         )

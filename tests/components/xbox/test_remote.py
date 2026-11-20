@@ -15,19 +15,13 @@ from pythonxbox.api.provider.smartglass.models import CommandResponse, InputKeyT
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.remote import (
-    ATTR_DELAY_SECS,
     DOMAIN as REMOTE_DOMAIN,
-    SERVICE_SEND_COMMAND,
+    RemoteService,
+    RemoteServiceArgument,
 )
 from universalassistant.components.xbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import (
-    ATTR_COMMAND,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    Platform,
-    TargetKey,
-)
+from universalassistant.const import Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -94,8 +88,8 @@ async def test_send_button_command(
 
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_SEND_COMMAND,
-        {ATTR_COMMAND: button, ATTR_DELAY_SECS: 0},
+        RemoteService.SEND_COMMAND,
+        {RemoteServiceArgument.COMMAND: button, RemoteServiceArgument.DELAY_SECS: 0},
         target={TargetKey.ENTITY_ID: "remote.xone"},
         blocking=True,
     )
@@ -138,8 +132,8 @@ async def test_send_command(
 
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_SEND_COMMAND,
-        {ATTR_COMMAND: command, ATTR_DELAY_SECS: 0},
+        RemoteService.SEND_COMMAND,
+        {RemoteServiceArgument.COMMAND: command, RemoteServiceArgument.DELAY_SECS: 0},
         target={TargetKey.ENTITY_ID: "remote.xone"},
         blocking=True,
     )
@@ -166,8 +160,8 @@ async def test_send_text(
 
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_SEND_COMMAND,
-        {ATTR_COMMAND: text, ATTR_DELAY_SECS: 0},
+        RemoteService.SEND_COMMAND,
+        {RemoteServiceArgument.COMMAND: text, RemoteServiceArgument.DELAY_SECS: 0},
         target={TargetKey.ENTITY_ID: "remote.xone"},
         blocking=True,
     )
@@ -190,7 +184,7 @@ async def test_turn_on(
 
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_TURN_ON,
+        RemoteService.TURN_ON,
         target={TargetKey.ENTITY_ID: "remote.xone"},
         blocking=True,
     )
@@ -213,7 +207,7 @@ async def test_turn_off(
 
     await hass.services.async_call(
         REMOTE_DOMAIN,
-        SERVICE_TURN_OFF,
+        RemoteService.TURN_OFF,
         target={TargetKey.ENTITY_ID: "remote.xone"},
         blocking=True,
     )
@@ -258,8 +252,11 @@ async def test_send_command_exceptions(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_SEND_COMMAND,
-            {ATTR_COMMAND: command, ATTR_DELAY_SECS: 0},
+            RemoteService.SEND_COMMAND,
+            {
+                RemoteServiceArgument.COMMAND: command,
+                RemoteServiceArgument.DELAY_SECS: 0,
+            },
             target={TargetKey.ENTITY_ID: "remote.xone"},
             blocking=True,
         )
@@ -307,8 +304,11 @@ async def test_send_command_failed(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_SEND_COMMAND,
-            {ATTR_COMMAND: command, ATTR_DELAY_SECS: 0},
+            RemoteService.SEND_COMMAND,
+            {
+                RemoteServiceArgument.COMMAND: command,
+                RemoteServiceArgument.DELAY_SECS: 0,
+            },
             target={TargetKey.ENTITY_ID: "remote.xone"},
             blocking=True,
         )
@@ -343,7 +343,7 @@ async def test_turn_on_exceptions(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_TURN_ON,
+            RemoteService.TURN_ON,
             target={TargetKey.ENTITY_ID: "remote.xone"},
             blocking=True,
         )
@@ -371,7 +371,7 @@ async def test_turn_on_failed(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_TURN_ON,
+            RemoteService.TURN_ON,
             target={TargetKey.ENTITY_ID: "remote.xone"},
             blocking=True,
         )
@@ -405,7 +405,7 @@ async def test_turn_off_exceptions(
     with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
-            SERVICE_TURN_OFF,
+            RemoteService.TURN_OFF,
             target={TargetKey.ENTITY_ID: "remote.xone"},
             blocking=True,
         )

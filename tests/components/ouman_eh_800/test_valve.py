@@ -18,8 +18,10 @@ from universalassistant.components.valve import (
     SERVICE_CLOSE_VALVE,
     SERVICE_OPEN_VALVE,
     SERVICE_SET_VALVE_POSITION,
+    ValveService,
+    ValveServiceArgument,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -117,10 +119,10 @@ async def test_async_set_valve_position_errors(
     with pytest.raises(UniversalAssistantError, match=expected_message):
         await hass.services.async_call(
             VALVE_DOMAIN,
-            SERVICE_SET_VALVE_POSITION,
+            ValveService.SET_POSITION,
             {
-                ATTR_ENTITY_ID: "valve.ouman_eh_800_heating_circuit_1_patterilammitys_valve_position_setpoint",
-                ATTR_POSITION: 50,
+                TargetKey.ENTITY_ID: "valve.ouman_eh_800_heating_circuit_1_patterilammitys_valve_position_setpoint",
+                ValveServiceArgument.POSITION: 50,
             },
             blocking=True,
         )

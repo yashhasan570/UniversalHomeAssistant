@@ -10,8 +10,9 @@ from universalassistant.components.climate import (
     ATTR_FAN_MODE,
     DOMAIN as CLIMATE_DOMAIN,
     SERVICE_SET_FAN_MODE,
+    ClimateService,
 )
-from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.const import ATTR_ENTITY_ID, Platform, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
@@ -104,7 +105,7 @@ async def test_service_call_connection_error_raises_universal_assistant_error(
     with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
-            SERVICE_SET_FAN_MODE,
-            {ATTR_ENTITY_ID: "climate.test_air_conditioner", "fan_mode": "low"},
+            ClimateService.SET_FAN_MODE,
+            {TargetKey.ENTITY_ID: "climate.test_air_conditioner", "fan_mode": "low"},
             blocking=True,
         )

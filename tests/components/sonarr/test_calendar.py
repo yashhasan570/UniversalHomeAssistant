@@ -13,10 +13,7 @@ from pytest_universalassistant.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.components.calendar import (
-    DOMAIN as CALENDAR_DOMAIN,
-    SERVICE_GET_EVENTS,
-)
+from universalassistant.components.calendar import DOMAIN as CALENDAR_DOMAIN, CalendarService
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
@@ -86,7 +83,7 @@ async def test_calendar_get_events(
 
     response = await hass.services.async_call(
         CALENDAR_DOMAIN,
-        SERVICE_GET_EVENTS,
+        CalendarService.GET_EVENTS,
         {
             "entity_id": ENTITY_ID,
             "start_date_time": datetime(2014, 1, 1).isoformat(),
@@ -124,7 +121,7 @@ async def test_calendar_get_events_without_overview(
 
     response = await hass.services.async_call(
         CALENDAR_DOMAIN,
-        SERVICE_GET_EVENTS,
+        CalendarService.GET_EVENTS,
         {
             "entity_id": ENTITY_ID,
             "start_date_time": datetime(2014, 1, 1).isoformat(),

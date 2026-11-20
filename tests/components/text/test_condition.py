@@ -17,12 +17,7 @@ from pytest_universalassistant.components.common import (
 )
 
 from universalassistant.components.text.condition import CONDITIONS, CONF_VALUE
-from universalassistant.const import (
-    CONF_CONDITION,
-    CONF_ENTITY_ID,
-    CONF_OPTIONS,
-    CONF_TARGET,
-)
+from universalassistant.const import CONF_CONDITION, CONF_OPTIONS, CONF_TARGET, TargetKey
 from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import (
     async_from_config as async_condition_from_config,
@@ -232,7 +227,7 @@ async def test_text_condition_fires_for_both_domains(
         {
             CONF_CONDITION: "text.is_equal_to",
             CONF_TARGET: {
-                CONF_ENTITY_ID: [entity_id_text, entity_id_input_text],
+                TargetKey.ENTITY_ID: [entity_id_text, entity_id_input_text],
             },
             CONF_OPTIONS: {"behavior": "all", CONF_VALUE: "hello"},
         },
