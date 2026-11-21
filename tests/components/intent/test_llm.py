@@ -14,6 +14,7 @@ from universalassistant.components.intent import llm as intent_llm
 from universalassistant.components.intent.timers import async_register_timer_handler
 from universalassistant.components.media_player import MediaPlayerDeviceClass
 from universalassistant.components.switch import SwitchDeviceClass
+from universalassistant.components.timer_list import DOMAIN as TIMER_LIST_DOMAIN
 from universalassistant.components.valve import ValveDeviceClass
 from universalassistant.const import SERVICE_TURN_ON
 from universalassistant.core import Context, UniversalAssistant, callback
@@ -28,6 +29,7 @@ LLM_AGENT_ID = "conversation.test_llm_agent"
 async def setup_integrations(hass: UniversalAssistant) -> None:
     """Set up the integrations and expose a cover."""
     assert await async_setup_component(hass, "universalassistant", {})
+    assert await async_setup_component(hass, TIMER_LIST_DOMAIN, {})
     assert await async_setup_component(hass, "intent", {})
     assert await async_setup_component(hass, "llm", {})
     hass.states.async_set(COVER_ENTITY_ID, "open", {"friendly_name": "Test Cover"})

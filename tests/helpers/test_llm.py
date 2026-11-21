@@ -16,6 +16,7 @@ from universalassistant.components import llm as llm_component
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.intent import async_register_timer_handler
 from universalassistant.components.script import ScriptConfig
+from universalassistant.components.timer_list import DOMAIN as TIMER_LIST_DOMAIN
 from universalassistant.const import EntityStateAttribute
 from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.exceptions import UniversalAssistantError, Unauthorized
@@ -710,6 +711,7 @@ async def test_assist_api_prompt(
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test prompt for the assist API."""
+    assert await async_setup_component(hass, TIMER_LIST_DOMAIN, {})
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
     context = Context()

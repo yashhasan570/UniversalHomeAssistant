@@ -22,5 +22,5 @@
   "integration_type": "system",
   "preview_features": { "winter_mode": {} },
   "quality_scale": "internal",
-  "requirements": ["universal-assistant-frontend==20261028.6"]
+  "requirements": ["universal-assistant-frontend==20261028.8"]
 }

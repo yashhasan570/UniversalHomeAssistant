@@ -50,6 +50,7 @@ from universalassistant.components.intent import (
     async_register_timer_handler,
 )
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
+from universalassistant.components.timer_list import DOMAIN as TIMER_LIST_DOMAIN
 from universalassistant.const import (
     ATTR_DEVICE_CLASS,
     ATTR_FRIENDLY_NAME,
@@ -98,6 +99,7 @@ class OrderBeerIntentHandler(intent.IntentHandler):
 async def init_components(hass: UniversalAssistant) -> None:
     """Initialize relevant components with empty configs."""
     assert await async_setup_component(hass, "universalassistant", {})
+    assert await async_setup_component(hass, TIMER_LIST_DOMAIN, {})
     assert await async_setup_component(hass, DOMAIN, {})
     assert await async_setup_component(hass, "intent", {})
 
